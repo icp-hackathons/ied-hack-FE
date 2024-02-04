@@ -17,7 +17,7 @@ export const Left = () => {
           <LiaDonateSolid className="md:text-[6rem] text-[3rem]" />
           <div>
             <h3 className="text-2xl font-semibold my-[1.5rem]">Donate Now</h3>
-            <p className="text-[15px] mb-5">
+            <p className="text-[15px] mb-5 alegreya">
               Your Financial contribution can make a real difference. Every
               penny you donate goes into making the school and student life
               better.
@@ -40,7 +40,7 @@ export const Left = () => {
             <h3 className="text-2xl font-semibold my-[1.5rem]">
               View Donations
             </h3>
-            <p className="text-[15px] mb-5">
+            <p className="text-[15px] mb-5 alegreya">
               All donations are made public. You can look up your donations or
               any donation made to a school or student throught the Donation
               Transaction Explorer (DTE).

@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Alegreya:wght@400;500&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -43,6 +44,10 @@ body {
   to {
     transform: translateX(-50%);
   }
+}
+
+.alegreya {
+  font-family: "Alegreya", serif;
 }
 
 @keyframes scrollTextRight {
