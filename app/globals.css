@@ -24,3 +24,32 @@ body {
     text-wrap: balance;
   }
 }
+
+.text-scroll-effect-left {
+  animation: scrollTextLeft 10s infinite linear;
+}
+.text-scroll-effect-right {
+  animation: scrollTextRight 10s infinite linear;
+}
+
+.crossed-text {
+  white-space: nowrap;
+}
+
+@keyframes scrollTextLeft {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scrollTextRight {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
