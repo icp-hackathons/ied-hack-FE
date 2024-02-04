@@ -31,25 +31,25 @@ export const Right = () => {
           </button>
         </nav>
         <h2 className="text-white ">
-          <span className="alegreya text-[7rem]  leading-[7rem] font-semibold">
+          <span className="alegreya md:text-[7rem] md:leading-[7rem] text-[4.3rem] leading-[4.7rem] font-semibold">
             Changing lives f
             <span className="relative">
               0
-              <span className="absolute top-[1.5rem] right-[-10px]">
+              <span className="absolute md:top-[1.5rem] top-[0.1rem] right-[-10px]">
                 <MdSchool className="text-[32px] text-[#04E762]" />
               </span>
             </span>
             r the better, o
             <span className="relative">
               n
-              <span className="absolute top-[2.4rem] right-[-20px]">
+              <span className="absolute md:top-[2.4rem] top-[0.5rem] right-[-20px]">
                 <FaBolt className="text-[32px] text-yellow" />
               </span>
             </span>
             e donation at a tim
             <span className="relative">
               e
-              <span className="absolute top-[2.5rem] right-[-36px]">
+              <span className="absolute md:top-[2.5rem] top-[0.5rem] right-[-36px]">
                 <LuRocket className="text-[32px] text-[#FB6107]" />
               </span>
             </span>

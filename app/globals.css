@@ -27,10 +27,10 @@ body {
 }
 
 .text-scroll-effect-left {
-  animation: scrollTextLeft 10s infinite linear;
+  animation: scrollTextLeft 20s infinite linear;
 }
 .text-scroll-effect-right {
-  animation: scrollTextRight 10s infinite linear;
+  animation: scrollTextRight 20s infinite linear;
 }
 
 .crossed-text {
