@@ -1,5 +1,6 @@
 import { Left } from "@/components/Landing/Left"
 import { Right } from "@/components/Landing/Right"
+import { Schools } from "@/components/Landing/Schools"
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
         <Left />
         <Right />
       </div>
+      <Schools />
     </main>
   )
 }
