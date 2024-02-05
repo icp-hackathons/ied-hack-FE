@@ -1,15 +1,31 @@
-import React from "react"
+"use client"
+import React, { useEffect } from "react"
 import { Logo } from "../Logo"
 import { LiaDonateSolid } from "react-icons/lia"
 import { BsFillArrowRightCircleFill } from "react-icons/bs"
 import { FaWpexplorer } from "react-icons/fa"
 import { PiStarFourThin } from "react-icons/pi"
-
+import { gsap } from "gsap"
 import Link from "next/link"
 
 export const Left = () => {
+  useEffect(() => {
+    gsap.fromTo(
+      ".reveal-section",
+      {
+        duration: 1.5,
+        delay: 1.5,
+        x: -500,
+        stagger: {
+          amount: 0.2,
+        },
+        ease: "power4.out",
+      },
+      { x: 0 }
+    )
+  })
   return (
-    <div className="md:w-[25%] bg-yellow  overflow-hidden">
+    <div className="md:w-[25%] bg-yellow  overflow-hidden reveal-section">
       <div className="lg:p-[40px] md:p-[24px] p-[1rem]">
         <Logo />
 
