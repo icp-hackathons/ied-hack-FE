@@ -1,3 +1,4 @@
+import { Footer } from "@/components/Footer"
 import { Left } from "@/components/Landing/Left"
 import { Right } from "@/components/Landing/Right"
 import { Schools } from "@/components/Landing/Schools"
@@ -10,6 +11,7 @@ export default function Home() {
         <Right />
       </div>
       <Schools />
+      <Footer />
     </main>
   )
 }
