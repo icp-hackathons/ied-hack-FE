@@ -9,7 +9,7 @@ import Link from "next/link"
 
 export const Left = () => {
   return (
-    <div className="md:w-[25%] bg-yellow h-full overflow-hidden">
+    <div className="md:w-[25%] bg-yellow  overflow-hidden">
       <div className="lg:p-[40px] md:p-[24px] p-[1rem]">
         <Logo />
 

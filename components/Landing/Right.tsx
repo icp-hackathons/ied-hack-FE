@@ -7,7 +7,7 @@ import { LuRocket } from "react-icons/lu"
 
 export const Right = () => {
   return (
-    <div className="md:w-[75%] bg-green h-full lg:px-[7rem] lg:py-[40px] md:p-[24px] p-[1rem] relative overflow-hidden">
+    <div className="md:w-[75%] bg-green h-full lg:px-[7rem] lg:py-[40px] md:p-[24px] p-[1rem] lg:pb-[0rem] relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full opacity-[0.5] z-[1]">
         <Image src="/patterns.png" alt="IED Hackathon" fill />
       </div>
@@ -62,7 +62,7 @@ export const Right = () => {
             alt="IED Hackathon"
             fill
             objectFit="cover"
-            className="rounded-[1rem]"
+            className="rounded-t-[1rem]"
           />
         </div>
       </div>
