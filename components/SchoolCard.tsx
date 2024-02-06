@@ -28,11 +28,12 @@ export const SchoolCard: React.FC<props> = ({ ...props }) => {
         <div className="backdrop-blur-[20px] p-[16px] md:p-[16px] mt-[-2rem] rounded-b-[14px] bg-[#0A0A0A33] card-shadow absolute bottom-0 left-0 min-h-[124px] z-1 w-full">
           <div className="flex flex-col justify-between gap-[1.5rem] ">
             <p className="uppercase alegreya">{props.schoolName}</p>
-            <button className="bg-green px-7 py-3 hover:text-grey-700 card-btn relative overflow-hidden">
-              <Link href={`/school/${props.id}`} className="relative z-[10]">
-                View School
-              </Link>
-            </button>
+            <Link
+              href={`/school/${props.id}`}
+              className="bg-green px-7 py-3 hover:text-grey-700 card-btn relative overflow-hidden"
+            >
+              <div className="relative z-[10] text-center">View School</div>
+            </Link>
           </div>
         </div>
       </div>

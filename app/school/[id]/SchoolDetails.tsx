@@ -4,6 +4,7 @@ import { SchoolPreviewImages } from "./SchoolPreviewImages"
 import { FaSchool } from "react-icons/fa"
 import { GoLocation } from "react-icons/go"
 import { Divider } from "antd"
+import { FaBitcoin } from "react-icons/fa"
 
 export const SchoolDetails = () => {
   return (
@@ -13,12 +14,16 @@ export const SchoolDetails = () => {
       </div>
       <div className="mt-5">
         <h3 className="font-normal text-2xl flex gap-4 items-center alegreya">
-          <FaSchool className="inline text-green" />
+          <FaSchool className="inline text-green-light" />
           <span>University of New Chelsea.</span>
         </h3>
         <p className="my-2 flex gap-2 items-center text-sm">
-          <GoLocation className="text-green" />
+          <GoLocation className="text-green-light" />
           <span>Fulham Road SW6 1HS London (Residents: 8.908.081).</span>
+        </p>
+        <p className="my-2 flex gap-2 items-center text-sm">
+          <FaBitcoin className="text-yellow text-[20px]" />
+          <span>20k donations.</span>
         </p>
         <Divider />
         <h2 className="text-xl">About The School.</h2>

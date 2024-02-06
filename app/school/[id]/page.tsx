@@ -7,6 +7,8 @@ import { BiHomeAlt } from "react-icons/bi"
 import { BiSolidSchool } from "react-icons/bi"
 import { useParams } from "next/navigation"
 import { SchoolDetails } from "./SchoolDetails"
+import { Donate } from "./Donate"
+import { Students } from "./Students"
 
 const SchoolPage = () => {
   const { id } = useParams()
@@ -33,15 +35,17 @@ const SchoolPage = () => {
   ]
   return (
     <>
-      <div className="bg-[#cfcfcf67] m-2 md:p-[2rem] p-[1rem] rounded-md urbanist min-h-[98vh] relative overflow-hidden">
+      <div className="bg-[#cfcfcf67] md:m-2 md:p-[2rem] p-[1rem] md:rounded-md urbanist min-h-[98vh] relative overflow-hidden">
         <div className="absolute left-1/2 top-0 -ml-[39rem] w-[113.125rem] max-w-none h-[40rem] z-[-1]">
           <Image fill alt="beams" src={"/beams-basic.png"} />
         </div>
         <Header />
         <Breadcrumb items={items} className="my-[2rem]" />
-        <div className="flex justify-between gap-4 md:flex-row flex-col">
+        <div className="flex justify-between gap-4 md:flex-row flex-col items-start">
           <SchoolDetails />
+          <Donate />
         </div>
+        <Students />
       </div>
     </>
   )

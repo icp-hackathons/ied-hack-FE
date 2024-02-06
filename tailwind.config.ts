@@ -20,6 +20,7 @@ const config: Config = {
       colors: {
         yellow: "#FFE14C",
         green: "#2C6E49",
+        "green-light": "#57CC99",
         grey: {
           1000: "#0A0A0A",
           900: "#121112",
