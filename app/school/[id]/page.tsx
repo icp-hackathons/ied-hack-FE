@@ -8,6 +8,7 @@ import { BiSolidSchool } from "react-icons/bi"
 import { useParams } from "next/navigation"
 import { SchoolDetails } from "./SchoolDetails"
 import { Donate } from "./Donate"
+import { Students } from "./Students"
 
 const SchoolPage = () => {
   const { id } = useParams()
@@ -44,6 +45,7 @@ const SchoolPage = () => {
           <SchoolDetails />
           <Donate />
         </div>
+        <Students />
       </div>
     </>
   )

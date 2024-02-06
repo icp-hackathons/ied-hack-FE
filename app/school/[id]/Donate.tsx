@@ -141,7 +141,7 @@ export const Donate = () => {
   }, [donation, donationType])
   return (
     <div className="bg-white p-4 rounded-lg md:w-[30%] w-full min-h-[20rem]">
-      <h2 className="text-lg font-semibold">Make a Donation</h2>
+      <h2 className="text-lg font-[500]">Make a Donation</h2>
 
       <div className="my-[1rem] flex gap-3">
         <Input
@@ -190,7 +190,7 @@ export const Donate = () => {
           <span>$ {las}</span>
         </li>
       </ul>
-      <button className="bg-grey-700 text-white w-full rounded-md p-2 mt-4 flex items-center gap-2 justify-center">
+      <button className="bg-green-light text-white w-full rounded-md p-2 mt-4 flex items-center gap-2 justify-center">
         <FaBitcoin className="inline text-yellow" />
         <span>Donate</span>
       </button>
