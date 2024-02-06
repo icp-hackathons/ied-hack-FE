@@ -1,6 +1,7 @@
 "use client"
 import React, { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 
 interface props {
   image: string
@@ -28,7 +29,9 @@ export const SchoolCard: React.FC<props> = ({ ...props }) => {
           <div className="flex flex-col justify-between gap-[1.5rem] ">
             <p className="uppercase alegreya">{props.schoolName}</p>
             <button className="bg-green px-7 py-3 hover:text-grey-700 card-btn relative overflow-hidden">
-              <span className="relative z-[10]">View School</span>
+              <Link href={`/school/${props.id}`} className="relative z-[10]">
+                View School
+              </Link>
             </button>
           </div>
         </div>
