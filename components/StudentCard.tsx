@@ -2,6 +2,7 @@
 import { Button, Divider, Image, Input, Popover } from "antd"
 import React, { useState } from "react"
 import { FaBitcoin } from "react-icons/fa"
+import { QRCode } from "./QRCode"
 
 interface props {
   name: string
@@ -72,14 +73,20 @@ export const StudentCard = ({ ...props }: props) => {
             </div>
           }
         >
-          <Button
-            type="primary"
-            className="mt-3 bg-green-light w-full flex gap-2 items-center"
-            size="large"
+          <QRCode
+            amount={donation}
+            address="1J19TLLqu8DH2cv3ze7g1xZNwyyXWyGLKc"
+            placement="top"
           >
-            <FaBitcoin />
-            <span>Donate</span>
-          </Button>
+            <Button
+              type="primary"
+              className="mt-3 bg-green-light w-full flex gap-2 items-center"
+              size="large"
+            >
+              <FaBitcoin />
+              <span>Donate</span>
+            </Button>
+          </QRCode>
         </Popover>
       </div>
     </div>

@@ -9,6 +9,7 @@ import { useParams } from "next/navigation"
 import { SchoolDetails } from "./SchoolDetails"
 import { Donate } from "./Donate"
 import { Students } from "./Students"
+import { Footer } from "@/components/Footer"
 
 const SchoolPage = () => {
   const { id } = useParams()
@@ -47,6 +48,7 @@ const SchoolPage = () => {
         </div>
         <Students />
       </div>
+      <Footer />
     </>
   )
 }

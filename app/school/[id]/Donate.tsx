@@ -3,6 +3,7 @@ import { Input, Tabs, Select, Divider } from "antd"
 import type { TabsProps } from "antd"
 import React, { useEffect, useState } from "react"
 import { FaBitcoin } from "react-icons/fa"
+import { QRCode } from "@/components/QRCode"
 
 const onChange = (key: string) => {
   console.log(key)
@@ -190,10 +191,12 @@ export const Donate = () => {
           <span>$ {las}</span>
         </li>
       </ul>
-      <button className="bg-green-light text-white w-full rounded-md p-2 mt-4 flex items-center gap-2 justify-center">
-        <FaBitcoin className="inline text-yellow" />
-        <span>Donate</span>
-      </button>
+      <QRCode amount={donation} address="1J19TLLqu8DH2cv3ze7g1xZNwyyXWyGLKc">
+        <button className="bg-green-light text-white w-full rounded-md p-2 mt-4 flex items-center gap-2 justify-center">
+          <FaBitcoin className="inline text-yellow" />
+          <span>Donate</span>
+        </button>
+      </QRCode>
     </div>
   )
 }

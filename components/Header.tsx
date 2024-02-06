@@ -6,6 +6,7 @@ import { BiDonateHeart } from "react-icons/bi"
 import { FaWpexplorer } from "react-icons/fa"
 import { usePathname } from "next/navigation"
 import { ConnectWallet } from "./ConnectWallet"
+import { BsGithub } from "react-icons/bs"
 
 export const Header = () => {
   const pathname = usePathname()
@@ -44,7 +45,14 @@ export const Header = () => {
           </ul>
         </nav>
       </div>
-      <ConnectWallet />
+      <Link
+        href={""}
+        className="bg-green-light text-white px-[16px] py-[10px] rounded-md flex items-center gap-3"
+      >
+        <BsGithub className="inline" />
+        <span>Github Repository</span>
+      </Link>
+      {/* <Logo /> */}
     </header>
   )
 }
