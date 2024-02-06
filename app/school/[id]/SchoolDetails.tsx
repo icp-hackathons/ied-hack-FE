@@ -7,7 +7,7 @@ import { Divider } from "antd"
 
 export const SchoolDetails = () => {
   return (
-    <div className="bg-white p-4 rounded-lg md:w-[60%]">
+    <div className="bg-white p-4 rounded-lg md:w-[70%]">
       <div>
         <SchoolPreviewImages />
       </div>
@@ -22,7 +22,7 @@ export const SchoolDetails = () => {
         </p>
         <Divider />
         <h2 className="text-xl">About The School.</h2>
-        <p className="my-4 text-[14px]">
+        <p className="mt-4 text-[14px]">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem,
           molestiae maiores fugit doloribus nemo deleniti voluptates ab nostrum
           earum odit inventore sed, quod beatae corrupti, accusantium nihil
