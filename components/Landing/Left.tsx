@@ -73,7 +73,7 @@ export const Left = () => {
       </div>
 
       <div className="mt-[5rem] relative h-[10rem]">
-        <div className="w-[110%] ml-[-5%] py-[1rem] bg-black text-white text-center rotate-[15deg] absolute top-0 left-0 crossed-text  ">
+        <div className="w-[110%] ml-[-5%] py-[1rem] bg-black text-white text-center rotate-[15deg] absolute top-0 left-0 crossed-text  shadow-lg">
           <div className="flex gap-3 items-center text-scroll-effect-left">
             Support{" "}
             <span>
@@ -125,7 +125,7 @@ export const Left = () => {
             </span>
           </div>
         </div>
-        <div className="w-[110%] ml-[-5%] py-[1rem] bg-[#F3722C] text-white text-center rotate-[-15deg] absolute top-0 left-0 crossed-text  ">
+        <div className="w-[110%] ml-[-5%] py-[1rem] bg-[#F3722C] text-white text-center rotate-[-15deg] absolute top-0 left-0 crossed-text  shadow-lg">
           <div className="flex gap-3 items-center text-scroll-effect-right">
             Support{" "}
             <span>
