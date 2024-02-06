@@ -3,7 +3,7 @@ import { SchoolCard } from "../SchoolCard"
 
 export const Schools = () => {
   return (
-    <div className=" md:p-[3rem] p-[1rem]">
+    <div className=" md:p-[3rem] p-[1rem]" id="schools">
       <div className="alegreya mb-[2rem]">
         <h2 className="text-[3rem] font-semibold text-grey-600 leading-[3rem]">
           All Schools
