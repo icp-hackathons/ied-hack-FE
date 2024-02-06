@@ -6,6 +6,7 @@ import { Breadcrumb } from "antd"
 import { BiHomeAlt } from "react-icons/bi"
 import { BiSolidSchool } from "react-icons/bi"
 import { useParams } from "next/navigation"
+import { SchoolDetails } from "./SchoolDetails"
 
 const SchoolPage = () => {
   const { id } = useParams()
@@ -38,6 +39,9 @@ const SchoolPage = () => {
         </div>
         <Header />
         <Breadcrumb items={items} className="my-[2rem]" />
+        <div>
+          <SchoolDetails />
+        </div>
       </div>
     </>
   )
