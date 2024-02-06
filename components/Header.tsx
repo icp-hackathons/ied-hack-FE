@@ -15,7 +15,7 @@ export const Header = () => {
     ? "text-white bg-grey-700"
     : "bg-grey-100"
   return (
-    <header className="flex justify-between items-center">
+    <header className="flex justify-between items-center flex-wrap gap-5">
       <div className="flex items-center gap-[4rem]">
         <Link href={"/"}>
           <h2 className="alegreya text-sm font-normal">iED</h2>
