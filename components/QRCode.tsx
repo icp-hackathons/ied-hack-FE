@@ -24,6 +24,8 @@ export const QRCode = ({
   const qrCodeValue = amount
     ? `bitcoin:${address}?amount=${amount}`
     : address;
+
+  console.log(address);
   return (
     <>
       <Popover

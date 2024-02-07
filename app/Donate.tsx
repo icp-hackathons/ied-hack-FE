@@ -194,7 +194,7 @@ export const Donate = ({ school, address }: { school: SchoolOutput, address: str
           <span>$ {las}</span>
         </li>
       </ul>
-      <QRCode amount={donation} address={address}>
+      <QRCode amount={donation} address={address} placement={'bottom'}>
         <button className="bg-green-light text-white w-full rounded-md p-2 mt-4 flex items-center gap-2 justify-center">
           <FaBitcoin className="inline text-yellow" />
           <span>Donate</span>
