@@ -16,10 +16,12 @@ export function SchoolPage({
   open,
   setOpen,
   school,
+  address,
 }: {
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
   school: SchoolOutput
+  address: string
 }) {
   const items = [
     {
@@ -58,10 +60,11 @@ export function SchoolPage({
         <Breadcrumb items={items} className="my-[2rem]" />
         <div className="flex justify-between gap-4 md:flex-row flex-col items-start">
           <SchoolDetails school={school} />
-          <Donate school={school} />
+          <Donate school={school} address={address} />
         </div>
         <Students
           studentArr={school.students}
+          address={address}
         />
       </div>
       <Footer />

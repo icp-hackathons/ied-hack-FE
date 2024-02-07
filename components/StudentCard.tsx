@@ -10,11 +10,14 @@ interface props {
   cgpa: string
   image: string
   about: string
+  address: string
 }
 
 export const StudentCard = ({ ...props }: props) => {
   const [open, setOpen] = useState(false)
   const [donation, setDonation] = useState(0)
+
+
   return (
     <div className="w-full shadow-lg rounded-[20px]">
       <div className="z-[5] relative">
@@ -64,7 +67,7 @@ export const StudentCard = ({ ...props }: props) => {
               </p>
               <QRCode
                 amount={donation}
-                address="1J19TLLqu8DH2cv3ze7g1xZNwyyXWyGLKc"
+                address={props.address}
                 placement="top"
               >
                 <Button

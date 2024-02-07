@@ -4,7 +4,7 @@ import { Divider } from "antd"
 import React, { useCallback, useEffect, useState } from "react"
 import * as backend from "@/utils/backend-service"
 import { StudentOutput } from "@/src/declarations/backend/backend.did"
-export const Students = ({ studentArr }: { studentArr: any[] }) => {
+export const Students = ({ studentArr, address }: { studentArr: any[], address: string }) => {
   const [students, setStudents] = useState<StudentOutput[]>();
   const getStudents = useCallback(async () => {
     const students = await backend.getStudentBySchool(studentArr);
@@ -34,6 +34,7 @@ export const Students = ({ studentArr }: { studentArr: any[] }) => {
                 about={student.bio}
                 level={student.level}
                 cgpa={student.gpa}
+                address={address}
               />
             )
           })

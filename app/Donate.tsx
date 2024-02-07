@@ -1,17 +1,19 @@
 "use client"
 import { Input, Tabs, Select, Divider } from "antd"
 import type { TabsProps } from "antd"
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { FaBitcoin } from "react-icons/fa"
 import { QRCode } from "@/components/QRCode"
 import { SchoolOutput } from "@/utils/declarations/backend/backend.did"
+import { getBitcoinAddress } from "@/utils/backend-service"
 
 const onChange = (key: string) => {
   console.log(key)
 }
 
-export const Donate = ({ school }: { school: SchoolOutput }) => {
+export const Donate = ({ school, address }: { school: SchoolOutput, address: string }) => {
   const [donationType, setDonationType] = useState("divide_equaly")
+
   const [donation, setDonation] = useState(0)
   const [cdd, setCdd] = useState<number | string>(0)
   const [ts, setTs] = useState<number | string>(0)
@@ -192,7 +194,7 @@ export const Donate = ({ school }: { school: SchoolOutput }) => {
           <span>$ {las}</span>
         </li>
       </ul>
-      <QRCode amount={donation} address="1J19TLLqu8DH2cv3ze7g1xZNwyyXWyGLKc">
+      <QRCode amount={donation} address={address}>
         <button className="bg-green-light text-white w-full rounded-md p-2 mt-4 flex items-center gap-2 justify-center">
           <FaBitcoin className="inline text-yellow" />
           <span>Donate</span>

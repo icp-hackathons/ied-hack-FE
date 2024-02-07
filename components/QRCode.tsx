@@ -5,6 +5,7 @@ import Image from "next/legacy/image"
 import React, { useState } from "react"
 import { CgCheck, CgCopy } from "react-icons/cg"
 import { VerifyDonation } from "./VerifyDonation"
+import { QRCodeSVG } from "qrcode.react";
 
 export const QRCode = ({
   amount,
@@ -19,26 +20,32 @@ export const QRCode = ({
 }) => {
   const [open, setOpen] = useState(false)
   const [copied, setCopied] = useState(false)
+
+  const qrCodeValue = amount
+    ? `bitcoin:${address}?amount=${amount}`
+    : address;
   return (
     <>
       <Popover
-        placement={placement || "right"}
+        placement={placement || "top"}
         open={open}
         trigger={"click"}
         onOpenChange={() => setOpen(!open)}
         content={
-          <div className="min-w-[22rem]">
+          <div className="min-w-[20rem]">
             <h3 className="text-center text-2xl font-[500]">Scan QR code</h3>
             <p className="text-center">
               Scan this code to get the deposit address.
             </p>
             <div className="flex justify-center items-center">
-              <Image
+              {/* <Image
                 src={`https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=bitcoin:${address}?amount=${amount}`}
                 alt="QR Code"
                 width={250}
                 height={250}
-              />
+              /> */}
+
+              <QRCodeSVG value={qrCodeValue} height={250} width={250} />
             </div>
             <Divider>or copy the address manually</Divider>
             <div className="flex justify-between items-center gap-2">

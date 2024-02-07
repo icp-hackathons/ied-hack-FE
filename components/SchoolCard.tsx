@@ -6,6 +6,7 @@ import { SchoolOutput } from "@/utils/declarations/backend/backend.did"
 
 interface props {
   school: SchoolOutput;
+  address: string;
 }
 
 export const SchoolCard: React.FC<props> = ({ ...props }) => {
@@ -39,7 +40,7 @@ export const SchoolCard: React.FC<props> = ({ ...props }) => {
           </div>
         </div>
       </div>
-      <SchoolPage open={open} setOpen={setOpen} school={props.school} />
+      <SchoolPage open={open} setOpen={setOpen} school={props.school} address={props.address} />
     </>
   )
 }
