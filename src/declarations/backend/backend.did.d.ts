@@ -9,10 +9,8 @@ export interface BitcoinDonations {
   'get_donation' : ActorMethod<[string], [] | [Donation]>,
   'get_donation_v2' : ActorMethod<[string], Result_3>,
   'get_p2pkh_address' : ActorMethod<[], BitcoinAddress__1>,
-  'get_school' : ActorMethod<[bigint], [] | [School]>,
-  'get_school_v2' : ActorMethod<[bigint], Result_2>,
-  'get_student' : ActorMethod<[bigint], [] | [Student]>,
-  'get_student_v2' : ActorMethod<[bigint], Result_1>,
+  'get_school' : ActorMethod<[bigint], Result_2>,
+  'get_student' : ActorMethod<[bigint], Result_1>,
   'get_total_donations' : ActorMethod<[], bigint>,
   'get_total_schools' : ActorMethod<[], bigint>,
   'get_total_students' : ActorMethod<[], bigint>,
@@ -56,8 +54,6 @@ export interface InitStudentParams {
   'schoolId' : bigint,
   'image' : string,
 }
-export type List = [] | [[string, List]];
-export type List_1 = [] | [[bigint, List_1]];
 export interface MakeDonationParams {
   'donationTo' : bigint,
   'txId' : string,
@@ -72,29 +68,29 @@ export type Network = { 'mainnet' : null } |
   { 'testnet' : null };
 export type Result = { 'ok' : string } |
   { 'err' : string };
-export type Result_1 = { 'ok' : Student } |
+export type Result_1 = { 'ok' : StudentOutput } |
   { 'err' : string };
-export type Result_2 = { 'ok' : School } |
+export type Result_2 = { 'ok' : SchoolOutput } |
   { 'err' : string };
 export type Result_3 = { 'ok' : Donation } |
   { 'err' : string };
 export type Satoshi = bigint;
 export type Satoshi__1 = bigint;
-export interface School {
+export interface SchoolOutput {
   'id' : bigint,
-  'students' : List_1,
+  'students' : Array<bigint>,
   'name' : string,
   'description' : string,
   'amountDonated' : Satoshi,
   'location' : string,
-  'donations' : List,
-  'images' : List,
+  'donations' : Array<string>,
+  'images' : Array<string>,
 }
 export interface SendRequest {
   'destination_address' : string,
   'amount_in_satoshi' : Satoshi,
 }
-export interface Student {
+export interface StudentOutput {
   'id' : bigint,
   'bio' : string,
   'gpa' : string,
@@ -103,6 +99,6 @@ export interface Student {
   'schoolId' : bigint,
   'image' : string,
   'amountDonated' : Satoshi,
-  'donations' : List,
+  'donations' : Array<string>,
 }
 export interface _SERVICE extends BitcoinDonations {}

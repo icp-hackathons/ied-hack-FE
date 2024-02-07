@@ -38,6 +38,28 @@ module {
         schoolId : Nat;
     };
 
+    public type SchoolOutput = {
+        id : Nat;
+        name : Text;
+        location : Text;
+        description : Text;
+        images : [Text];
+        amountDonated : Types.Satoshi;
+        students : [Nat];
+        donations : [Text];
+    };
+    public type StudentOutput = {
+        id : Nat;
+        name : Text;
+        bio : Text;
+        level : Text;
+        gpa : Text;
+        image : Text;
+        amountDonated : Types.Satoshi;
+        donations : [Text];
+        schoolId : Nat;
+    };
+
     type InitSchoolParams = {
         id : Nat;
         name : Text;

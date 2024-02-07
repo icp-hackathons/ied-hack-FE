@@ -3,14 +3,12 @@ import { StudentCard } from "@/components/StudentCard"
 import { Divider } from "antd"
 import React, { useCallback, useEffect, useState } from "react"
 import * as backend from "@/utils/backend-service"
-import { Student } from "@/src/declarations/backend/backend.did"
+import { StudentOutput } from "@/src/declarations/backend/backend.did"
 export const Students = ({ studentArr }: { studentArr: any[] }) => {
-
-  const [students, setStudents] = useState<([] | [Student])[]>();
-
+  const [students, setStudents] = useState<StudentOutput[]>();
   const getStudents = useCallback(async () => {
     const students = await backend.getStudentBySchool(studentArr);
-    setStudents(students)
+    setStudents(students);
   }, [studentArr]);
 
   useEffect(() => {
@@ -31,11 +29,11 @@ export const Students = ({ studentArr }: { studentArr: any[] }) => {
             return (
               <StudentCard
                 key={index}
-                image="https://images.unsplash.com/photo-1671726203454-5d7a5370a9f4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                name="John Doe"
-                about="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae, cumque."
-                level="400 level"
-                cgpa="4.44"
+                image={student.image}
+                name={student.name}
+                about={student.bio}
+                level={student.level}
+                cgpa={student.gpa}
               />
             )
           })

@@ -1,11 +1,14 @@
-import { MakeDonationParams } from "./declarations/backend/backend.did";
+import {
+  MakeDonationParams,
+  StudentOutput,
+} from "./declarations/backend/backend.did";
 import { makeBackendActor } from "./actor-locator";
-import { School } from "./declarations/backend/backend.did";
+import { SchoolOutput } from "./declarations/backend/backend.did";
 
 export const getSchools = async () => {
   const backendService = await makeBackendActor();
   const noOfSchools = await backendService.get_total_schools();
-  let schools: School[] = [];
+  let schools: SchoolOutput[] = [];
   for (let i = 1; i <= Number(noOfSchools.toString()); i++) {
     const school = await getSchoolById(i.toString());
     schools.push(school);
@@ -20,13 +23,10 @@ export const getNoOfSchools = async () => {
 };
 
 export const getStudentBySchool = async (students: any[]) => {
-  let studentsData = [];
-  const backendService = await makeBackendActor();
-  for (let i = 1; i <= students.length; i++) {
-    const student = await backendService.get_student(BigInt(i));
-    if (student.length > 0) {
-      studentsData.push(student);
-    }
+  let studentsData: StudentOutput[] = [];
+  for (let i of students) {
+    const student = await getStudentById(i.toString());
+    studentsData.push(student);
   }
   return studentsData;
 };
@@ -38,12 +38,19 @@ export const getDonationByDTI = async (dti: string) => {
 
 export const getSchoolById = async (id: string) => {
   const backendService = await makeBackendActor();
-  console.log(backendService);
-  const res: any = await backendService.get_school_v2(BigInt(id));
+  const res: any = await backendService.get_school(BigInt(id));
   if (res.err) {
     throw new Error(res.err);
   }
-  console.log("here");
+  return res.ok;
+};
+
+export const getStudentById = async (id: string) => {
+  const backendService = await makeBackendActor();
+  const res: any = await backendService.get_student(BigInt(id));
+  if (res.err) {
+    throw new Error(res.err);
+  }
   return res.ok;
 };
 

@@ -4,12 +4,13 @@ import type { TabsProps } from "antd"
 import React, { useEffect, useState } from "react"
 import { FaBitcoin } from "react-icons/fa"
 import { QRCode } from "@/components/QRCode"
+import { SchoolOutput } from "@/utils/declarations/backend/backend.did"
 
 const onChange = (key: string) => {
   console.log(key)
 }
 
-export const Donate = () => {
+export const Donate = ({ school }: { school: SchoolOutput }) => {
   const [donationType, setDonationType] = useState("divide_equaly")
   const [donation, setDonation] = useState(0)
   const [cdd, setCdd] = useState<number | string>(0)

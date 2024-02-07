@@ -1,8 +1,8 @@
-type Student = 
+type StudentOutput = 
  record {
    amountDonated: Satoshi;
    bio: text;
-   donations: List;
+   donations: vec text;
    gpa: text;
    id: nat;
    image: text;
@@ -15,16 +15,16 @@ type SendRequest =
    amount_in_satoshi: Satoshi;
    destination_address: text;
  };
-type School = 
+type SchoolOutput = 
  record {
    amountDonated: Satoshi;
    description: text;
-   donations: List;
+   donations: vec text;
    id: nat;
-   images: List;
+   images: vec text;
    location: text;
    name: text;
-   students: List_1;
+   students: vec nat;
  };
 type Satoshi__1 = nat64;
 type Satoshi = nat64;
@@ -36,12 +36,12 @@ type Result_3 =
 type Result_2 = 
  variant {
    err: text;
-   ok: School;
+   ok: SchoolOutput;
  };
 type Result_1 = 
  variant {
    err: text;
-   ok: Student;
+   ok: StudentOutput;
  };
 type Result = 
  variant {
@@ -64,16 +64,6 @@ type MakeDonationParams =
    recipientId: nat;
    txId: text;
  };
-type List_1 = 
- opt record {
-       nat;
-       List_1;
-     };
-type List = 
- opt record {
-       text;
-       List;
-     };
 type InitStudentParams = 
  record {
    bio: text;
@@ -123,10 +113,8 @@ type BitcoinDonations =
    get_donation: (text) -> (opt Donation) query;
    get_donation_v2: (text) -> (Result_3) query;
    get_p2pkh_address: () -> (BitcoinAddress__1);
-   get_school: (nat) -> (opt School) query;
-   get_school_v2: (nat) -> (Result_2) query;
-   get_student: (nat) -> (opt Student) query;
-   get_student_v2: (nat) -> (Result_1) query;
+   get_school: (nat) -> (Result_2) query;
+   get_student: (nat) -> (Result_1) query;
    get_total_donations: () -> (nat) query;
    get_total_schools: () -> (nat) query;
    get_total_students: () -> (nat) query;

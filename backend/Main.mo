@@ -65,25 +65,19 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
     };
 
     /// Return the school with the given ID, if one exists
-    public query func get_school(school_id : Nat) : async ?Types.School {
-        school_get(school_id);
-    };
-
-    /// Return the student with the given ID, if one exists
-    public query func get_student(student_id : Nat) : async ?Types.Student {
-        student_get(student_id);
-    };
-
-    /// Return donation by dti
-    public query func get_donation(dti : Text) : async ?Types.Donation {
-        donation_get(dti);
-    };
-
-    /// Return the school with the given ID, if one exists
-    public query func get_school_v2(school_id : Nat) : async Types.Result<Types.School, Text> {
+    public query func get_school(school_id : Nat) : async Types.Result<Types.SchoolOutput, Text> {
         switch (school_get(school_id)) {
             case (?school) {
-                #ok school;
+                #ok {
+                    id = school.id;
+                    name = school.name;
+                    location = school.location;
+                    description = school.description;
+                    images = List.toArray<Text>(school.images);
+                    amountDonated = school.amountDonated;
+                    students = List.toArray<Nat>(school.students);
+                    donations = List.toArray<Text>(school.donations);
+                };
             };
             case null {
                 #err "Not found";
@@ -92,10 +86,20 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
     };
 
     /// Return the student with the given ID, if one exists
-    public query func get_student_v2(student_id : Nat) : async Types.Result<Types.Student, Text> {
+    public query func get_student(student_id : Nat) : async Types.Result<Types.StudentOutput, Text> {
         switch (student_get(student_id)) {
             case (?student) {
-                #ok student;
+                #ok {
+                    id = student.id;
+                    name = student.name;
+                    bio = student.bio;
+                    level = student.level;
+                    gpa = student.gpa;
+                    image = student.image;
+                    amountDonated = student.amountDonated;
+                    donations = List.toArray<Text>(student.donations);
+                    schoolId = student.schoolId;
+                };
             };
             case null {
                 #err "Not found";
@@ -104,7 +108,7 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
     };
 
     /// Return donation by dti
-    public query func get_donation_v2(dti : Text) : async Types.Result<Types.Donation, Text> {
+    public query func get_donation(dti : Text) : async Types.Result<Types.Donation, Text> {
         switch (donation_get(dti)) {
             case (?donation) {
                 #ok donation;

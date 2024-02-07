@@ -33,7 +33,7 @@ export const Header = ({
               <Link
                 href={"/#schools"}
                 onClick={() => setOpen(false)}
-                className={`inline-block md:px-5 px-3 md:py-3 py-2 text-sm rounded-[24px] flex items-center gap-[10px] hover:bg-green-light hover:text-white transition-all duration-2 ease-in-out ${donateActive}`}
+                className={`inline-block md:px-5 px-3 md:py-3 py-2 text-sm rounded-[24px] items-center gap-[10px] hover:bg-green-light hover:text-white transition-all duration-2 ease-in-out ${donateActive}`}
               >
                 <BiDonateHeart className="inline" /> <span>Donate</span>
               </Link>
@@ -41,7 +41,7 @@ export const Header = ({
             <li>
               <Link
                 href={"/tx-explorer"}
-                className={`inline-block md:px-5 px-3 md:py-3 py-2 text-sm rounded-[24px] flex items-center gap-[10px] hover:bg-green-light hover:text-white transition-all duration-2 ease-in-out ${txActive}`}
+                className={`inline-block md:px-5 px-3 md:py-3 py-2 text-sm rounded-[24px] items-center gap-[10px] hover:bg-green-light hover:text-white transition-all duration-2 ease-in-out ${txActive}`}
               >
                 <FaWpexplorer className="inline" /> <span>Tx Explorer</span>
               </Link>

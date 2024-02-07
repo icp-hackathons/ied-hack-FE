@@ -1,6 +1,4 @@
 export const idlFactory = ({ IDL }) => {
-  const List = IDL.Rec();
-  const List_1 = IDL.Rec();
   const InitStudentParams = IDL.Record({
     'id' : IDL.Nat,
     'bio' : IDL.Text,
@@ -49,20 +47,18 @@ export const idlFactory = ({ IDL }) => {
     'recipientId' : IDL.Nat,
   });
   const Result_3 = IDL.Variant({ 'ok' : Donation, 'err' : IDL.Text });
-  List_1.fill(IDL.Opt(IDL.Tuple(IDL.Nat, List_1)));
-  List.fill(IDL.Opt(IDL.Tuple(IDL.Text, List)));
-  const School = IDL.Record({
+  const SchoolOutput = IDL.Record({
     'id' : IDL.Nat,
-    'students' : List_1,
+    'students' : IDL.Vec(IDL.Nat),
     'name' : IDL.Text,
     'description' : IDL.Text,
     'amountDonated' : Satoshi,
     'location' : IDL.Text,
-    'donations' : List,
-    'images' : List,
+    'donations' : IDL.Vec(IDL.Text),
+    'images' : IDL.Vec(IDL.Text),
   });
-  const Result_2 = IDL.Variant({ 'ok' : School, 'err' : IDL.Text });
-  const Student = IDL.Record({
+  const Result_2 = IDL.Variant({ 'ok' : SchoolOutput, 'err' : IDL.Text });
+  const StudentOutput = IDL.Record({
     'id' : IDL.Nat,
     'bio' : IDL.Text,
     'gpa' : IDL.Text,
@@ -71,9 +67,9 @@ export const idlFactory = ({ IDL }) => {
     'schoolId' : IDL.Nat,
     'image' : IDL.Text,
     'amountDonated' : Satoshi,
-    'donations' : List,
+    'donations' : IDL.Vec(IDL.Text),
   });
-  const Result_1 = IDL.Variant({ 'ok' : Student, 'err' : IDL.Text });
+  const Result_1 = IDL.Variant({ 'ok' : StudentOutput, 'err' : IDL.Text });
   const MakeDonationParams = IDL.Record({
     'donationTo' : IDL.Nat,
     'txId' : IDL.Text,
@@ -97,10 +93,8 @@ export const idlFactory = ({ IDL }) => {
     'get_donation' : IDL.Func([IDL.Text], [IDL.Opt(Donation)], ['query']),
     'get_donation_v2' : IDL.Func([IDL.Text], [Result_3], ['query']),
     'get_p2pkh_address' : IDL.Func([], [BitcoinAddress__1], []),
-    'get_school' : IDL.Func([IDL.Nat], [IDL.Opt(School)], ['query']),
-    'get_school_v2' : IDL.Func([IDL.Nat], [Result_2], ['query']),
-    'get_student' : IDL.Func([IDL.Nat], [IDL.Opt(Student)], ['query']),
-    'get_student_v2' : IDL.Func([IDL.Nat], [Result_1], ['query']),
+    'get_school' : IDL.Func([IDL.Nat], [Result_2], ['query']),
+    'get_student' : IDL.Func([IDL.Nat], [Result_1], ['query']),
     'get_total_donations' : IDL.Func([], [IDL.Nat], ['query']),
     'get_total_schools' : IDL.Func([], [IDL.Nat], ['query']),
     'get_total_students' : IDL.Func([], [IDL.Nat], ['query']),

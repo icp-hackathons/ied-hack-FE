@@ -9,40 +9,18 @@ import { SchoolDetails } from "./SchoolDetails"
 import { Donate } from "./Donate"
 import { Students } from "./Students"
 import { Footer } from "@/components/Footer"
-import * as backend from "@/utils/backend-service"
-import { School } from "@/src/declarations/backend/backend.did"
-import { useParams } from "next/navigation"
+import { SchoolOutput } from "@/src/declarations/backend/backend.did"
 import { Drawer } from "antd"
-
-async function getSchool(id: string): Promise<[] | [School]> {
-  const school = await backend.getSchoolById(id)
-  return school
-}
 
 export function SchoolPage({
   open,
   setOpen,
-  id,
+  school,
 }: {
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  id: string
+  school: SchoolOutput
 }) {
-  console.log(id)
-  const [school, setSchool] = useState<[] | [School]>([])
-  const [loading, setLoading] = useState(true)
-  //@ts-ignore
-
-  useEffect(() => {
-    const getSchool = async (id: string) => {
-      setLoading(true)
-      const school = await backend.getSchoolById(id)
-      setLoading(false)
-      setSchool(school)
-      return school
-    }
-    getSchool(id as string)
-  })
   const items = [
     {
       href: "/",
@@ -61,7 +39,7 @@ export function SchoolPage({
       ),
     },
     {
-      title: <span>{id}</span>,
+      title: <span>{school.id.toString()}</span>,
     },
   ]
   return (
@@ -79,16 +57,12 @@ export function SchoolPage({
         <Header setOpen={setOpen} />
         <Breadcrumb items={items} className="my-[2rem]" />
         <div className="flex justify-between gap-4 md:flex-row flex-col items-start">
-          <SchoolDetails />
-          <Donate />
+          <SchoolDetails school={school} />
+          <Donate school={school} />
         </div>
-        {loading ? (
-          <div>Loading...</div>
-        ) : (
-          <Students
-            studentArr={school[0]?.students ? school[0].students : []}
-          />
-        )}
+        <Students
+          studentArr={school.students}
+        />
       </div>
       <Footer />
     </Drawer>
