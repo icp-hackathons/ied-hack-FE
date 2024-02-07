@@ -3,20 +3,12 @@
     "backend": {
       "main": "src/backend/Main.mo",
       "type": "motoko"
-    },
-    "frontend": {
-      "dependencies": ["backend"],
-      "frontend": {
-        "entrypoint": "build/index.html"
-      },
-      "source": ["build/"],
-      "type": "assets"
     }
   },
   "defaults": {
     "bitcoin": {
       "enabled": true,
-      "nodes": [],
+      "nodes": ["127.0.0.1:18444"],
       "log_level": "info"
     },
     "build": {
@@ -24,11 +16,9 @@
       "packtool": "vessel sources"
     }
   },
-  "dfx": "0.14.0",
   "networks": {
     "local": {
-      "bind": "127.0.0.1:8008",
-      "type": "ephemeral"
+      "bind": "127.0.0.1:4943"
     }
   },
   "version": 1

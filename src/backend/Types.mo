@@ -6,18 +6,22 @@ import List "mo:base/List";
 import Principal "mo:base/Principal";
 import Text "mo:base/Text";
 import Hash "mo:base/Hash";
+import Array "mo:base/Array";
 import Blob "mo:base/Blob";
+import Nat64 "mo:base/Nat64";
 
 import Types "bitcoin/Types";
+import Hex "encode/Hex";
 
 module {
+    public type Result<T, E> = Result.Result<T, E>;
     public type School = {
         id : Nat;
         name : Text;
-        address : Text;
+        location : Text;
         description : Text;
-        image : Text;
-        amountDonated : Nat;
+        images : List.List<Text>;
+        amountDonated : Types.Satoshi;
         students : List.List<Nat>;
         donations : List.List<Text>;
     };
@@ -27,13 +31,34 @@ module {
         name : Text;
         bio : Text;
         level : Text;
-        gpa : Int;
-        amountDonated : Nat;
+        gpa : Text;
+        image : Text;
+        amountDonated : Types.Satoshi;
         donations : List.List<Text>;
         schoolId : Nat;
     };
 
+    type InitSchoolParams = {
+        id : Nat;
+        name : Text;
+        location : Text;
+        description : Text;
+        images : [Text];
+        students : [Nat];
+    };
+
+    type InitStudentParams = {
+        id : Nat;
+        name : Text;
+        bio : Text;
+        level : Text;
+        gpa : Text;
+        image : Text;
+        schoolId : Nat;
+    };
+
     public type Category = {
+        categoryType : Nat;
         cdd : Nat; // Curriculum design and development
         ts : Nat; // Teacher support
         ss : Nat; // School supplies
@@ -41,17 +66,27 @@ module {
     };
 
     public type Donation = {
-        id : Text;
-        amount : Nat;
+        amount : Types.Satoshi;
         category : Category;
-        donater : Text;
-        txID : Text;
+        donater : Types.BitcoinAddress;
+        dti : Text;
+        recipientId : Nat;
+        txId : Text;
     };
 
     public type InitParams = {
-        schools : [School];
-        students : [Student];
+        schools : [InitSchoolParams];
+        students : [InitStudentParams];
         network : Types.Network;
+    };
+
+    public type MakeDonationParams = {
+        address : Types.BitcoinAddress;
+        txId : Text;
+        donationTo : Nat; // 0 means school, 1 means student
+        recipientId : Nat; // id of recipient
+        amount : Types.Satoshi;
+        donationCategory : Category;
     };
 
     public func trie_key(t : Nat) : Trie.Key<Nat> = {
@@ -59,22 +94,50 @@ module {
         hash = Text.hash(Nat.toText(t));
     };
 
+    public func get_dti(t : Text) : Text {
+        var dtiBlob = Text.encodeUtf8(t);
+        var dtiArray = Blob.toArray(dtiBlob);
+        var hex = Hex.encode(dtiArray);
+        hex;
+    };
+
     public func donation_key(t : Text) : Trie.Key<Text> = {
         key = t;
         hash = Text.hash t;
     };
 
-    public func schools_fromArray(arr : [School]) : Trie.Trie<Nat, School> {
+    public func schools_fromArray(arr : [InitSchoolParams]) : Trie.Trie<Nat, School> {
         var s = Trie.empty<Nat, School>();
-        for (school in arr.vals()) {
+        for (schoolParams in arr.vals()) {
+            var school : School = {
+                id = schoolParams.id;
+                name = schoolParams.name;
+                location = schoolParams.location;
+                description = schoolParams.description;
+                images = List.fromArray<Text>(schoolParams.images);
+                amountDonated = 0;
+                students = List.fromArray<Nat>(schoolParams.students);
+                donations = List.nil();
+            };
             s := Trie.put(s, trie_key(school.id), Nat.equal, school).0;
         };
         s;
     };
 
-    public func students_fromArray(arr : [Student]) : Trie.Trie<Nat, Student> {
+    public func students_fromArray(arr : [InitStudentParams]) : Trie.Trie<Nat, Student> {
         var s = Trie.empty<Nat, Student>();
-        for (student in arr.vals()) {
+        for (studentParams in arr.vals()) {
+            var student : Student = {
+                id = studentParams.id;
+                name = studentParams.name;
+                bio = studentParams.bio;
+                level = studentParams.level;
+                gpa = studentParams.gpa;
+                image = studentParams.image;
+                amountDonated = 0;
+                donations = List.nil();
+                schoolId = studentParams.schoolId;
+            };
             s := Trie.put(s, trie_key(student.id), Nat.equal, student).0;
         };
         s;

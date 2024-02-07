@@ -37,3 +37,6 @@ next-env.d.ts
 
 # Vessel
 .vessel
+
+# Dfx
+.dfx
