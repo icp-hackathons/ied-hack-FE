@@ -1,4 +1,15 @@
+# IED-HACK-FE
+
+- Frontend canister via browser
+    frontend: https://ewysi-5iaaa-aaaak-qc7ca-cai.icp0.io/
+- Backend canister via Candid interface:
+    backend: https://a4gq6-oaaaa-aaaab-qaa4q-cai.raw.icp0.io/?id=ee6fr-ryaaa-aaaak-qc7ba-cai
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+
+
 
 ## Getting Started
 
