@@ -8,13 +8,16 @@ import { usePathname } from "next/navigation"
 import { ConnectWallet } from "./ConnectWallet"
 import { BsGithub } from "react-icons/bs"
 
-export const Header = () => {
+export const Header = ({
+  setOpen,
+}: {
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+}) => {
   const pathname = usePathname()
   const txActive =
     pathname === "/tx-explorer" ? "text-white bg-green-light" : "bg-grey-100"
-  const donateActive = pathname.includes("school")
-    ? "text-white bg-green-light"
-    : "bg-grey-100"
+  const donateActive =
+    pathname === "/" ? "text-white bg-green-light" : "bg-grey-100"
   return (
     <header className="flex justify-between items-center flex-wrap gap-5">
       <div className="flex items-center gap-[4rem]">
@@ -29,6 +32,7 @@ export const Header = () => {
             <li>
               <Link
                 href={"/#schools"}
+                onClick={() => setOpen(false)}
                 className={`inline-block md:px-5 px-3 md:py-3 py-2 text-sm rounded-[24px] flex items-center gap-[10px] hover:bg-green-light hover:text-white transition-all duration-2 ease-in-out ${donateActive}`}
               >
                 <BiDonateHeart className="inline" /> <span>Donate</span>
@@ -46,7 +50,8 @@ export const Header = () => {
         </nav>
       </div>
       <Link
-        href={""}
+        href={"https://github.com/osas2211/ied-hack-FE"}
+        target="_blank"
         className="bg-green-light text-white px-[16px] py-[10px] rounded-md flex items-center gap-3"
       >
         <BsGithub className="inline" />

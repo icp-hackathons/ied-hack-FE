@@ -13,6 +13,7 @@ export const Schools = () => {
   useEffect(() => {
     if (schools.length == 0) {
       getSchools();
+
     }
   }, [schools, getSchools])
 
@@ -26,20 +27,23 @@ export const Schools = () => {
           Donate to any school of your choice.
         </p>
       </div>
-      <div className="grid lg:grid-cols-4 md:grid-cols-3 gap-5">
-        {schools.length > 0 && (
+      <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-5">
+        {/* {schools.length > 0 &&
           schools.map((school: any, index: number) => {
-            return <SchoolCard
-              key={index}
-              image={school.images ? school.images[0] : ""}
-              schoolName={school.name}
-              id="1"
-              donations={school.donations}
-              amountDonated={school.amountDonated}
-            />
-          })
-        )}
-
+            return (
+              <SchoolCard
+                key={index}
+                image={school.images ? school.images[0] : ""}
+                schoolName={school.name}
+                id={`${index}`}
+              />
+            )
+          })} */}
+        <SchoolCard
+          image="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          schoolName="Motherfield College"
+          id="1"
+        />
       </div>
     </div>
   )

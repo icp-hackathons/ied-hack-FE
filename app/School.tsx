@@ -12,22 +12,22 @@ import { Footer } from "@/components/Footer"
 import * as backend from "@/utils/backend-service"
 import { School } from "@/src/declarations/backend/backend.did"
 import { useParams } from "next/navigation"
-
-// export async function generateStaticParams() {
-//   const schools = await backend.getSchools()
-//   //@ts-ignore
-//   return schools.map((school: School) => ({
-//     id: BigInt(school.id).toString(),
-//   }))
-// }
+import { Drawer } from "antd"
 
 async function getSchool(id: string): Promise<[] | [School]> {
   const school = await backend.getSchoolById(id)
   return school
 }
 
-function SchoolPage() {
-  const { id } = useParams()
+export function SchoolPage({
+  open,
+  setOpen,
+  id,
+}: {
+  open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  id: string
+}) {
   console.log(id)
   const [school, setSchool] = useState<[] | [School]>([])
   const [loading, setLoading] = useState(true)
@@ -43,7 +43,6 @@ function SchoolPage() {
     }
     getSchool(id as string)
   })
-  // const school: [School] = await getSchool(id)
   const items = [
     {
       href: "/",
@@ -66,12 +65,18 @@ function SchoolPage() {
     },
   ]
   return (
-    <>
+    <Drawer
+      open={open}
+      onClose={() => setOpen(false)}
+      width={"100%"}
+      closable={false}
+      styles={{ body: { padding: 0 } }}
+    >
       <div className="bg-[#cfcfcf67] md:m-2 md:p-[2rem] p-[1rem] md:rounded-md urbanist min-h-[98vh] relative overflow-hidden">
         <div className="absolute left-1/2 top-0 -ml-[39rem] w-[113.125rem] max-w-none h-[40rem] z-[-1]">
           <Image layout="fill" alt="beams" src={"/beams-basic.png"} />
         </div>
-        <Header />
+        <Header setOpen={setOpen} />
         <Breadcrumb items={items} className="my-[2rem]" />
         <div className="flex justify-between gap-4 md:flex-row flex-col items-start">
           <SchoolDetails />
@@ -86,8 +91,6 @@ function SchoolPage() {
         )}
       </div>
       <Footer />
-    </>
+    </Drawer>
   )
 }
-
-export default SchoolPage

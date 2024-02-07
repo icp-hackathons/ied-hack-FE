@@ -39,7 +39,7 @@ export const Left = () => {
               better.
             </p>
             <Link
-              href={"/donate"}
+              href={"/#schools"}
               className="font-semibold flex gap-2 items-center cursor-pointer hover:underline"
             >
               <span>Get Started</span>
@@ -62,7 +62,7 @@ export const Left = () => {
               Transaction Explorer (DTE).
             </p>
             <Link
-              href={"/donate"}
+              href={"/tx-explorer"}
               className="font-semibold flex gap-2 items-center cursor-pointer hover:underline"
             >
               <span>Transactions Explorer</span>
