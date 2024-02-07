@@ -1,4 +1,4 @@
-import { _SERVICE } from "@/src/declarations/backend/backend.did";
+import { _SERVICE } from "./declarations/backend/backend.did";
 import { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
 import {

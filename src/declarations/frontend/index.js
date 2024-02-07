@@ -11,7 +11,7 @@ export { idlFactory } from "./frontend.did.js";
  */
 export const canisterId =
   process.env.CANISTER_ID_FRONTEND ||
-  process.env.NEXT_PUBLIC_FRONTEND_CANISTER_ID;
+  process.env.FRONTEND_CANISTER_ID;
 
 export const createActor = (canisterId, options = {}) => {
   const agent = options.agent || new HttpAgent({ ...options.agentOptions });

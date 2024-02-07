@@ -3,7 +3,7 @@ dfx deploy backend --network ic --argument '(record {
     schools = vec {
         record {
             description = "Welcome to Horizon University, where knowledge meets opportunity amidst the scenic shores of Seaview City, nestled in the heart of Pacifica. Established in 1975, Horizon University has been a beacon of academic excellence, nurturing minds and shaping futures for nearly five decades. At Horizon, we believe in fostering an environment where students are not just learners but visionaries, equipped to navigate the complexities of the modern world. Our picturesque campus, adorned with state-of-the-art facilities, provides the perfect backdrop for intellectual exploration and personal growth.";
-            id = 1 : nat;
+            id = 1;
             images = vec {
                 "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2132&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
                 "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
@@ -15,7 +15,7 @@ dfx deploy backend --network ic --argument '(record {
         };
         record {
             description = "Perched atop the picturesque Mountain Peaks in Crestview City, Summit University stands as a beacon of academic achievement and aspiration. Since its founding in 1965, Summit University has been dedicated to pushing the boundaries of knowledge and empowering students to reach new heights of intellectual and personal growth. Our rigorous curriculum, led by a team of distinguished faculty members, ensures that students are equipped with the skills and knowledge needed to excel in their chosen fields. With a focus on innovation and entrepreneurship, Summit University fosters a culture of creativity and critical thinking, preparing graduates to become leaders in their industries.";
-            id = 2 : nat;
+            id = 2;
             images = vec {
                 "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2132&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
                 "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
@@ -27,7 +27,7 @@ dfx deploy backend --network ic --argument '(record {
         };
         record {
             description = "Located amidst the lush greenery of Gardenia Valley in Blossomville, Eden College is a haven for students seeking to explore the wonders of academia and nature. Established in 1982, Eden College is committed to providing a nurturing and supportive environment where students can flourish both intellectually and personally. Our interdisciplinary approach to education encourages students to make connections across various fields of study, fostering a deeper understanding of the world around them. With a focus on sustainability and environmental stewardship, Eden College prepares students to become responsible global citizens who are equipped to tackle the pressing challenges of our time.";
-            id = 3 : nat;
+            id = 3;
             images = vec {
                 "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2132&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
                 "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
@@ -39,7 +39,7 @@ dfx deploy backend --network ic --argument '(record {
         }; 
         record {
             description = "Rising from the ashes of Ember City in Blaze County, Phoenix Institute is a symbol of resilience and transformation. Founded in 2005, Phoenix Institute is dedicated to empowering students to overcome adversity and emerge stronger and more determined than ever before. Our dynamic and innovative curriculum, guided by passionate faculty members, encourages students to embrace change and pursue their dreams with unwavering determination. With a focus on experiential learning and real-world application, Phoenix Institute prepares students to adapt and thrive in an ever-changing global landscape.";
-            id = 4 : nat;
+            id = 4;
             images = vec {
                 "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2132&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
                 "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";

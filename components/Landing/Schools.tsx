@@ -1,18 +1,19 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { SchoolCard } from "../SchoolCard"
-import * as backend from "../../utils/backend-service"
+import * as backend from "../../utils/backend-service";
+import { School } from "@/utils/declarations/backend/backend.did";
 export const Schools = () => {
-  const [schools, setSchools] = useState<any>([])
+  const [schools, setSchools] = useState<School[]>([]);
 
   const getSchools = useCallback(async () => {
-    console.log("here")
-    const schools = await backend.getSchools()
-    setSchools(schools)
-  }, [])
+    const schools = await backend.getSchools();
+    setSchools(schools);
+  }, []);
 
   useEffect(() => {
-    if (!schools) {
-      getSchools()
+    if (schools.length == 0) {
+      getSchools();
+
     }
   }, [schools, getSchools])
 

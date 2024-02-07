@@ -7,9 +7,12 @@ export interface BitcoinDonations {
   'get_balance' : ActorMethod<[BitcoinAddress__1], Satoshi__1>,
   'get_current_fee_percentiles' : ActorMethod<[], BigUint64Array | bigint[]>,
   'get_donation' : ActorMethod<[string], [] | [Donation]>,
+  'get_donation_v2' : ActorMethod<[string], Result_3>,
   'get_p2pkh_address' : ActorMethod<[], BitcoinAddress__1>,
   'get_school' : ActorMethod<[bigint], [] | [School]>,
+  'get_school_v2' : ActorMethod<[bigint], Result_2>,
   'get_student' : ActorMethod<[bigint], [] | [Student]>,
+  'get_student_v2' : ActorMethod<[bigint], Result_1>,
   'get_total_donations' : ActorMethod<[], bigint>,
   'get_total_schools' : ActorMethod<[], bigint>,
   'get_total_students' : ActorMethod<[], bigint>,
@@ -68,6 +71,12 @@ export type Network = { 'mainnet' : null } |
   { 'regtest' : null } |
   { 'testnet' : null };
 export type Result = { 'ok' : string } |
+  { 'err' : string };
+export type Result_1 = { 'ok' : Student } |
+  { 'err' : string };
+export type Result_2 = { 'ok' : School } |
+  { 'err' : string };
+export type Result_3 = { 'ok' : Donation } |
   { 'err' : string };
 export type Satoshi = bigint;
 export type Satoshi__1 = bigint;

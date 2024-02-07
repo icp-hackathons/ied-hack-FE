@@ -8,6 +8,8 @@ interface props {
   image: string
   schoolName: string
   id: string
+  donations: any[]
+  amountDonated: bigint
 }
 
 export const SchoolCard: React.FC<props> = ({ ...props }) => {

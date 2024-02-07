@@ -79,6 +79,42 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
         donation_get(dti);
     };
 
+    /// Return the school with the given ID, if one exists
+    public query func get_school_v2(school_id : Nat) : async Types.Result<Types.School, Text> {
+        switch (school_get(school_id)) {
+            case (?school) {
+                #ok school;
+            };
+            case null {
+                #err "Not found";
+            };
+        };
+    };
+
+    /// Return the student with the given ID, if one exists
+    public query func get_student_v2(student_id : Nat) : async Types.Result<Types.Student, Text> {
+        switch (student_get(student_id)) {
+            case (?student) {
+                #ok student;
+            };
+            case null {
+                #err "Not found";
+            };
+        };
+    };
+
+    /// Return donation by dti
+    public query func get_donation_v2(dti : Text) : async Types.Result<Types.Donation, Text> {
+        switch (donation_get(dti)) {
+            case (?donation) {
+                #ok donation;
+            };
+            case null {
+                #err "Not found";
+            };
+        };
+    };
+
     public query func get_total_schools() : async Nat {
         Trie.size(schools);
     };
