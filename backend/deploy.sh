@@ -1,4 +1,4 @@
-dfx deploy backend --argument '(record { 
+dfx deploy backend --network ic --argument '(record { 
     network = variant { regtest };
     schools = vec {
         record {

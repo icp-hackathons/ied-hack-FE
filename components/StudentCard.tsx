@@ -33,14 +33,14 @@ export const StudentCard = ({ ...props }: props) => {
       <div className="bg-white p-3 rounded-[20px] mt-[-30px] z-[10] relative">
         <p className="text-lg font-bold">{props.name}</p>
         <div className="mb-4 mt-2">
-          <p className="text-sm text-gray-500 font-[500] flex gap-2 items-center">
+          <div className="text-sm text-gray-500 font-[500] flex gap-2 items-center">
             <div className="h-1 w-1 bg-yellow rounded-[100%]"></div>
             <span>{props.level}</span>
-          </p>
-          <p className="text-sm text-gray-500 font-[500] flex gap-2 items-center">
+          </div>
+          <div className="text-sm text-gray-500 font-[500] flex gap-2 items-center">
             <div className="h-1 w-1 bg-green-light rounded-[100%]"></div>
             <span>CGPA: {props.cgpa} / 5.0</span>
-          </p>
+          </div>
 
           <p className="text-sm text-gray-500">{props.about}</p>
         </div>

@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from "react"
-import Image from "next/image"
+import Image from "next/legacy/image"
 import Link from "next/link"
 
 interface props {
@@ -18,7 +18,7 @@ export const SchoolCard: React.FC<props> = ({ ...props }) => {
         </div>
         <Image
           src={props.image}
-          fill
+          layout="fill"
           alt={props.schoolName}
           className="rounded-[10px]"
           objectFit="cover"

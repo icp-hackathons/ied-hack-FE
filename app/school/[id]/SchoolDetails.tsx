@@ -17,14 +17,14 @@ export const SchoolDetails = () => {
           <FaSchool className="inline text-green-light" />
           <span>University of New Chelsea.</span>
         </h3>
-        <span className="my-2 flex gap-2 items-center text-sm">
+        {/* <p className="my-2 flex gap-2 items-center text-sm">
           <GoLocation className="text-green-light" />
           <span>Fulham Road SW6 1HS London (Residents: 8.908.081).</span>
-        </span>
-        <span className="my-2 flex gap-2 items-center text-sm">
+        </p>
+        <p className="my-2 flex gap-2 items-center text-sm">
           <FaBitcoin className="text-yellow text-[20px]" />
           <span>20k donations.</span>
-        </span>
+        </p> */}
         <Divider />
         <h2 className="text-xl">About The School.</h2>
         <p className="mt-4 text-[14px]">

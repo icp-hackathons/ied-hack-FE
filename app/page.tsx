@@ -7,8 +7,6 @@ import { Schools } from "@/components/Landing/Schools"
 import React from "react"
 
 export default function Home() {
-  const [counter, setCounter] = React.useState(0)
-
   return (
     <main className="relative">
       <div className="flex lg:min-h-[100vh] flex-col-reverse md:flex-row bg-green">
@@ -17,7 +15,6 @@ export default function Home() {
       </div>
       <Schools />
       <Footer />
-      {/* {counter !== 100 && <Counter counter={counter} setCounter={setCounter} />} */}
     </main>
   )
 }

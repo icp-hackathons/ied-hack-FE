@@ -3,7 +3,7 @@ import { Footer } from "@/components/Footer"
 import { Header } from "@/components/Header"
 import { SchoolTransactions } from "@/components/SchoolTransactions"
 import { Breadcrumb, Tabs, TabsProps } from "antd"
-import Image from "next/image"
+import Image from "next/legacy/image"
 import React from "react"
 import { BiHomeAlt } from "react-icons/bi"
 import { FaWpexplorer } from "react-icons/fa"
@@ -46,7 +46,7 @@ export default function TxExplorerPage() {
     <div>
       <div className="bg-[#cfcfcf67] md:m-2 md:p-[2rem] p-[1rem] md:rounded-md urbanist min-h-[98vh] relative overflow-hidden">
         <div className="absolute left-1/2 top-0 -ml-[39rem] w-[113.125rem] max-w-none h-[40rem] z-[-1]">
-          <Image fill alt="beams" src={"/beams-basic.png"} />
+          <Image layout="fill" alt="beams" src={"/beams-basic.png"} />
         </div>
         <Header />
         <Breadcrumb items={items} className="my-[2rem]" />
