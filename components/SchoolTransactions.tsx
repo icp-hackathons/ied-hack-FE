@@ -25,7 +25,7 @@ const data: DataType[] = [
     teacher_support: 1000,
     school_support: 1500,
     lunch_and_snacks: 500,
-    donor: "John Doe",
+    donor: "ytacsjdfjsyeadfdf",
   },
   {
     transaction_id: "002",
@@ -35,7 +35,7 @@ const data: DataType[] = [
     teacher_support: 2000,
     school_support: 1000,
     lunch_and_snacks: 1000,
-    donor: "Jane Smith",
+    donor: "ztacsssdfjsyeasda",
   },
   {
     transaction_id: "003",
@@ -45,7 +45,7 @@ const data: DataType[] = [
     teacher_support: 3000,
     school_support: 2000,
     lunch_and_snacks: 1000,
-    donor: "David Johnson",
+    donor: "bdhcsjdfjsyeamra",
   },
   {
     transaction_id: "004",
@@ -55,7 +55,7 @@ const data: DataType[] = [
     teacher_support: 3000,
     school_support: 2000,
     lunch_and_snacks: 1000,
-    donor: "David Johnson",
+    donor: "agjksjdfjsyeadlk",
   },
 ]
 
@@ -83,8 +83,7 @@ export const SchoolTransactions: React.FC = () => {
       title: "School Name",
       dataIndex: "school_name",
       filters: toFilterArray(data, "school_name"),
-      onFilter: (value: string, record) =>
-        record.school_name.indexOf(value) > -1,
+      onFilter: (value: any, record) => record.school_name.indexOf(value) > -1,
       filterSearch: true,
     },
     {
@@ -138,7 +137,7 @@ export const SchoolTransactions: React.FC = () => {
       title: "Donor",
       dataIndex: "donor",
       filters: toFilterArray(data, "donor"),
-      onFilter: (value: string, record) => record.donor.indexOf(value) > -1,
+      onFilter: (value: any, record) => record.donor.indexOf(value) > -1,
       filterSearch: true,
     },
   ]

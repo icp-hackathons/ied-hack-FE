@@ -2,11 +2,12 @@
 import { Footer } from "@/components/Footer"
 import { Header } from "@/components/Header"
 import { SchoolTransactions } from "@/components/SchoolTransactions"
-import { Breadcrumb } from "antd"
+import { Breadcrumb, Tabs, TabsProps } from "antd"
 import Image from "next/image"
 import React from "react"
 import { BiHomeAlt } from "react-icons/bi"
 import { FaWpexplorer } from "react-icons/fa"
+import { StudentsTransactions } from "@/components/StudentTransactions"
 
 const items = [
   {
@@ -27,6 +28,19 @@ const items = [
   },
 ]
 
+const tabItems: TabsProps["items"] = [
+  {
+    key: "1",
+    label: "Schools Donations Tx",
+    children: <SchoolTransactions />,
+  },
+  {
+    key: "2",
+    label: "Students Donations Tx",
+    children: <StudentsTransactions />,
+  },
+]
+
 export default function TxExplorerPage() {
   return (
     <div>
@@ -37,7 +51,7 @@ export default function TxExplorerPage() {
         <Header />
         <Breadcrumb items={items} className="my-[2rem]" />
         <div>
-          <SchoolTransactions />
+          <Tabs items={tabItems} defaultActiveKey="1" />
         </div>
       </div>
 
