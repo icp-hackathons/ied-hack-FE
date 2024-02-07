@@ -36,6 +36,10 @@ body {
   }
 }
 
+.ant-table-filter-dropdown-btns button.ant-btn-primary {
+  background-color: #57cc99 !important;
+}
+
 .card-btn:before {
   content: "";
   position: absolute;

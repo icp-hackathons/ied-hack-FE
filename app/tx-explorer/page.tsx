@@ -1,6 +1,7 @@
 "use client"
 import { Footer } from "@/components/Footer"
 import { Header } from "@/components/Header"
+import { SchoolTransactions } from "@/components/SchoolTransactions"
 import { Breadcrumb } from "antd"
 import Image from "next/image"
 import React from "react"
@@ -35,7 +36,11 @@ export default function TxExplorerPage() {
         </div>
         <Header />
         <Breadcrumb items={items} className="my-[2rem]" />
+        <div>
+          <SchoolTransactions />
+        </div>
       </div>
+
       <Footer />
     </div>
   )
