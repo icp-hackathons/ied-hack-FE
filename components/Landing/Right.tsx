@@ -47,19 +47,22 @@ export const Right = () => {
         <nav className="text-gray-300 flex justify-between items-center mb-[3rem]">
           <ul className="flex gap-7">
             <li>
-              <Link href={"/donate"} className="hover:text-white">
+              <Link href={""} className="hover:text-white">
                 Home
               </Link>
             </li>
             <li>
-              <Link href={"/donate"} className="hover:text-white">
+              <Link href={"/tx-explorer"} className="hover:text-white">
                 Explorer
               </Link>
             </li>
           </ul>
-          <button className="text-black bg-white px-[1.5rem] py-[0.6rem]">
+          <Link
+            href={"/#schools"}
+            className="text-black bg-white px-[1.5rem] py-[0.6rem]"
+          >
             Donate
-          </button>
+          </Link>
         </nav>
         <h2 className="text-white reveal-text">
           <span className="alegreya md:text-[7rem] md:leading-[7rem] text-[3.7rem] leading-[4rem] font-semibold">

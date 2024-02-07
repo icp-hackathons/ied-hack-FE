@@ -17,7 +17,11 @@ export const Footer = () => {
         </Link>
       </p>
       <div>
-        <Link href={""} target="_blank" className="flex items-center gap-4">
+        <Link
+          href={"https://github.com/osas2211/ied-hack-FE"}
+          target="_blank"
+          className="flex items-center gap-4"
+        >
           <p>
             <code>Github Repository</code>
           </p>

@@ -46,7 +46,8 @@ export const Header = () => {
         </nav>
       </div>
       <Link
-        href={""}
+        href={"https://github.com/osas2211/ied-hack-FE"}
+        target="_blank"
         className="bg-green-light text-white px-[16px] py-[10px] rounded-md flex items-center gap-3"
       >
         <BsGithub className="inline" />
