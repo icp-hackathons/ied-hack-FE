@@ -1,15 +1,22 @@
-import { MakeDonationParams } from "@/src/declarations/backend/backend.did";
+import { MakeDonationParams } from "./declarations/backend/backend.did";
 import { makeBackendActor } from "./actor-locator";
+import { School } from "./declarations/backend/backend.did";
 
 export const getSchools = async () => {
   const backendService = await makeBackendActor();
   const noOfSchools = await backendService.get_total_schools();
-  let schools = [];
+  let schools: School[] = [];
   for (let i = 1; i <= Number(noOfSchools.toString()); i++) {
-    const school = await backendService.get_school(BigInt(i));
+    const school = await getSchoolById(i.toString());
     schools.push(school);
   }
   return schools;
+};
+
+export const getNoOfSchools = async () => {
+  const backendService = await makeBackendActor();
+  const noOfSchools = await backendService.get_total_schools();
+  return noOfSchools;
 };
 
 export const getStudentBySchool = async (students: any[]) => {
@@ -31,7 +38,13 @@ export const getDonationByDTI = async (dti: string) => {
 
 export const getSchoolById = async (id: string) => {
   const backendService = await makeBackendActor();
-  return backendService.get_school(BigInt(id));
+  console.log(backendService);
+  const res: any = await backendService.get_school_v2(BigInt(id));
+  if (res.err) {
+    throw new Error(res.err);
+  }
+  console.log("here");
+  return res.ok;
 };
 
 export const getBitcoinAddress = async () => {

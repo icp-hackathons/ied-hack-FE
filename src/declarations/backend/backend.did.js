@@ -48,6 +48,7 @@ export const idlFactory = ({ IDL }) => {
     'amount' : Satoshi,
     'recipientId' : IDL.Nat,
   });
+  const Result_3 = IDL.Variant({ 'ok' : Donation, 'err' : IDL.Text });
   List_1.fill(IDL.Opt(IDL.Tuple(IDL.Nat, List_1)));
   List.fill(IDL.Opt(IDL.Tuple(IDL.Text, List)));
   const School = IDL.Record({
@@ -60,6 +61,7 @@ export const idlFactory = ({ IDL }) => {
     'donations' : List,
     'images' : List,
   });
+  const Result_2 = IDL.Variant({ 'ok' : School, 'err' : IDL.Text });
   const Student = IDL.Record({
     'id' : IDL.Nat,
     'bio' : IDL.Text,
@@ -71,6 +73,7 @@ export const idlFactory = ({ IDL }) => {
     'amountDonated' : Satoshi,
     'donations' : List,
   });
+  const Result_1 = IDL.Variant({ 'ok' : Student, 'err' : IDL.Text });
   const MakeDonationParams = IDL.Record({
     'donationTo' : IDL.Nat,
     'txId' : IDL.Text,
@@ -92,9 +95,12 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'get_donation' : IDL.Func([IDL.Text], [IDL.Opt(Donation)], ['query']),
+    'get_donation_v2' : IDL.Func([IDL.Text], [Result_3], ['query']),
     'get_p2pkh_address' : IDL.Func([], [BitcoinAddress__1], []),
     'get_school' : IDL.Func([IDL.Nat], [IDL.Opt(School)], ['query']),
+    'get_school_v2' : IDL.Func([IDL.Nat], [Result_2], ['query']),
     'get_student' : IDL.Func([IDL.Nat], [IDL.Opt(Student)], ['query']),
+    'get_student_v2' : IDL.Func([IDL.Nat], [Result_1], ['query']),
     'get_total_donations' : IDL.Func([], [IDL.Nat], ['query']),
     'get_total_schools' : IDL.Func([], [IDL.Nat], ['query']),
     'get_total_students' : IDL.Func([], [IDL.Nat], ['query']),

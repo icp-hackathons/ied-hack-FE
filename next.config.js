@@ -21,4 +21,5 @@ module.exports = {
     domains: ["images.unsplash.com", "chart.googleapis.com"],
   },
   output: "export",
+  trailingSlash: true,
 };

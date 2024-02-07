@@ -7,17 +7,20 @@ interface props {
   image: string
   schoolName: string
   id: string
+  donations: any[]
+  amountDonated: bigint
 }
 
 export const SchoolCard: React.FC<props> = ({ ...props }) => {
+  console.log(props)
   return (
     <div className="p-[0.7rem] h-[450px] w-full rounded-[14px] border-[1px] border-grey-200 bg-white flex-initial no-scrollbar text-white">
       <div className="relative w-full h-full">
         <div className="bg-[#0A0A0A33] backdrop-blur-[20px] p-[10px] rounded-[20px] absolute top-[18px] right-[18px] z-10">
-          20k donations
+          {props.donations.length}k donations
         </div>
         <Image
-          src={props.image}
+          src={props.image[0]}
           layout="fill"
           alt={props.schoolName}
           className="rounded-[10px]"

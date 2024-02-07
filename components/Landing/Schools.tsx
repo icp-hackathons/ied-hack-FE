@@ -1,17 +1,17 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { SchoolCard } from "../SchoolCard"
 import * as backend from "../../utils/backend-service";
+import { School } from "@/utils/declarations/backend/backend.did";
 export const Schools = () => {
-  const [schools, setSchools] = useState<any>([]);
+  const [schools, setSchools] = useState<School[]>([]);
 
   const getSchools = useCallback(async () => {
-    console.log("here");
     const schools = await backend.getSchools();
     setSchools(schools);
   }, []);
 
   useEffect(() => {
-    if (!schools) {
+    if (schools.length == 0) {
       getSchools();
     }
   }, [schools, getSchools])
@@ -26,16 +26,20 @@ export const Schools = () => {
           Donate to any school of your choice.
         </p>
       </div>
-      <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-5">
+      <div className="grid lg:grid-cols-4 md:grid-cols-3 gap-5">
+        {schools.length > 0 && (
+          schools.map((school: any, index: number) => {
+            return <SchoolCard
+              key={index}
+              image={school.images ? school.images[0] : ""}
+              schoolName={school.name}
+              id="1"
+              donations={school.donations}
+              amountDonated={school.amountDonated}
+            />
+          })
+        )}
 
-        {schools.length > 0 && schools.map((school: any, index: number) => {
-          <SchoolCard
-            key={index}
-            image={school.images ? school.images[0] : ""}
-            schoolName={school.name}
-            id="1"
-          />
-        })}
       </div>
     </div>
   )

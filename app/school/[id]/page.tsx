@@ -9,26 +9,41 @@ import { Donate } from "./Donate"
 import { Students } from "./Students"
 import { Footer } from "@/components/Footer"
 import * as backend from "@/utils/backend-service"
-import { School } from "@/src/declarations/backend/backend.did"
+import { School } from "@/utils/declarations/backend/backend.did"
 
+export const dynamic = "force-dynamic";
 
 export async function generateStaticParams() {
-  const schools = await backend.getSchools();
-  //@ts-ignore
-  return schools.map((school: School,) => ({
-    id: BigInt(school.id).toString()
-  }));
+  const noOfSchools = await backend.getNoOfSchools();
+  let out = [];
+  for (let i = 1; i <= Number(noOfSchools); i++) {
+    out.push({ id: i.toString() })
+  }
+  return out
 }
 
-async function getSchool(id: string): Promise<[] | [School]> {
+async function getSchool(id: string) {
   const school = await backend.getSchoolById(id);
   return school;
 }
 
 async function SchoolPage({ params }: { params: { id: string } }) {
   const { id } = params;
-  //@ts-ignore
-  const school: [School] = await getSchool(id);
+
+  const data = getSchool(id);
+
+
+  const school = {
+    id: BigInt(0),
+    students: [],
+    name: "",
+    description: "",
+    amountDonated: BigInt(0),
+    location: "",
+    donations: [],
+    images: [],
+  } as School;
+
   const items = [
     {
       href: "/",
@@ -62,7 +77,7 @@ async function SchoolPage({ params }: { params: { id: string } }) {
           <SchoolDetails />
           <Donate />
         </div>
-        <Students studentArr={school[0]?.students ? school[0].students : []} />
+        <Students studentArr={school.students ? school.students : []} />
       </div >
       <Footer />
     </>

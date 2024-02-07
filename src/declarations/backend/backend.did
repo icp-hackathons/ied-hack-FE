@@ -28,6 +28,21 @@ type School =
  };
 type Satoshi__1 = nat64;
 type Satoshi = nat64;
+type Result_3 = 
+ variant {
+   err: text;
+   ok: Donation;
+ };
+type Result_2 = 
+ variant {
+   err: text;
+   ok: School;
+ };
+type Result_1 = 
+ variant {
+   err: text;
+   ok: Student;
+ };
 type Result = 
  variant {
    err: text;
@@ -106,9 +121,12 @@ type BitcoinDonations =
    get_balance: (BitcoinAddress__1) -> (Satoshi__1);
    get_current_fee_percentiles: () -> (vec MillisatoshiPerVByte);
    get_donation: (text) -> (opt Donation) query;
+   get_donation_v2: (text) -> (Result_3) query;
    get_p2pkh_address: () -> (BitcoinAddress__1);
    get_school: (nat) -> (opt School) query;
+   get_school_v2: (nat) -> (Result_2) query;
    get_student: (nat) -> (opt Student) query;
+   get_student_v2: (nat) -> (Result_1) query;
    get_total_donations: () -> (nat) query;
    get_total_schools: () -> (nat) query;
    get_total_students: () -> (nat) query;
