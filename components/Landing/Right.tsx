@@ -1,5 +1,5 @@
 "use client"
-import Image from "next/image"
+import Image from "next/legacy/image"
 import Link from "next/link"
 import React, { useEffect } from "react"
 import { FaBolt } from "react-icons/fa"
@@ -40,7 +40,7 @@ export const Right = () => {
   return (
     <div className="md:w-[75%] bg-green h-full lg:px-[7rem] lg:py-[40px] md:p-[24px] p-[1rem] lg:pb-[0rem] pb-0 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full z-[1] opacity-[0.5]">
-        <Image src="/patterns.png" alt="IED Hackathon" fill />
+        <Image src="/patterns.png" alt="IED Hackathon" layout="fill" />
       </div>
 
       <div className="z-[100] relative">
@@ -94,7 +94,7 @@ export const Right = () => {
           <Image
             src="/landing2.jpg"
             alt="IED Hackathon"
-            fill
+            layout="fill"
             objectFit="cover"
             className="rounded-t-[1rem]"
           />

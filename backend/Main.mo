@@ -74,6 +74,23 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
         student_get(student_id);
     };
 
+    /// Return donation by dti
+    public query func get_donation(dti : Text) : async ?Types.Donation {
+        donation_get(dti);
+    };
+
+    public query func get_total_schools() : async Nat {
+        Trie.size(schools);
+    };
+
+    public query func get_total_students() : async Nat {
+        Trie.size(students);
+    };
+
+    public query func get_total_donations() : async Nat {
+        Trie.size(donations);
+    };
+
     /// check if transaction has been confirmed
     func check_if_transaction_is_confirmed(address : Types.BitcoinAddress, transactionIdToCheck : Text) : async Bool {
         let utxoResponse = await get_utxos(address);
@@ -167,7 +184,7 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
                     school_put(school.id, updated_school);
 
                     // update
-                    return #ok "Succesful";
+                    return #ok "Successful";
                 };
             };
         } else {
@@ -202,7 +219,7 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
                     };
                     donation_put(donation.dti, donation);
                     student_put(student.id, updated_student);
-                    return #ok "Succesful";
+                    return #ok "Successful";
                 };
             };
         };

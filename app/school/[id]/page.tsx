@@ -1,18 +1,34 @@
-"use client"
 import { Header } from "@/components/Header"
-import Image from "next/image"
-import React from "react"
+import Image from "next/legacy/image"
+import React, { useCallback, useEffect, useState } from "react"
 import { Breadcrumb } from "antd"
 import { BiHomeAlt } from "react-icons/bi"
 import { BiSolidSchool } from "react-icons/bi"
-import { useParams } from "next/navigation"
 import { SchoolDetails } from "./SchoolDetails"
 import { Donate } from "./Donate"
 import { Students } from "./Students"
 import { Footer } from "@/components/Footer"
+import * as backend from "@/utils/backend-service"
+import { School } from "@/src/declarations/backend/backend.did"
 
-const SchoolPage = () => {
-  const { id } = useParams()
+
+export async function generateStaticParams() {
+  const schools = await backend.getSchools();
+  //@ts-ignore
+  return schools.map((school: School,) => ({
+    id: BigInt(school.id).toString()
+  }));
+}
+
+async function getSchool(id: string): Promise<[] | [School]> {
+  const school = await backend.getSchoolById(id);
+  return school;
+}
+
+async function SchoolPage({ params }: { params: { id: string } }) {
+  const { id } = params;
+  //@ts-ignore
+  const school: [School] = await getSchool(id);
   const items = [
     {
       href: "/",
@@ -38,7 +54,7 @@ const SchoolPage = () => {
     <>
       <div className="bg-[#cfcfcf67] md:m-2 md:p-[2rem] p-[1rem] md:rounded-md urbanist min-h-[98vh] relative overflow-hidden">
         <div className="absolute left-1/2 top-0 -ml-[39rem] w-[113.125rem] max-w-none h-[40rem] z-[-1]">
-          <Image fill alt="beams" src={"/beams-basic.png"} />
+          <Image layout="fill" alt="beams" src={"/beams-basic.png"} />
         </div>
         <Header />
         <Breadcrumb items={items} className="my-[2rem]" />
@@ -46,8 +62,8 @@ const SchoolPage = () => {
           <SchoolDetails />
           <Donate />
         </div>
-        <Students />
-      </div>
+        <Students studentArr={school[0]?.students ? school[0].students : []} />
+      </div >
       <Footer />
     </>
   )

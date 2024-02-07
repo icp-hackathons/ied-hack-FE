@@ -1,13 +1,24 @@
 {
   "canisters": {
     "backend": {
-      "main": "src/backend/Main.mo",
-      "type": "motoko"
+      "main": "backend/Main.mo",
+      "type": "motoko",
+      "declarations": {
+        "node_compatibility": true
+      }
+    },
+    "frontend": {
+      "dependencies": ["backend"],
+      "frontend": {
+        "entrypoint": "out/index.html"
+      },
+      "source": ["out/"],
+      "type": "assets"
     }
   },
   "defaults": {
     "bitcoin": {
-      "enabled": true,
+      "enabled": false,
       "nodes": ["127.0.0.1:18444"],
       "log_level": "info"
     },

@@ -1,7 +1,7 @@
 "use client"
 import { Divider, Popover } from "antd"
 import { Verify } from "crypto"
-import Image from "next/image"
+import Image from "next/legacy/image"
 import React, { useState } from "react"
 import { CgCheck, CgCopy } from "react-icons/cg"
 import { VerifyDonation } from "./VerifyDonation"

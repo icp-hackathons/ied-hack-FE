@@ -1,0 +1,120 @@
+type Student = 
+ record {
+   amountDonated: Satoshi;
+   bio: text;
+   donations: List;
+   gpa: text;
+   id: nat;
+   image: text;
+   level: text;
+   name: text;
+   schoolId: nat;
+ };
+type SendRequest = 
+ record {
+   amount_in_satoshi: Satoshi;
+   destination_address: text;
+ };
+type School = 
+ record {
+   amountDonated: Satoshi;
+   description: text;
+   donations: List;
+   id: nat;
+   images: List;
+   location: text;
+   name: text;
+   students: List_1;
+ };
+type Satoshi__1 = nat64;
+type Satoshi = nat64;
+type Result = 
+ variant {
+   err: text;
+   ok: text;
+ };
+type Network = 
+ variant {
+   mainnet;
+   regtest;
+   testnet;
+ };
+type MillisatoshiPerVByte = nat64;
+type MakeDonationParams = 
+ record {
+   address: BitcoinAddress;
+   amount: Satoshi;
+   donationCategory: Category;
+   donationTo: nat;
+   recipientId: nat;
+   txId: text;
+ };
+type List_1 = 
+ opt record {
+       nat;
+       List_1;
+     };
+type List = 
+ opt record {
+       text;
+       List;
+     };
+type InitStudentParams = 
+ record {
+   bio: text;
+   gpa: text;
+   id: nat;
+   image: text;
+   level: text;
+   name: text;
+   schoolId: nat;
+ };
+type InitSchoolParams = 
+ record {
+   description: text;
+   id: nat;
+   images: vec text;
+   location: text;
+   name: text;
+   students: vec nat;
+ };
+type InitParams = 
+ record {
+   network: Network;
+   schools: vec InitSchoolParams;
+   students: vec InitStudentParams;
+ };
+type Donation = 
+ record {
+   amount: Satoshi;
+   category: Category;
+   donater: BitcoinAddress;
+   dti: text;
+   recipientId: nat;
+   txId: text;
+ };
+type Category = 
+ record {
+   categoryType: nat;
+   cdd: nat;
+   ls: nat;
+   ss: nat;
+   ts: nat;
+ };
+type BitcoinDonations = 
+ service {
+   get_balance: (BitcoinAddress__1) -> (Satoshi__1);
+   get_current_fee_percentiles: () -> (vec MillisatoshiPerVByte);
+   get_donation: (text) -> (opt Donation) query;
+   get_p2pkh_address: () -> (BitcoinAddress__1);
+   get_school: (nat) -> (opt School) query;
+   get_student: (nat) -> (opt Student) query;
+   get_total_donations: () -> (nat) query;
+   get_total_schools: () -> (nat) query;
+   get_total_students: () -> (nat) query;
+   make_donation: (MakeDonationParams) -> (Result);
+   send: (SendRequest) -> (text);
+ };
+type BitcoinAddress__1 = text;
+type BitcoinAddress = text;
+service : (InitParams) -> BitcoinDonations
