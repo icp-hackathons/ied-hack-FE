@@ -1,18 +1,20 @@
-"use client"
 import { Header } from "@/components/Header"
 import Image from "next/image"
 import React from "react"
 import { Breadcrumb } from "antd"
 import { BiHomeAlt } from "react-icons/bi"
 import { BiSolidSchool } from "react-icons/bi"
-import { useParams } from "next/navigation"
 import { SchoolDetails } from "./SchoolDetails"
 import { Donate } from "./Donate"
 import { Students } from "./Students"
 import { Footer } from "@/components/Footer"
 
-const SchoolPage = () => {
-  const { id } = useParams()
+export function generateStaticParams() {
+  return [{ id: '1' }, { id: '2' }, { id: '3' }]
+}
+
+function SchoolPage({ params }: { params: { id: string } }) {
+  const { id } = params;
   const items = [
     {
       href: "/",
