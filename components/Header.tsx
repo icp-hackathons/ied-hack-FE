@@ -20,8 +20,8 @@ export const Header = ({
     pathname === "/" ? "text-white bg-green-light" : "bg-grey-100"
   return (
     <header className="flex justify-between items-center flex-wrap gap-5">
-      <div className="flex items-center gap-[4rem]">
-        <Link href={"/"}>
+      <div className="flex items-center gap-[4rem] md:justify-start justify-between md:w-auto w-full">
+        <Link href={"/"} onClick={() => setOpen(false)}>
           <h2 className="alegreya text-sm font-normal">iED</h2>
           <h2 className="alegreya text-sm font-semibold leading-[5px]">
             Hackathon
@@ -52,7 +52,7 @@ export const Header = ({
       <Link
         href={"https://github.com/osas2211/ied-hack-FE"}
         target="_blank"
-        className="bg-green-light text-white px-[16px] py-[10px] rounded-md flex items-center gap-3"
+        className="bg-green-light text-white px-[16px] py-[10px] rounded-md md:flex items-center gap-3 hidden"
       >
         <BsGithub className="inline" />
         <span>Github Repository</span>

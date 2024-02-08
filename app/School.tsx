@@ -11,6 +11,7 @@ import { Students } from "./Students"
 import { Footer } from "@/components/Footer"
 import { SchoolOutput } from "@/src/declarations/backend/backend.did"
 import { Drawer } from "antd"
+import { BiArrowBack } from "react-icons/bi"
 
 export function SchoolPage({
   open,
@@ -57,15 +58,21 @@ export function SchoolPage({
           <Image layout="fill" alt="beams" src={"/beams-basic.png"} />
         </div>
         <Header setOpen={setOpen} />
-        <Breadcrumb items={items} className="my-[2rem]" />
+        <div className="flex justify-between items-center my-5">
+          <div
+            className="inline-flex items-center gap-3 text-[14px]"
+            onClick={() => setOpen(false)}
+          >
+            <BiArrowBack />
+            <span>Go back</span>
+          </div>
+        </div>
+        <Breadcrumb items={items} className="my-[1rem]" />
         <div className="flex justify-between gap-4 md:flex-row flex-col items-start">
           <SchoolDetails school={school} />
           <Donate school={school} address={address} />
         </div>
-        <Students
-          studentArr={school.students}
-          address={address}
-        />
+        <Students studentArr={school.students} address={address} />
       </div>
       <Footer />
     </Drawer>

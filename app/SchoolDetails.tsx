@@ -11,10 +11,10 @@ interface props {
   school: SchoolOutput
 }
 export const SchoolDetails: React.FC<props> = ({ ...props }) => {
-
   return (
-    <div className="bg-white p-4 rounded-lg md:w-[70%]">
+    <div className="bg-white p-4 rounded-lg md:w-[70%] flex md:flex-col flex-col-reverse">
       <div>
+        <p className="my-4 text-sm md:hidden">School Gallery</p>
         <SchoolPreviewImages images={props.school.images} />
       </div>
       <div className="mt-5">
@@ -32,9 +32,7 @@ export const SchoolDetails: React.FC<props> = ({ ...props }) => {
         </p>
         <Divider />
         <h2 className="text-xl">About The School.</h2>
-        <p className="mt-4 text-[14px]">
-          {props.school.description}
-        </p>
+        <p className="mt-4 text-[14px]">{props.school.description}</p>
       </div>
     </div>
   )
