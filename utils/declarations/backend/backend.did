@@ -94,6 +94,7 @@ type Donation =
    amount: Satoshi;
    category: Category;
    donater: BitcoinAddress;
+   donationTo: nat;
    dti: text;
    recipientId: nat;
    txId: text;
@@ -110,14 +111,14 @@ type BitcoinDonations =
  service {
    get_balance: (BitcoinAddress__1) -> (Satoshi__1);
    get_current_fee_percentiles: () -> (vec MillisatoshiPerVByte);
-   get_donation: (text) -> (opt Donation) query;
-   get_donation_v2: (text) -> (Result_3) query;
+   get_donation: (text) -> (Result_3) query;
    get_p2pkh_address: () -> (BitcoinAddress__1);
    get_school: (nat) -> (Result_2) query;
    get_student: (nat) -> (Result_1) query;
    get_total_donations: () -> (nat) query;
    get_total_schools: () -> (nat) query;
    get_total_students: () -> (nat) query;
+   list_donations: () -> (vec Donation) query;
    make_donation: (MakeDonationParams) -> (Result);
    send: (SendRequest) -> (text);
  };

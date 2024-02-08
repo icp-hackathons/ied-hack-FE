@@ -119,6 +119,11 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
         };
     };
 
+    /// Return the list of all donations
+    public query func list_donations() : async [Types.Donation] {
+        Iter.toArray(Iter.map(Trie.iter(donations), func(kv : (Text, Types.Donation)) : Types.Donation = kv.1));
+    };
+
     public query func get_total_schools() : async Nat {
         Trie.size(schools);
     };
@@ -205,6 +210,7 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
                         dti = dti;
                         recipientId = inputs.recipientId;
                         txId = inputs.txId;
+                        donationTo;
                     };
 
                     let donations = List.push(dti, school.donations);
@@ -242,6 +248,7 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
                         dti = dti;
                         recipientId = inputs.recipientId;
                         txId = inputs.txId;
+                        donationTo;
                     };
 
                     let donations = List.push(dti, student.donations);

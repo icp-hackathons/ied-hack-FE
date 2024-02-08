@@ -94,6 +94,7 @@ module {
         dti : Text;
         recipientId : Nat;
         txId : Text;
+        donationTo : Nat;
     };
 
     public type InitParams = {

@@ -6,14 +6,14 @@ export type BitcoinAddress__1 = string;
 export interface BitcoinDonations {
   'get_balance' : ActorMethod<[BitcoinAddress__1], Satoshi__1>,
   'get_current_fee_percentiles' : ActorMethod<[], BigUint64Array | bigint[]>,
-  'get_donation' : ActorMethod<[string], [] | [Donation]>,
-  'get_donation_v2' : ActorMethod<[string], Result_3>,
+  'get_donation' : ActorMethod<[string], Result_3>,
   'get_p2pkh_address' : ActorMethod<[], BitcoinAddress__1>,
   'get_school' : ActorMethod<[bigint], Result_2>,
   'get_student' : ActorMethod<[bigint], Result_1>,
   'get_total_donations' : ActorMethod<[], bigint>,
   'get_total_schools' : ActorMethod<[], bigint>,
   'get_total_students' : ActorMethod<[], bigint>,
+  'list_donations' : ActorMethod<[], Array<Donation>>,
   'make_donation' : ActorMethod<[MakeDonationParams], Result>,
   'send' : ActorMethod<[SendRequest], string>,
 }
@@ -26,6 +26,7 @@ export interface Category {
 }
 export interface Donation {
   'dti' : string,
+  'donationTo' : bigint,
   'donater' : BitcoinAddress,
   'txId' : string,
   'category' : Category,

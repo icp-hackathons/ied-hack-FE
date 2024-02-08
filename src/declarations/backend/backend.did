@@ -94,6 +94,7 @@ type Donation =
    amount: Satoshi;
    category: Category;
    donater: BitcoinAddress;
+   donationTo: nat;
    dti: text;
    recipientId: nat;
    txId: text;
@@ -117,6 +118,7 @@ type BitcoinDonations =
    get_total_donations: () -> (nat) query;
    get_total_schools: () -> (nat) query;
    get_total_students: () -> (nat) query;
+   list_donations: () -> (vec Donation) query;
    make_donation: (MakeDonationParams) -> (Result);
    send: (SendRequest) -> (text);
  };

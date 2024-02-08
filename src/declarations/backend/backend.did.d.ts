@@ -13,6 +13,7 @@ export interface BitcoinDonations {
   'get_total_donations' : ActorMethod<[], bigint>,
   'get_total_schools' : ActorMethod<[], bigint>,
   'get_total_students' : ActorMethod<[], bigint>,
+  'list_donations' : ActorMethod<[], Array<Donation>>,
   'make_donation' : ActorMethod<[MakeDonationParams], Result>,
   'send' : ActorMethod<[SendRequest], string>,
 }
@@ -25,6 +26,7 @@ export interface Category {
 }
 export interface Donation {
   'dti' : string,
+  'donationTo' : bigint,
   'donater' : BitcoinAddress,
   'txId' : string,
   'category' : Category,

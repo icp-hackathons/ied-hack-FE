@@ -4,67 +4,34 @@ import { Input, Table } from "antd"
 import type { TableColumnsType, TableProps } from "antd"
 import { BiSearch } from "react-icons/bi"
 import { FaBitcoin } from "react-icons/fa"
+import { Donation } from "@/utils/declarations/backend/backend.did"
 
-interface DataType {
-  transaction_id: string
-  student_name: string
-  amount_donated: number
-  donor: string
-}
-
-const data: DataType[] = [
-  {
-    transaction_id: "001",
-    student_name: "ABC",
-    amount_donated: 5000,
-    donor: "ytacsjdfjsyeadfdf",
-  },
-  {
-    transaction_id: "002",
-    student_name: "XYZ",
-    amount_donated: 7000,
-    donor: "ztacsssdfjsyeasda",
-  },
-  {
-    transaction_id: "003",
-    student_name: "123",
-    amount_donated: 10000,
-    donor: "bdhcsjdfjsyeamra",
-  },
-  {
-    transaction_id: "004",
-    student_name: "123",
-    amount_donated: 10000,
-    donor: "agjksjdfjsyeadlk",
-  },
-]
-
-const toFilterArray = (data: DataType[], key: string) => {
+const toFilterArray = (data: Donation[], key: string) => {
   const hashmap: Record<string, { text: string; value: string }> = {}
   data.forEach((entry, index) => {
-    hashmap[entry[key as "donor"]] = {
-      text: entry[key as "donor"],
-      value: entry[key as "donor"],
+    hashmap[entry[key as "donater"]] = {
+      text: entry[key as "donater"],
+      value: entry[key as "donater"],
     }
   })
   return Object.values(hashmap)
 }
 
-export const StudentsTransactions: React.FC = () => {
-  const [dataSource, setDataSource] = useState(data)
+export const StudentsTransactions = ({ studentTxn }: { studentTxn: Donation[] }) => {
+  const [dataSource, setDataSource] = useState(studentTxn)
   const [value, setValue] = useState("")
 
-  const columns: TableColumnsType<DataType> = [
+  const columns: TableColumnsType<Donation> = [
     {
-      title: "Tx ID",
-      dataIndex: "transaction_id",
+      title: "DTI",
+      dataIndex: "dti",
     },
     {
       title: "Student Name",
-      dataIndex: "student_name",
-      filters: toFilterArray(data, "student_name"),
-      onFilter: (value: any, record) => record.student_name.indexOf(value) > -1,
-      filterSearch: true,
+      dataIndex: "recipientId",
+      filters: toFilterArray(studentTxn, "recipientId"),
+      // onFilter: (value: any, record) => record.recipientId.indexOf(value) > -1,
+      // filterSearch: true,
     },
     {
       title: (
@@ -72,15 +39,15 @@ export const StudentsTransactions: React.FC = () => {
           <FaBitcoin className="text-yellow" /> <span>Amount Donated</span>
         </p>
       ),
-      dataIndex: "amount_donated",
-      sorter: (a, b) => a.amount_donated - b.amount_donated,
+      dataIndex: "amount",
+      sorter: (a, b) => Number(a.amount) - Number(b.amount),
     },
 
     {
       title: "Donor",
-      dataIndex: "donor",
-      filters: toFilterArray(data, "donor"),
-      onFilter: (value: any, record) => record.donor.indexOf(value) > -1,
+      dataIndex: "donater",
+      filters: toFilterArray(studentTxn, "donater"),
+      onFilter: (value: any, record) => record.donater.indexOf(value) > -1,
       filterSearch: true,
     },
   ]
@@ -96,8 +63,8 @@ export const StudentsTransactions: React.FC = () => {
         onChange={(e) => {
           const currValue = e.target.value
           setValue(currValue)
-          const filteredData = data.filter((entry) =>
-            entry.transaction_id.toLowerCase().includes(currValue.toLowerCase())
+          const filteredData = studentTxn.filter((entry) =>
+            entry.dti.toLowerCase().includes(currValue.toLowerCase())
           )
           setDataSource(filteredData)
         }}

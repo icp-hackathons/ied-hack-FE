@@ -40,6 +40,7 @@ export const idlFactory = ({ IDL }) => {
   const Satoshi = IDL.Nat64;
   const Donation = IDL.Record({
     'dti' : IDL.Text,
+    'donationTo' : IDL.Nat,
     'donater' : BitcoinAddress,
     'txId' : IDL.Text,
     'category' : Category,
@@ -97,6 +98,7 @@ export const idlFactory = ({ IDL }) => {
     'get_total_donations' : IDL.Func([], [IDL.Nat], ['query']),
     'get_total_schools' : IDL.Func([], [IDL.Nat], ['query']),
     'get_total_students' : IDL.Func([], [IDL.Nat], ['query']),
+    'list_donations' : IDL.Func([], [IDL.Vec(Donation)], ['query']),
     'make_donation' : IDL.Func([MakeDonationParams], [Result], []),
     'send' : IDL.Func([SendRequest], [IDL.Text], []),
   });
