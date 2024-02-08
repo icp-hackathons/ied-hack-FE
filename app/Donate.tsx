@@ -4,8 +4,7 @@ import type { TabsProps } from "antd"
 import React, { useCallback, useEffect, useState } from "react"
 import { FaBitcoin } from "react-icons/fa"
 import { QRCode } from "@/components/QRCode"
-import { SchoolOutput } from "@/utils/declarations/backend/backend.did"
-import { getBitcoinAddress } from "@/utils/backend-service"
+import { SchoolOutput, MakeDonationParams, Category } from "@/utils/declarations/backend/backend.did"
 
 const onChange = (key: string) => {
   console.log(key)
@@ -26,6 +25,33 @@ export const Donate = ({ school, address }: { school: SchoolOutput, address: str
       return ((value / 100) * total).toPrecision(9)
     }
     return 0
+  }
+
+  const formFilled = () => donation !== 0 && cdd !== 0 && ts !== 0 && ss !== 0 && las !== 0
+
+  const satoshi = 100000000
+
+  const getDonationInputs = (txId: string, address: string) => {
+
+    const category: Category = {
+      ls: BigInt(Number(las) * satoshi),
+      ss: BigInt(Number(ss) * satoshi),
+      ts: BigInt(Number(ts) * satoshi),
+      cdd: BigInt(Number(cdd) * satoshi),
+      categoryType: donationType === "divide_equaly" ? BigInt(0) : BigInt(1)
+    }
+
+    console.log(category)
+
+    const data: MakeDonationParams = {
+      donationTo: BigInt(0),
+      txId: txId,
+      address: address,
+      donationCategory: category,
+      amount: BigInt(donation * satoshi),
+      recipientId: school.id
+    }
+    return data
   }
 
   const items: TabsProps["items"] = [
@@ -194,8 +220,8 @@ export const Donate = ({ school, address }: { school: SchoolOutput, address: str
           <span>$ {las}</span>
         </li>
       </ul>
-      <QRCode amount={donation} address={address} placement={'bottom'}>
-        <button className="bg-green-light text-white w-full rounded-md p-2 mt-4 flex items-center gap-2 justify-center">
+      <QRCode amount={donation} address={address} placement="bottom" getDonationInputs={getDonationInputs}>
+        <button disabled={!formFilled()} className="bg-green-light text-white w-full rounded-md p-2 mt-4 flex items-center gap-2 justify-center">
           <FaBitcoin className="inline text-yellow" />
           <span>Donate</span>
         </button>

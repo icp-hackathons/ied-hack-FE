@@ -29,6 +29,7 @@ export const Students = ({ studentArr, address }: { studentArr: any[], address: 
             return (
               <StudentCard
                 key={index}
+                id={student.id}
                 image={student.image}
                 name={student.name}
                 about={student.bio}

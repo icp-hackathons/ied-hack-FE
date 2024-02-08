@@ -6,8 +6,7 @@ export type BitcoinAddress__1 = string;
 export interface BitcoinDonations {
   'get_balance' : ActorMethod<[BitcoinAddress__1], Satoshi__1>,
   'get_current_fee_percentiles' : ActorMethod<[], BigUint64Array | bigint[]>,
-  'get_donation' : ActorMethod<[string], [] | [Donation]>,
-  'get_donation_v2' : ActorMethod<[string], Result_3>,
+  'get_donation' : ActorMethod<[string], Result_3>,
   'get_p2pkh_address' : ActorMethod<[], BitcoinAddress__1>,
   'get_school' : ActorMethod<[bigint], Result_2>,
   'get_student' : ActorMethod<[bigint], Result_1>,
