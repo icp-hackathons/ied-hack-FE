@@ -10,10 +10,10 @@ export const SchoolPreviewImages = ({ images }: { images: any[] }) => {
           console.log(`current index: ${current}, prev index: ${prev}`),
       }}
     >
-      <div className="grid grid-rows-3 grid-flow-col gap-4 h-[32rem]">
+      <div className="grid md:grid-cols-3 grid-cols-1 gap-4 md:h-[32rem] min-w-full">
         {images.map((image, index) => {
           return (
-            <div key={index} className="md:row-span-3 row-span-2 h-full">
+            <div key={index} className="md:h-full md:col-span-1 col-span-3">
               <Image
                 src={image}
                 alt="IED Hack"
@@ -21,7 +21,8 @@ export const SchoolPreviewImages = ({ images }: { images: any[] }) => {
                 height={"100%"}
                 width={"100%"}
               />
-            </div>)
+            </div>
+          )
         })}
       </div>
     </Image.PreviewGroup>

@@ -1,24 +1,24 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { SchoolCard } from "../SchoolCard"
-import * as backend from "../../utils/backend-service";
-import { SchoolOutput } from "@/utils/declarations/backend/backend.did";
-import { getBitcoinAddress } from "@/utils/backend-service";
+import * as backend from "../../utils/backend-service"
+import { SchoolOutput } from "@/utils/declarations/backend/backend.did"
+import { getBitcoinAddress } from "@/utils/backend-service"
 export const Schools = () => {
-  const [schools, setSchools] = useState<SchoolOutput[]>([]);
+  const [schools, setSchools] = useState<SchoolOutput[]>([])
   const [address, setAddress] = useState("")
   const getSchools = useCallback(async () => {
-    const schoolData = await backend.getSchools();
-    setSchools(schoolData);
-  }, []);
+    const schoolData = await backend.getSchools()
+    setSchools(schoolData)
+  }, [])
 
   const getAddress = useCallback(async () => {
-    const address = await getBitcoinAddress();
-    setAddress(address);
+    const address = await getBitcoinAddress()
+    setAddress(address)
   }, [])
 
   useEffect(() => {
     if (schools.length == 0) {
-      getSchools();
+      getSchools()
       getAddress()
     }
   }, [schools, getSchools, getAddress])
@@ -36,13 +36,7 @@ export const Schools = () => {
       <div className="grid lg:grid-cols-4 md:grid-cols-3 gap-5">
         {schools.length > 0 &&
           schools.map((school: any, index: number) => {
-            return (
-              <SchoolCard
-                key={index}
-                school={school}
-                address={address}
-              />
-            )
+            return <SchoolCard key={index} school={school} address={address} />
           })}
       </div>
     </div>
