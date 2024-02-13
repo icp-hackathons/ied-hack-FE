@@ -1,6 +1,8 @@
 "use client"
 import React, { useEffect } from "react"
 import { useGSAP } from "@gsap/react"
+import gsap from "gsap"
+import { Overlay } from "./Overlay"
 
 interface CounterProps {
   counter: number
@@ -29,12 +31,37 @@ export const Counter = ({ counter, setCounter }: CounterProps) => {
       updateCounter()
     }
     startLoader()
+
+    gsap.to(".animation-counter", {
+      duration: 0.25,
+      delay: 3.5,
+      opacity: 0,
+      zIndex: -1,
+    })
+    gsap.to(".animation-bar", {
+      duration: 1.5,
+      delay: 3.5,
+      height: 0,
+      zIndex: -1,
+      stagger: {
+        amount: 0.5,
+      },
+      ease: "power4.out",
+    })
+
+    gsap.to(".animation-overlay", {
+      delay: 5,
+      zIndex: -1,
+    })
   })
   return (
-    <div className="fixed h-[100vh] w-[100vw] top-0 left-0 bg-grey-800 z-[150] text-grey-200">
-      <h2 className="absolute bottom-5 right-10 alegreya text-[7rem]">
-        {counter}
-      </h2>
+    <div>
+      <div className="fixed h-[100vh] w-[100vw] top-0 left-0 bg-grey-800 z-[150] text-grey-200 animation-counter">
+        <h2 className="absolute bottom-5 right-10 alegreya md:text-[20rem] text-[5rem]">
+          {counter}
+        </h2>
+      </div>
+      <Overlay />
     </div>
   )
 }

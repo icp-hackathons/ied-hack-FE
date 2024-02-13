@@ -90,6 +90,20 @@ html {
   font-family: "Urbanist", sans-serif;
 }
 
+.animation-overlay {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 120;
+  display: flex;
+  animation: fadeIn 0.5s;
+}
+
+.animation-bar {
+  width: 10vw;
+  height: 105vh;
+}
+
 @keyframes scrollTextRight {
   from {
     transform: translateX(-50%);

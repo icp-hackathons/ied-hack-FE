@@ -18,6 +18,7 @@ const config: Config = {
           "linear-gradient(306deg, #9813B9 0%, #EF1AAC 49.48%, #E7224C 100%)",
       },
       colors: {
+        sage: "#C0C999",
         yellow: "#FFE14C",
         green: "#2C6E49",
         "green-light": "#57CC99",
