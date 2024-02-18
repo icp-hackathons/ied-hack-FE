@@ -8,6 +8,9 @@ import { PiStarFourThin } from "react-icons/pi"
 import { gsap } from "gsap"
 import Link from "next/link"
 import { useGSAP } from "@gsap/react"
+import { TextPlugin } from "gsap/TextPlugin"
+
+gsap.registerPlugin(TextPlugin)
 
 export const Left = () => {
   useGSAP(() => {
@@ -21,6 +24,18 @@ export const Left = () => {
       },
       { y: 0, duration: 1.5, delay: 3.7, ease: "power4.out" }
     )
+    gsap.to(".text-effect1", {
+      duration: 2.5,
+      delay: 3.7,
+      text: "Your Financial contribution can make a real difference. Every penny you donate goes into making the school and student life better.",
+      ease: "none",
+    })
+    gsap.to(".text-effect2", {
+      duration: 3.5,
+      delay: 3.7,
+      text: "All donations are made public. You can look up your donations or any donation made to a school or student throught the Donation Transaction Explorer (DTE).",
+      ease: "none",
+    })
   })
   return (
     <div className="md:w-[25%] bg-yellow  overflow-hidden reveal-section">
@@ -31,11 +46,7 @@ export const Left = () => {
           <LiaDonateSolid className="md:text-[6rem] text-[3rem]" />
           <div>
             <h3 className="text-2xl font-semibold my-[1.5rem]">Donate Now</h3>
-            <p className="text-[15px] mb-5 alegreya">
-              Your Financial contribution can make a real difference. Every
-              penny you donate goes into making the school and student life
-              better.
-            </p>
+            <p className="text-[15px] mb-5 alegreya text-effect1"></p>
             <Link
               href={"/#schools"}
               className="font-semibold flex gap-2 items-center cursor-pointer hover:underline"
@@ -54,11 +65,7 @@ export const Left = () => {
             <h3 className="text-2xl font-semibold my-[1.5rem]">
               View Donations
             </h3>
-            <p className="text-[15px] mb-5 alegreya">
-              All donations are made public. You can look up your donations or
-              any donation made to a school or student throught the Donation
-              Transaction Explorer (DTE).
-            </p>
+            <p className="text-[15px] mb-5 alegreya text-effect2"></p>
             <Link
               href={"/tx-explorer"}
               className="font-semibold flex gap-2 items-center cursor-pointer hover:underline"
