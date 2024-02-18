@@ -7,21 +7,19 @@ import { FaWpexplorer } from "react-icons/fa"
 import { PiStarFourThin } from "react-icons/pi"
 import { gsap } from "gsap"
 import Link from "next/link"
+import { useGSAP } from "@gsap/react"
 
 export const Left = () => {
-  useEffect(() => {
+  useGSAP(() => {
     gsap.fromTo(
-      ".reveal-section",
+      ".reveal-text",
       {
-        duration: 1.5,
-        delay: 1.5,
-        x: -500,
+        y: 500,
         stagger: {
           amount: 0.2,
         },
-        ease: "power4.out",
       },
-      { x: 0 }
+      { y: 0, duration: 1.5, delay: 3.7, ease: "power4.out" }
     )
   })
   return (
