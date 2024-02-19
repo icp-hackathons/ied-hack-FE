@@ -20,12 +20,23 @@ export const Hero = () => {
       },
       { y: 0, duration: 1.5, delay: 3.7, ease: "power4.out" }
     )
+    gsap.fromTo(
+      ".reveal-text2",
+      {
+        y: 500,
+        stagger: {
+          amount: 0.2,
+        },
+      },
+      { y: 0, duration: 1.8, delay: 3.7, ease: "bounce.out" }
+    )
   })
+
   return (
     <div className="relative bg-transparent">
       <Header />
       <h2 className="text-grey-100 mt-[10rem] text-center w-[70%] m-auto z-[100] relative  overflow-hidden">
-        <div className="grotesk md:text-[7rem] md:leading-[6.8rem] text-[3.7rem] leading-[4rem] font-semibold reveal-text">
+        <div className="grotesk md:text-[7rem] md:leading-[6.8rem] text-[3.7rem] leading-[4rem] font-semibold reveal-text2">
           <p>
             Changing lives f
             <span className="relative">
