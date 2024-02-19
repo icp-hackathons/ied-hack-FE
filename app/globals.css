@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Alegreya:wght@400;500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Urbanist:wght@100;200;300;400;500;700&display=swap");
+@import url("https://fonts.cdnfonts.com/css/cabinet-grotesk");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -89,6 +90,9 @@ html {
 .urbanist {
   font-family: "Urbanist", sans-serif;
 }
+.grotesk {
+  font-family: "Cabinet Grotesk", sans-serif;
+}
 
 .animation-overlay {
   position: fixed;
@@ -102,6 +106,40 @@ html {
 .animation-bar {
   width: 10vw;
   height: 105vh;
+}
+
+.announcement {
+  display: flex;
+  justify-content: center;
+  padding-block: 0.3125rem;
+  padding-inline: 0.75rem;
+  background: linear-gradient(
+    94deg,
+    rgba(253, 54, 110, 0) 0%,
+    rgba(253, 54, 110, 0.5) 50.82%,
+    rgba(253, 54, 110, 0) 100%
+  );
+}
+
+.main-header {
+  /* position: sticky; */
+  /* z-index: 999; */
+  inset-block-start: 0;
+  background-color: transparent;
+  transition: transform 0.3s ease;
+}
+
+.glow {
+  -webkit-box-shadow: 0px 0px 274px 102px rgba(253, 54, 110, 0.51);
+  -moz-box-shadow: 0px 0px 274px 102px rgba(253, 54, 110, 0.51);
+  box-shadow: 0px 0px 274px 102px rgba(253, 54, 110, 0.51);
+}
+
+.btn-glow:hover {
+  -webkit-box-shadow: 0px 0px 100px 17px rgba(253, 54, 110, 0.8);
+  -moz-box-shadow: 0px 0px 100px 17px rgba(253, 54, 110, 0.8);
+  box-shadow: 0px 0px 100px 17px rgba(253, 54, 110, 0.8);
+  transition: 0.5s ease-in-out;
 }
 
 @keyframes scrollTextRight {
