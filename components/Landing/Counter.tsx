@@ -57,7 +57,7 @@ export const Counter = ({ counter, setCounter }: CounterProps) => {
   return (
     <div>
       <div className="fixed h-[100vh] w-[100vw] top-0 left-0 bg-grey-800 z-[150] text-grey-200 animation-counter">
-        <h2 className="absolute bottom-5 right-10 alegreya md:text-[20rem] text-[5rem]">
+        <h2 className="absolute bottom-5 right-10 grotesk md:text-[20rem] text-[5rem]">
           {counter}
         </h2>
       </div>
