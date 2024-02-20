@@ -227,9 +227,6 @@ html {
   opacity: 0;
 }
 
-.sub-nav p {
-  font-size: 20px;
-}
 @keyframes scrollTextRight {
   from {
     transform: translateX(-50%);

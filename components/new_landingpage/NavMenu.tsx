@@ -69,7 +69,10 @@ export const NavMenu = ({ active }: { active: boolean }) => {
           </p>
         </div>
       </div>
-      <div className="sub-nav grotesk" ref={subNavRef}>
+      <div
+        className="sub-nav grotesk md:text-lg text-sm md:flex-row flex-col items-center"
+        ref={subNavRef}
+      >
         <p>
           <Link
             href={""}
