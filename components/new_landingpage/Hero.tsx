@@ -18,7 +18,7 @@ export const Hero = () => {
           amount: 0.2,
         },
       },
-      { y: 0, duration: 1.5, delay: 3.7, ease: "power4.out" }
+      { y: 0, duration: 1.5, delay: 3.7, ease: "bounce.out" }
     )
     gsap.fromTo(
       ".reveal-text2",
