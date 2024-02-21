@@ -35,7 +35,10 @@ export const Hero = () => {
   return (
     <div className="relative bg-transparent">
       <Header />
-      <h2 className="text-grey-100 md:mt-[10rem] mt-[4rem] text-center md:w-[70%] m-auto z-[100] relative  overflow-hidden px-3">
+      <h2
+        className="text-grey-100 md:mt-[10rem] mt-[4rem] text-center md:w-[70%] m-auto z-[100] relative  overflow-hidden px-3"
+        id="smooth-content"
+      >
         <div className="grotesk md:text-[7rem] md:leading-[6.8rem] text-[2rem] leading-[2rem] font-semibold reveal-text">
           <p>
             Changing lives f

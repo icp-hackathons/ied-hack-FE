@@ -65,7 +65,10 @@ export const NavMenu = ({ active }: { active: boolean }) => {
         </div>
         <div className="menu-item">
           <p className="">
-            <Link href={""}>TX Explorer</Link>
+            <Link href={""}>
+              {" "}
+              T<span className="lowercase">x</span> Explorer
+            </Link>
           </p>
         </div>
       </div>
