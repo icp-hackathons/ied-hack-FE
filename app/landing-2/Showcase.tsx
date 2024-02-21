@@ -70,29 +70,29 @@ export const Showcase = () => {
     timeline(imgRef3.current)
   })
   return (
-    <div className="relative z-[100] mt-[9rem] min-h-[200vh]">
+    <div className="relative z-[100] md:mt-[9rem] mt-[5rem] min-h-[200vh]">
       <h2 className="text-center text-2xl cursor-pointer bg-transparent">
         <Link href={"#showcase"}>
           <GiSupersonicArrow className="inline text-glow text-red-500 bg-transparent" />
         </Link>
       </h2>
       <div
-        className="mt-[15rem] mb-10 items overflow-hidden px-[5rem] pb-[30rem] bg-grey-900 py-[3rem] relative"
+        className="md:mt-[15rem] mt-[5rem] mb-10 items overflow-hidden md:px-[5rem] px-[1rem] md:pb-[30rem] pb-[10rem] bg-grey-900 py-[3rem] relative"
         id="showcase"
       >
-        <div className="h-full w-[1px] bg-grey-700 absolute top-0 left-[25%]" />
+        <div className="h-full w-[1px] bg-grey-700 absolute top-0 left-[25%] md:block hidden" />
         <div className="h-full w-[1px] bg-grey-700 absolute top-0 left-[50%]" />
-        <div className="h-full w-[1px] bg-grey-700 absolute top-0 left-[75%]" />
+        <div className="h-full w-[1px] bg-grey-700 absolute top-0 left-[75%] md:block hidden" />
         {/* <div className="w-full h-[1px] bg-grey-700 absolute top-[25%] left-[0%]" />
         <div className="w-full h-[1px] bg-grey-700 absolute top-[50%] left-[0%]" />
         <div className="w-full h-[1px] bg-grey-700 absolute top-[75%] left-[0%]" /> */}
 
-        <h2 className="text-center text-5xl mb-10 grotesk">
+        <h2 className="text-center text-xl md:text-5xl mb-10 grotesk">
           Why <span className="text-[#fd366e] underline">Donate?</span>
         </h2>
         <div className="relative item overflow-hidden bg-transparent mb-10">
-          <div className="item-img overflow-hidden w-[50rem]">
-            <div className="relative w-full h-[600px] bg-grey-800 shadow-md">
+          <div className="item-img overflow-hidden md:w-[50rem] w-full">
+            <div className="relative w-full md:h-[600px] h-[400px] bg-grey-800 shadow-md">
               <Image
                 src={images[0].src}
                 alt={images[0].title}
@@ -102,19 +102,21 @@ export const Showcase = () => {
                 style={{ filter: "grayscale(70%)" }}
               />
             </div>
-            <div className="text-white -mt-[5rem] z-10 relative px-10">
-              <h2 className="text-[5rem] font-semibold">
+            <div className="text-white -mt-[5rem] z-10 relative md:px-10 px-5">
+              <h2 className="md:text-[5rem] text-[2rem] font-semibold">
                 <span className="special-text">Students</span>{" "}
                 <span className="text-[#fd366e] underline">Success</span>
               </h2>
-              <p className="text-[18px] grotesk">{images[0].subtitle}</p>
+              <p className="md:text-[18px] text-[14px] grotesk">
+                {images[0].subtitle}
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="relative item overflow-hidden bg-transparent flex justify-center items-center flex-col gap-3 w-full mb-10">
-          <div className="item-img overflow-hidden w-[50rem]">
-            <div className="relative w-full h-[600px] bg-grey-800 shadow-md">
+        <div className="relative item bg-transparent flex justify-center items-center flex-col gap-3 w-full mb-10">
+          <div className="item-img overflow-hidden md:w-[50rem] w-full">
+            <div className="relative w-full md:h-[600px] h-[400px] bg-grey-800 shadow-md">
               <Image
                 src={images[1].src}
                 alt={images[1].title}
@@ -124,19 +126,21 @@ export const Showcase = () => {
                 style={{ filter: "grayscale(70%)" }}
               />
             </div>
-            <div className="text-white -mt-[5rem] z-10 relative px-10">
-              <h2 className="text-[4rem] font-semibold">
+            <div className="text-white -mt-[5rem] z-10 relative md:px-10 px-5">
+              <h2 className="md:text-[4rem] text-[2rem] font-semibold">
                 <span className="special-text">Equality and</span>{" "}
                 <span className="text-[#957FEF] underline">Inclusion</span>
               </h2>
-              <p className="text-[18px] grotesk">{images[1].subtitle}</p>
+              <p className="md:text-[18px] text-[14px] grotesk">
+                {images[1].subtitle}
+              </p>
             </div>
           </div>
         </div>
 
         <div className="relative item overflow-hidden bg-transparent flex justify-end items-end flex-col gap-3 w-full">
-          <div className="item-img overflow-hidden w-[50rem]">
-            <div className="relative w-full h-[600px] bg-grey-800 shadow-md">
+          <div className="item-img overflow-hidden md:w-[50rem] w-full">
+            <div className="relative w-full md:h-[600px] h-[400px] bg-grey-800 shadow-md">
               <Image
                 src={images[2].src}
                 alt={images[2].title}
@@ -146,17 +150,19 @@ export const Showcase = () => {
                 style={{ filter: "grayscale(70%)" }}
               />
             </div>
-            <div className="text-white -mt-[5rem] z-10 relative px-10">
-              <h2 className="text-[4rem] font-semibold">
+            <div className="text-white -mt-[5rem] z-10 relative md:px-10 px-5">
+              <h2 className="md:text-[4rem] text-[2rem] font-semibold">
                 <span className="special-text">Facility </span>{" "}
                 <span className="text-[#fd366e] underline">Enhancement</span>
               </h2>
-              <p className="text-[18px] grotesk">{images[2].subtitle}</p>
+              <p className="md:text-[18px] text-[14px] grotesk">
+                {images[2].subtitle}
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="flex justify-center items-center mt-10 relative">
+        <div className="flex justify-center items-center md:mt-10 mt-[7rem] relative">
           <Link
             href={""}
             className="bg-[#fd366e] text-grey-100 py-3 px-7 rounded-md glow"
