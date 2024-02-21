@@ -80,7 +80,7 @@ export const Hero = () => {
       <div className="flex justify-center gap-4 reveal-text relative z-[100]">
         <Link
           href={""}
-          className="bg-grey-900 text-grey-100 py-3 px-7 rounded-md border-[1px] border-[#fd366e]"
+          className="bg-grey-900 text-grey-100 py-3 px-7 rounded-md border-[1px] border-[#fd366e] md:block hidden"
         >
           Tx Explorer
         </Link>
@@ -88,7 +88,7 @@ export const Hero = () => {
           href={""}
           className="bg-[#fd366e] text-grey-100 py-3 px-7 rounded-md btn-glow"
         >
-          Schools
+          Make a donation
         </Link>
       </div>
       <div className="absolute bottom-[-45rem] left-[-20%] w-[70rem] h-[60rem] z-[0] reveal-text">
