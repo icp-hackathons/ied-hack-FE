@@ -174,7 +174,13 @@ export const Showcase = () => {
         <div className="flex justify-center items-center md:mt-10 mt-[7rem] relative">
           <Link
             href={""}
-            className="bg-[#fd366e] text-grey-100 py-3 px-7 rounded-md glow"
+            className="bg-[#fd366e] text-grey-100 py-3 px-7 rounded-md glow md:block hidden"
+          >
+            View Schools
+          </Link>
+          <Link
+            href={""}
+            className="bg-[#fd366e] text-grey-100 py-3 px-7 rounded-md block md:hidden"
           >
             View Schools
           </Link>
