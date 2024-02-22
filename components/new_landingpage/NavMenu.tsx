@@ -55,17 +55,17 @@ export const NavMenu = ({ active }: { active: boolean }) => {
       <div className="nav-overlay-menu">
         <div className="menu-item">
           <p className="active-route">
-            <Link href={""}>Home</Link>
+            <Link href={"/"}>Home</Link>
           </p>
         </div>
         <div className="menu-item">
           <p className="">
-            <Link href={""}>Schools</Link>
+            <Link href={"/schools"}>Schools</Link>
           </p>
         </div>
         <div className="menu-item">
           <p className="">
-            <Link href={""}>
+            <Link href={"/tx-explorer"}>
               {" "}
               T<span className="lowercase">x</span> Explorer
             </Link>
@@ -78,16 +78,20 @@ export const NavMenu = ({ active }: { active: boolean }) => {
       >
         <p>
           <Link
-            href={""}
+            href={"https://github.com/osas2211/ied-hack-FE"}
             className="flex items-center gap-2 hover:underline transition-all duration-[0.3s]"
+            target="_blank"
           >
             <BsGithub /> <span>Github Repository</span>
           </Link>
         </p>
         <p>
           <Link
-            href={""}
+            href={
+              "https://summit.immersiveeducation.org/SouthAfrica/2024/hackathon.html"
+            }
             className="flex items-center gap-2 hover:underline transition-all duration-[0.3s]"
+            target="_blank"
           >
             <BsInfoCircleFill /> <span>About the Hackathon</span>
           </Link>
