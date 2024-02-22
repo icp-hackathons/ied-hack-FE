@@ -3,6 +3,7 @@ import Principal "mo:base/Principal";
 import Option "mo:base/Option";
 import Iter "mo:base/Iter";
 import Nat "mo:base/Nat";
+import Nat64 "mo:base/Nat64";
 import Result "mo:base/Result";
 import Array "mo:base/Array";
 import Error "mo:base/Error";
@@ -12,6 +13,13 @@ import Time "mo:base/Time";
 import Text "mo:base/Text";
 import Blob "mo:base/Blob";
 import Bool "mo:base/Bool";
+import Buffer "mo:base/Buffer";
+import Debug "mo:base/Debug";
+import None "mo:base/None";
+import ckBTCLegder "ic:mxzaz-hqaaa-aaaar-qaada-cai";
+import ckBTCIndex "ic:n5wcd-faaaa-aaaar-qaaea-cai";
+
+import Ledger "./ledger/icrc1";
 
 import Types "./Types";
 import BitcoinWallet "bitcoin/BitcoinWallet";
@@ -22,12 +30,14 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
     stable var schools = Types.schools_fromArray(init.schools);
     stable var students = Types.students_fromArray(init.students);
     stable var donations = Types.emptyDonations();
+    private stable var pending_donations = Types.emptyDonations();
+    private var logData = Buffer.Buffer<Text>(0);
+    private stable var ckBTCWallet = Principal.fromText(init.ckBTCAddress);
 
     // The Bitcoin network to connect to.
     //
     // When developing locally this should be `regtest`.
     // When deploying to the IC this should be `testnet`.
-    // `mainnet` is currently unsupported.
     stable let NETWORK : Types.Network = init.network;
 
     // The derivation path to use for ECDSA secp256k1.
@@ -42,26 +52,35 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
     };
 
     // Define getter and setter functions
-    func school_get(id : Nat) : ?Types.School = Trie.get(schools, Types.trie_key(id), Nat.equal);
+    func school_get(id : Nat) : ?Types.School = Trie.get(schools, Types.trie_key_nat(id), Nat.equal);
 
     func school_put(id : Nat, school : Types.School) {
-        schools := Trie.put(schools, Types.trie_key(id), Nat.equal, school).0;
+        schools := Trie.put(schools, Types.trie_key_nat(id), Nat.equal, school).0;
     };
 
-    func student_get(id : Nat) : ?Types.Student = Trie.get(students, Types.trie_key(id), Nat.equal);
+    // for students
+    func student_get(id : Nat) : ?Types.Student = Trie.get(students, Types.trie_key_nat(id), Nat.equal);
 
     func student_put(id : Nat, student : Types.Student) {
-        students := Trie.put(students, Types.trie_key(id), Nat.equal, student).0;
+        students := Trie.put(students, Types.trie_key_nat(id), Nat.equal, student).0;
     };
 
-    func donation_get(dti : Text) : ?Types.Donation = Trie.get(donations, Types.donation_key(dti), Text.equal);
+    // for donations
+    func donation_get(dti : Text) : ?Types.Donation = Trie.get(donations, Types.trie_key_text(dti), Text.equal);
 
     func donation_put(dti : Text, donation : Types.Donation) {
-        donations := Trie.put(donations, Types.donation_key(dti), Text.equal, donation).0;
+        donations := Trie.put(donations, Types.trie_key_text(dti), Text.equal, donation).0;
     };
 
-    func parse_transaction_id(transactionId : Blob) : Text {
-        Utils.bytesToText(Array.reverse(Blob.toArray(transactionId)));
+    // pending donation record
+    // func pending_donations_get(dti : Text) : ?Types.Donation = Trie.get(pending_donations, Types.trie_key_text(dti), Text.equal);
+
+    func pending_donations_put(dti : Text, donation : Types.Donation) {
+        pending_donations := Trie.put(pending_donations, Types.trie_key_text(dti), Text.equal, donation).0;
+    };
+
+    func pending_donation_del(dti : Text) {
+        pending_donations := Trie.remove(pending_donations, Types.trie_key_text(dti), Text.equal).0;
     };
 
     /// Return the school with the given ID, if one exists
@@ -124,6 +143,11 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
         Iter.toArray(Iter.map(Trie.iter(donations), func(kv : (Text, Types.Donation)) : Types.Donation = kv.1));
     };
 
+    /// Return the list of all pending donations
+    func list_pending_donations() : async [Types.Donation] {
+        Iter.toArray(Iter.map(Trie.iter(pending_donations), func(kv : (Text, Types.Donation)) : Types.Donation = kv.1));
+    };
+
     public query func get_total_schools() : async Nat {
         Trie.size(schools);
     };
@@ -136,31 +160,7 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
         Trie.size(donations);
     };
 
-    /// check if transaction has been confirmed
-    func check_if_transaction_is_confirmed(address : Types.BitcoinAddress, transactionIdToCheck : Text) : async Bool {
-        let utxoResponse = await get_utxos(address);
-        for (utxo in utxoResponse.utxos.vals()) {
-            let transactionId = parse_transaction_id(utxo.outpoint.txid);
-            if (transactionId == transactionIdToCheck) {
-                return true;
-            };
-        };
-        return false;
-    };
-
-    /// get balance from the transaction
-    func get_balance_of_transaction(address : Types.BitcoinAddress, transactionIdToCheck : Text) : async Types.Satoshi {
-        let utxoResponse = await get_utxos(address);
-        for (utxo in utxoResponse.utxos.vals()) {
-            let transactionId = parse_transaction_id(utxo.outpoint.txid);
-            if (transactionId == transactionIdToCheck) {
-                return utxo.value;
-            };
-        };
-        return 0;
-    };
-
-    /// Check txId;
+    // check txId;
     func check_dti_not_used(dti : Text) : async Bool {
         switch (donation_get dti) {
             case null { return true };
@@ -168,53 +168,206 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
         };
     };
 
-    /// User Donation
-    public func make_donation(inputs : Types.MakeDonationParams) : async Types.Result<Text, Text> {
-        // get transaction balance from transaction id and verify them.
+    public func create_donation_record(inputs : Types.DonationParams) : async Types.Result<Text, Text> {
+        // generate dti
         let dti = Types.get_dti(inputs.txId);
-        let transactionBalance : Types.Satoshi = await get_balance_of_transaction(inputs.address, inputs.txId);
-        let transactionConfirmed : Bool = await check_if_transaction_is_confirmed(inputs.address, inputs.txId);
+
         let transactionDTINotUsed : Bool = await check_dti_not_used(dti);
 
-        if (not transactionConfirmed) {
-            return #err "Transaction not valid";
-        };
-
-        if (transactionBalance != inputs.amount) {
-            return #err "Invalid Transaction amount";
-        };
-
+        // check that dti is not already existing
         if (not transactionDTINotUsed) {
             return #err "Transaction ID already exists in record";
         };
 
-        let donationTo : Nat = inputs.donationTo;
-        let donation_total = inputs.amount;
-        let new_donation_total = donation_total + inputs.amount;
+        let paymentMethod = inputs.paymentMethod;
+        let donationTo = inputs.donationTo;
 
+        // check that the recipient parameters are valid
         if (donationTo == 0) {
-            return switch (school_get(inputs.recipientId)) {
-                case null { #err "Not found" };
+            switch (school_get(inputs.recipientId)) {
+                case null {
+                    return #err("School record for id not found" #debug_show (inputs.recipientId));
+                };
                 case (?school) {
+                    // do nothing
+                };
+            };
+        } else {
+            if (donationTo != 1) {
+                return #err "invalid donation recipient Id";
+            };
+            switch (student_get(inputs.recipientId)) {
+                case null {
+                    return #err("Student record for id not found" #debug_show (inputs.recipientId));
+                };
+                case (?student) {
+                    // do nothing
+                };
+            };
+        };
 
-                    // check again that txId does not already exist
-                    if (List.some(school.donations, func(e : Text) : Bool = e == inputs.txId)) {
-                        return #err("Already exists");
+        // create new donation record
+        let donation : Types.Donation = {
+            dti = dti;
+            txId = inputs.txId;
+            paymentMethod = inputs.paymentMethod;
+            confirmed = false;
+            amount = inputs.amount;
+            category = inputs.donationCategory;
+            donater = inputs.donater;
+            recipientId = inputs.recipientId;
+            donationTo;
+        };
+
+        // get donation count and use as key for pending donation
+        let donationCount = await get_total_donations();
+
+        // store donation
+        donation_put(dti, donation);
+
+        // store donation in pending record
+        pending_donations_put(dti, donation);
+        return #ok dti;
+    };
+
+    // Check for new transactions and update the donation records once the transaction has been confirmed.
+    system func timer(setGlobalTimer : Nat64 -> ()) : async () {
+        let next = Nat64.fromIntWrap(Time.now()) + 20_000_000_000; // 20 seconds
+        setGlobalTimer(next);
+        await checkDonations();
+    };
+
+    // Log a message. Log output is capped at 100 items.
+    private func log(text : Text) {
+        Debug.print(text);
+        logData.reserve(logData.size() + 1);
+        logData.insert(0, text);
+        // Cap the log at 100 items
+        if (logData.size() == 100) {
+            let x = logData.removeLast();
+        };
+        return;
+    };
+
+    func get_balance_of_transaction(utxoResponse : Types.GetUtxosResponse, txId : Text) : async Types.Satoshi {
+        for (utxo in utxoResponse.utxos.vals()) {
+            let transactionId = parse_transaction_id(utxo.outpoint.txid);
+            if (transactionId == txId) {
+                return utxo.value;
+            };
+        };
+        return 0;
+    };
+
+    private func confirmBTCDonation(donation : Types.Donation) : async (Bool, Text) {
+        let address = await get_p2pkh_address();
+
+        let utxoResponse = await get_utxos(address);
+
+        let transactionBal = await get_balance_of_transaction(utxoResponse, donation.txId);
+
+        if (transactionBal == 0) return (false, "transaction id not found yet");
+
+        return (true, "confirmed");
+    };
+
+    private func confirmCkBtcDonation(donation : Types.Donation) : async (Bool, Text) {
+        var response = await ckBTCIndex.get_account_transactions({
+            account = { owner = ckBTCWallet; subaccount = null };
+            start = Nat.fromText(donation.txId);
+            max_results = 1;
+        });
+
+        switch (response) {
+            case (#Ok(txn)) {
+                if (txn.transactions[0].transaction.kind == "transfer") {
+                    let t = txn.transactions[0].transaction;
+                    return switch (t.transfer) {
+                        case (?transfer) {
+                            let to = transfer.to.owner;
+                            let from = transfer.from.owner;
+
+                            if (from != Principal.fromText(donation.donater)) {
+                                return (false, "unconfirmed");
+                            };
+
+                            (true, "confirmed");
+                        };
+                        case null {
+                            // No action required if transfer is null
+                            (false, "unconfirmed");
+                        };
                     };
+                } else {
+                    return (false, "unconfirmed");
+                };
+            };
+            case (#Err(msg)) {
+                // No action required
 
-                    // create new donation
-                    let donation : Types.Donation = {
-                        amount = inputs.amount;
-                        category = inputs.donationCategory;
-                        donater = inputs.address;
-                        dti = dti;
-                        recipientId = inputs.recipientId;
-                        txId = inputs.txId;
-                        donationTo;
+                return (false, "unconfirmed");
+            };
+        };
+    };
+
+    // check donations
+    private func checkDonations() : async () {
+        let pending_dlist = await list_pending_donations();
+        if (Array.size(pending_dlist) > 0) {
+            if (pending_dlist[0].paymentMethod == 0) {
+                let (status, message) = await confirmBTCDonation(pending_dlist[0]);
+
+                if (status) {
+                    let result = await register_donation(pending_dlist[0]);
+                    let response_message = switch (result) {
+                        case (#err(msg)) {
+                            msg;
+                        };
+                        case (#ok(msg)) {
+                            msg;
+                        };
                     };
+                    // save response message in log;
+                    log("status for" #debug_show (pending_dlist[0].txId, response_message));
+                };
 
-                    let donations = List.push(dti, school.donations);
+            } else {
+                // ckbtc confirmation
+                let (status, message) = await confirmCkBtcDonation(pending_dlist[0]);
 
+                if (status) {
+                    let result = await register_donation(pending_dlist[0]);
+                    let response_message = switch (result) {
+                        case (#err(msg)) {
+                            msg;
+                        };
+                        case (#ok(msg)) {
+                            msg;
+                        };
+                    };
+                    // save response message in log;
+                    log("status for" #debug_show (pending_dlist[0].txId, response_message));
+                };
+
+            };
+        };
+    };
+
+    /// User Donation
+    func register_donation(donation : Types.Donation) : async Types.Result<Text, Text> {
+        // get transaction balance from transaction id and verify them.
+        let donationTo : Nat = donation.donationTo;
+        if (donationTo == 0) {
+            switch (school_get(donation.recipientId)) {
+                case null {
+                    return #err("School record for id not found" #debug_show (donation.recipientId));
+                };
+                case (?school) {
+                    // push donation dti to schools donation
+                    let donations = List.push(donation.dti, school.donations);
+
+                    // update records
+                    let new_donation_total = school.amountDonated + donation.amount;
                     let updated_school : Types.School = {
                         id = school.id;
                         name = school.name;
@@ -226,33 +379,23 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
                         donations;
                     };
 
-                    donation_put(donation.dti, donation);
                     school_put(school.id, updated_school);
-
-                    // update
-                    return #ok "Successful";
                 };
             };
         } else {
             if (donationTo != 1) {
-                return #err "invalid donation";
+                return #err "invalid donation recipient";
             };
-            return switch (student_get(inputs.recipientId)) {
-                case null { #err "Not found" };
+            switch (student_get(donation.recipientId)) {
+                case null {
+                    return #err("Studetnt record for id not found" #debug_show (donation.recipientId));
+                };
                 case (?student) {
-                    // create new donation
-                    let donation : Types.Donation = {
-                        amount = transactionBalance;
-                        category = inputs.donationCategory;
-                        donater = inputs.address;
-                        dti = dti;
-                        recipientId = inputs.recipientId;
-                        txId = inputs.txId;
-                        donationTo;
-                    };
+                    // push donation dti to schools donation
+                    let donations = List.push(donation.dti, student.donations);
 
-                    let donations = List.push(dti, student.donations);
-
+                    // update records
+                    let new_donation_total = student.amountDonated + donation.amount;
                     let updated_student : Types.Student = {
                         id = student.id;
                         name = student.name;
@@ -264,12 +407,30 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
                         donations;
                         schoolId = student.schoolId;
                     };
-                    donation_put(donation.dti, donation);
                     student_put(student.id, updated_student);
-                    return #ok "Successful";
                 };
             };
         };
+
+        // update donation confirmation status
+        let updated_donation : Types.Donation = {
+            dti = donation.dti;
+            txId = donation.txId;
+            paymentMethod = donation.paymentMethod;
+            confirmed = true;
+            amount = donation.amount;
+            category = donation.category;
+            donater = donation.donater;
+            recipientId = donation.recipientId;
+            donationTo = donation.donationTo;
+        };
+
+        donation_put(donation.dti, updated_donation);
+
+        // next delete donation from pending donations
+        pending_donation_del(donation.dti);
+
+        #ok "Succesful Donation";
     };
 
     /// Returns the balance of the given Bitcoin address.
@@ -278,7 +439,7 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
     };
 
     /// Returns the UTXOs of the given Bitcoin address.
-    func get_utxos(address : Types.BitcoinAddress) : async Types.GetUtxosResponse {
+    public func get_utxos(address : Types.BitcoinAddress) : async Types.GetUtxosResponse {
         await BitcoinApi.get_utxos(NETWORK, address);
     };
 
@@ -293,13 +454,21 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
         await BitcoinWallet.get_p2pkh_address(NETWORK, KEY_NAME, DERIVATION_PATH);
     };
 
+    // Get latest log items. Log output is capped at 100 items.
+    public query func getLogs() : async [Text] {
+        Buffer.toArray(logData);
+    };
+
     /// Sends the given amount of bitcoin from this canister to the given address.
     /// Returns the transaction ID.
     public shared (context) func send(request : Types.SendRequest) : async Text {
         if (not Principal.equal(context.caller, actorContext.caller)) {
-            return "Only the owner can set the courier API key.";
+            return "Only the owner can withdraw btc from canister.";
         };
         Utils.bytesToText(await BitcoinWallet.send(NETWORK, DERIVATION_PATH, KEY_NAME, request.destination_address, request.amount_in_satoshi));
     };
 
+    func parse_transaction_id(transactionId : Blob) : Text {
+        Utils.bytesToText(Array.reverse(Blob.toArray(transactionId)));
+    };
 };

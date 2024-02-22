@@ -9,6 +9,8 @@ import Hash "mo:base/Hash";
 import Array "mo:base/Array";
 import Blob "mo:base/Blob";
 import Nat64 "mo:base/Nat64";
+import Order "mo:base/Order";
+import Bool "mo:base/Bool";
 
 import Types "bitcoin/Types";
 import Hex "encode/Hex";
@@ -88,31 +90,42 @@ module {
     };
 
     public type Donation = {
+        dti : Text;
+        txId : Text;
+        paymentMethod : Nat; // 0 means BTC, 1 means ckBTC
         amount : Types.Satoshi;
         category : Category;
         donater : Types.BitcoinAddress;
-        dti : Text;
         recipientId : Nat;
-        txId : Text;
         donationTo : Nat;
+        confirmed : Bool;
     };
 
     public type InitParams = {
         schools : [InitSchoolParams];
         students : [InitStudentParams];
         network : Types.Network;
+        ckBTCAddress : Text;
+        startBlock : Nat;
     };
 
-    public type MakeDonationParams = {
-        address : Types.BitcoinAddress;
-        txId : Text;
+    public type DonationParams = {
         donationTo : Nat; // 0 means school, 1 means student
         recipientId : Nat; // id of recipient
         amount : Types.Satoshi;
         donationCategory : Category;
+        txId : Text;
+        donater : Types.BitcoinAddress;
+        paymentMethod : Nat; // 0 means BTC, 2 means CkBTC
     };
 
-    public func trie_key(t : Nat) : Trie.Key<Nat> = {
+    public type PendingDonation = {
+        id : Nat;
+        txId : Text;
+        paymentMethod : Nat;
+    };
+
+    public func trie_key_nat(t : Nat) : Trie.Key<Nat> = {
         key = t;
         hash = Text.hash(Nat.toText(t));
     };
@@ -124,7 +137,7 @@ module {
         hex;
     };
 
-    public func donation_key(t : Text) : Trie.Key<Text> = {
+    public func trie_key_text(t : Text) : Trie.Key<Text> = {
         key = t;
         hash = Text.hash t;
     };
@@ -142,7 +155,7 @@ module {
                 students = List.fromArray<Nat>(schoolParams.students);
                 donations = List.nil();
             };
-            s := Trie.put(s, trie_key(school.id), Nat.equal, school).0;
+            s := Trie.put(s, trie_key_nat(school.id), Nat.equal, school).0;
         };
         s;
     };
@@ -161,7 +174,7 @@ module {
                 donations = List.nil();
                 schoolId = studentParams.schoolId;
             };
-            s := Trie.put(s, trie_key(student.id), Nat.equal, student).0;
+            s := Trie.put(s, trie_key_nat(student.id), Nat.equal, student).0;
         };
         s;
     };
