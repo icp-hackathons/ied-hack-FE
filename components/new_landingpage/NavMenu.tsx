@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react"
 import { gsap } from "gsap"
 import CSSRulePlugin from "gsap/CSSRulePlugin"
 import { BsGithub, BsInfoCircleFill } from "react-icons/bs"
+import { usePathname } from "next/navigation"
 
 export const NavMenu = ({ active }: { active: boolean }) => {
   // const activeItemIndicator = CSSRulePlugin.getRule(
@@ -50,21 +51,26 @@ export const NavMenu = ({ active }: { active: boolean }) => {
       timeline.current.reverse()
     }
   }, [active])
+  const pathname = usePathname()
+  const isActive = (path: string) => {
+    if (pathname === path) return "active-route"
+    else return ""
+  }
   return (
     <div className="nav-overlay" ref={navRef}>
       <div className="nav-overlay-menu">
         <div className="menu-item">
-          <p className="active-route">
+          <p className={isActive("/")}>
             <Link href={"/"}>Home</Link>
           </p>
         </div>
         <div className="menu-item">
-          <p className="">
+          <p className={isActive("/schools")}>
             <Link href={"/schools"}>Schools</Link>
           </p>
         </div>
         <div className="menu-item">
-          <p className="">
+          <p className={isActive("/tx-explorer")}>
             <Link href={"/tx-explorer"}>
               {" "}
               T<span className="lowercase">x</span> Explorer

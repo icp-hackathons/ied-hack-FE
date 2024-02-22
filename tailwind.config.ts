@@ -37,6 +37,7 @@ const config: Config = {
           1: "#0A0A0A",
           0: "#FFFFFF",
         },
+        primary: "#fd366e",
       },
       screens: {
         md: { min: "880px" },
