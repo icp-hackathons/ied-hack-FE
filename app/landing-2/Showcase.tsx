@@ -30,16 +30,24 @@ const images = [
   },
 ]
 
-const bgColors = ["#000", "#000"]
+const bgColors = ["#fd366e", "#957FEF", "#1B1819"]
 
 export const Showcase = () => {
   const imgRef = React.useRef<any>(null)
   const imgRef2 = React.useRef<any>(null)
   const imgRef3 = React.useRef<any>(null)
+  const bgRef = React.useRef<any>(null)
+  function updateBackground(color: string) {
+    gsap.to(bgRef.current, {
+      background: `linear-gradient(0deg, ${color} 0%, rgba(252, 176, 69, 0) 100%)`,
+      duration: 2,
+      ease: "power4.out",
+    })
+  }
 
   const item = React.useRef<any>(null)
 
-  const timeline = (target: any) => {
+  const timeline = (target: any, color: string) => {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: target,
@@ -48,8 +56,8 @@ export const Showcase = () => {
         scrub: true, // Smoothly transition the animation while scrolling
         markers: false, // Display markers for debugging
         // toggleActions: "play none none none",
-        // onEnter: () => updateBackground(bgColors[0]),
-        // onEnterBack: () => updateBackground(bgColors[0]),
+        onEnter: () => updateBackground(color),
+        onEnterBack: () => updateBackground(color),
       },
     })
     tl.fromTo(
@@ -65,9 +73,9 @@ export const Showcase = () => {
     )
   }
   useGSAP(() => {
-    timeline(imgRef.current)
-    timeline(imgRef2.current)
-    timeline(imgRef3.current)
+    timeline(imgRef.current, bgColors[0])
+    timeline(imgRef2.current, bgColors[1])
+    timeline(imgRef3.current, bgColors[2])
   })
   return (
     <div className="relative z-[100] md:mt-[9rem] mt-[5rem] min-h-[200vh]">
@@ -79,6 +87,7 @@ export const Showcase = () => {
       <div
         className="md:mt-[15rem] mt-[5rem] mb-10 items overflow-hidden md:px-[5rem] px-[1rem] md:pb-[30rem] pb-[10rem] bg-grey-900 py-[3rem] relative"
         id="showcase"
+        ref={bgRef}
       >
         <div className="h-full w-[1px] bg-grey-700 absolute top-0 left-[25%] md:block hidden" />
         <div className="h-full w-[1px] bg-grey-700 absolute top-0 left-[50%]" />
@@ -92,7 +101,7 @@ export const Showcase = () => {
         </h2>
         <div className="relative item overflow-hidden bg-transparent mb-10">
           <div className="item-img overflow-hidden md:w-[50rem] w-full">
-            <div className="relative w-full md:h-[600px] h-[400px] bg-grey-800 shadow-md">
+            <div className="relative w-full md:h-[600px] h-[400px] bg-grey-800 shadow-md img-block">
               <Image
                 src={images[0].src}
                 alt={images[0].title}
@@ -116,7 +125,7 @@ export const Showcase = () => {
 
         <div className="relative item bg-transparent flex justify-center items-center flex-col gap-3 w-full mb-10">
           <div className="item-img overflow-hidden md:w-[50rem] w-full">
-            <div className="relative w-full md:h-[600px] h-[400px] bg-grey-800 shadow-md">
+            <div className="relative w-full md:h-[600px] h-[400px] bg-grey-800 shadow-md img-block">
               <Image
                 src={images[1].src}
                 alt={images[1].title}
@@ -140,7 +149,7 @@ export const Showcase = () => {
 
         <div className="relative item overflow-hidden bg-transparent flex justify-end items-end flex-col gap-3 w-full">
           <div className="item-img overflow-hidden md:w-[50rem] w-full">
-            <div className="relative w-full md:h-[600px] h-[400px] bg-grey-800 shadow-md">
+            <div className="relative w-full md:h-[600px] h-[400px] bg-grey-800 shadow-md img-block">
               <Image
                 src={images[2].src}
                 alt={images[2].title}
@@ -164,8 +173,14 @@ export const Showcase = () => {
 
         <div className="flex justify-center items-center md:mt-10 mt-[7rem] relative">
           <Link
-            href={""}
-            className="bg-[#fd366e] text-grey-100 py-3 px-7 rounded-md glow"
+            href={"/schools"}
+            className="bg-[#fd366e] text-grey-100 py-3 px-7 rounded-md glow md:block hidden"
+          >
+            View Schools
+          </Link>
+          <Link
+            href={"/schools"}
+            className="bg-[#fd366e] text-grey-100 py-3 px-7 rounded-md block md:hidden"
           >
             View Schools
           </Link>

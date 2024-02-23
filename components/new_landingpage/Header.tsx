@@ -24,13 +24,18 @@ export const Header = () => {
             <nav className="md:block hidden">
               <ul className="flex gap-4 text-grey-200">
                 <li>
-                  <Link href={""}>Docs</Link>
+                  <Link
+                    href={"https://github.com/osas2211/ied-hack-FE/#readme"}
+                    target="_blank"
+                  >
+                    Docs
+                  </Link>
                 </li>
                 <li>
-                  <Link href={""}>Schools</Link>
+                  <Link href={"/schools"}>Schools</Link>
                 </li>
                 <li>
-                  <Link href={""}>Tx Explorer</Link>
+                  <Link href={"/tx-explorer"}>Tx Explorer</Link>
                 </li>
               </ul>
             </nav>

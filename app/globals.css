@@ -240,6 +240,9 @@ html {
 .item:nth-child(1) .item-img {
   background: #c03f13;
 } */
+/* .img-block:nth-child(1) {
+  background: linear-gradient(0deg, #fd366e 0%, rgba(252, 176, 69, 0) 100%);
+} */
 
 .img-animate {
   opacity: 0;

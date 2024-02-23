@@ -1,5 +1,5 @@
 "use client"
-import { ConfigProvider } from "antd"
+import { ConfigProvider, theme } from "antd"
 import React from "react"
 
 export const AntConfig = ({ children }: { children: React.ReactNode }) => {
@@ -9,10 +9,11 @@ export const AntConfig = ({ children }: { children: React.ReactNode }) => {
         theme={{
           token: {
             // Seed Token
-            colorPrimary: "#57CC99",
+            colorPrimary: "#fd366e",
             borderRadius: 5,
             fontFamily: "Urbanist, sans-serif",
           },
+          algorithm: theme.darkAlgorithm,
         }}
       >
         {children}

@@ -79,13 +79,13 @@ export const Hero = () => {
 
       <div className="flex justify-center gap-4 reveal-text relative z-[100]">
         <Link
-          href={""}
+          href={"/tx-explorer"}
           className="bg-grey-900 text-grey-100 py-3 px-7 rounded-md border-[1px] border-[#fd366e] md:block hidden"
         >
           Tx Explorer
         </Link>
         <Link
-          href={""}
+          href={"/schools"}
           className="bg-[#fd366e] text-grey-100 py-3 px-7 rounded-md btn-glow"
         >
           Make a donation

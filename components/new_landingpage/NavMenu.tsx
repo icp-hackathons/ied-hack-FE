@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react"
 import { gsap } from "gsap"
 import CSSRulePlugin from "gsap/CSSRulePlugin"
 import { BsGithub, BsInfoCircleFill } from "react-icons/bs"
+import { usePathname } from "next/navigation"
 
 export const NavMenu = ({ active }: { active: boolean }) => {
   // const activeItemIndicator = CSSRulePlugin.getRule(
@@ -50,22 +51,27 @@ export const NavMenu = ({ active }: { active: boolean }) => {
       timeline.current.reverse()
     }
   }, [active])
+  const pathname = usePathname()
+  const isActive = (path: string) => {
+    if (pathname === path) return "active-route"
+    else return ""
+  }
   return (
     <div className="nav-overlay" ref={navRef}>
       <div className="nav-overlay-menu">
         <div className="menu-item">
-          <p className="active-route">
-            <Link href={""}>Home</Link>
+          <p className={isActive("/")}>
+            <Link href={"/"}>Home</Link>
           </p>
         </div>
         <div className="menu-item">
-          <p className="">
-            <Link href={""}>Schools</Link>
+          <p className={isActive("/schools")}>
+            <Link href={"/schools"}>Schools</Link>
           </p>
         </div>
         <div className="menu-item">
-          <p className="">
-            <Link href={""}>
+          <p className={isActive("/tx-explorer")}>
+            <Link href={"/tx-explorer"}>
               {" "}
               T<span className="lowercase">x</span> Explorer
             </Link>
@@ -78,16 +84,20 @@ export const NavMenu = ({ active }: { active: boolean }) => {
       >
         <p>
           <Link
-            href={""}
+            href={"https://github.com/osas2211/ied-hack-FE"}
             className="flex items-center gap-2 hover:underline transition-all duration-[0.3s]"
+            target="_blank"
           >
             <BsGithub /> <span>Github Repository</span>
           </Link>
         </p>
         <p>
           <Link
-            href={""}
+            href={
+              "https://summit.immersiveeducation.org/SouthAfrica/2024/hackathon.html"
+            }
             className="flex items-center gap-2 hover:underline transition-all duration-[0.3s]"
+            target="_blank"
           >
             <BsInfoCircleFill /> <span>About the Hackathon</span>
           </Link>

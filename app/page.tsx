@@ -1,34 +1,28 @@
 "use client"
-import { Footer } from "@/components/Footer"
 import { Counter } from "@/components/Landing/Counter"
-import { Left } from "@/components/Landing/Left"
-import { Right } from "@/components/Landing/Right"
-import { Schools } from "@/components/Landing/Schools"
+import { Announcement } from "@/components/new_landingpage/Announcement"
+import { Hero } from "@/components/new_landingpage/Hero"
 import React from "react"
+import { Showcase } from "./landing-2/Showcase"
+import { Footer } from "@/components/Footer"
 
-export default function Home() {
+const LandingPage = () => {
   const [counter, setCounter] = React.useState(0)
+
   return (
-    <main className="relative">
-      {/* {counter < 100 ? (
-        <Counter counter={counter} setCounter={setCounter} />
-      ) : (
-        <>
-          <div className="flex lg:min-h-[100vh] flex-col-reverse md:flex-row bg-green">
-            <Left />
-            <Right />
-          </div>
-        </>
-      )} */}
+    <div className="relative">
       <Counter counter={counter} setCounter={setCounter} />
-      <div className="relative z-[100]">
-        <div className="flex lg:min-h-[100vh] flex-col-reverse md:flex-row bg-green">
-          <Left />
-          <Right />
+
+      <div id="smooth-wrapper">
+        <div className="bg-[#0B090A] text-white overflow-hidden">
+          <Announcement />
+          <Hero />
+          <Showcase />
+          <Footer />
         </div>
-        <Schools />
-        <Footer />
       </div>
-    </main>
+    </div>
   )
 }
+
+export default LandingPage
