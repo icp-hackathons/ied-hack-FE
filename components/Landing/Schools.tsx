@@ -10,17 +10,21 @@ import Image from "next/image"
 import { FaBitcoin } from "react-icons/fa"
 import { useGSAP } from "@gsap/react"
 import { gsap } from "gsap"
+import { SchoolCardAlt } from "../SchoolCardAlt"
 
 export const Schools = () => {
+  const [gettingSchools, setGettingSchools] = useState(false)
   const [schools, setSchools] = useState<SchoolOutput[]>([])
   const [mutableSchools, setMutableSchools] = useState<SchoolOutput[]>([])
   const [address, setAddress] = useState("")
   const [searchValue, setSearchValue] = useState("")
 
   const getSchools = useCallback(async () => {
+    setGettingSchools(true)
     const schoolData = await backend.getSchools()
     setSchools(schoolData)
     setMutableSchools(schoolData)
+    setGettingSchools(false)
   }, [])
 
   const getAddress = useCallback(async () => {
@@ -108,95 +112,78 @@ export const Schools = () => {
           </div>
         </div>
       </div>
-      {showGrid && (
+      {gettingSchools ? (
+        <p>Loading...</p>
+      ) : (
         <>
-          {mutableSchools.length > 0 ? (
-            <div className="grid lg:grid-cols-4 md:grid-cols-3 gap-7 mb-7">
-              {mutableSchools.map((school: any, index: number) => {
-                return (
-                  <SchoolCard key={index} school={school} address={address} />
-                )
-              })}
-            </div>
-          ) : (
-            <div className="mb-[15rem]">
-              <Empty
-                description={false}
-                image={
-                  <div className="flex justify-center items-center flex-col gap-1">
-                    <div className="h-[200px] w-[200px] relative">
-                      <Image src={"/not-found.png"} alt="Empty" fill />
-                    </div>
-                    <p>No School Found</p>
-                  </div>
-                }
-              />
+          {showGrid && (
+            <>
+              {mutableSchools.length > 0 ? (
+                <div className="grid lg:grid-cols-4 md:grid-cols-3 gap-7 mb-7">
+                  {mutableSchools.map((school: any, index: number) => {
+                    return (
+                      <SchoolCard
+                        key={index}
+                        school={school}
+                        address={address}
+                      />
+                    )
+                  })}
+                </div>
+              ) : (
+                <div className="mb-[15rem]">
+                  <Empty
+                    description={false}
+                    image={
+                      <div className="flex justify-center items-center flex-col gap-1">
+                        <div className="h-[200px] w-[200px] relative">
+                          <Image src={"/not-found.png"} alt="Empty" fill />
+                        </div>
+                        <p>No School Found</p>
+                      </div>
+                    }
+                  />
+                </div>
+              )}
+            </>
+          )}
+
+          {!showGrid && (
+            <div
+              className="grid lg:grid-cols-1 md:grid-cols-1 gap-7 mb-[7rem] list-view"
+              ref={viewRef}
+            >
+              {mutableSchools.length > 0 ? (
+                mutableSchools.map((school: SchoolOutput, index: number) => {
+                  return (
+                    <>
+                      <SchoolCardAlt
+                        key={index}
+                        school={school}
+                        address={address}
+                        index={index}
+                      />
+                    </>
+                  )
+                })
+              ) : (
+                <div className="mb-[8rem]">
+                  <Empty
+                    description={false}
+                    image={
+                      <div className="flex justify-center items-center flex-col gap-1">
+                        <div className="h-[200px] w-[200px] relative">
+                          <Image src={"/not-found.png"} alt="Empty" fill />
+                        </div>
+                        <p>No School Found</p>
+                      </div>
+                    }
+                  />
+                </div>
+              )}
             </div>
           )}
         </>
-      )}
-
-      {!showGrid && (
-        <div
-          className="grid lg:grid-cols-1 md:grid-cols-1 gap-7 mb-[7rem] list-view"
-          ref={viewRef}
-        >
-          {mutableSchools.length > 0 ? (
-            mutableSchools.map((school: SchoolOutput, index: number) => {
-              return (
-                <>
-                  <div className="bg-grey-700 px-5 py-3 rounded-md flex gap-5 justify-between items-center h-[70px]">
-                    <div className="flex gap-5 items-center w-[90%]">
-                      <p>{index + 1}.</p>
-                      <div className="relative w-[50px] h-[50px]">
-                        <Image
-                          src={school.images[0]}
-                          fill
-                          alt="school image"
-                          className="object-cover rounded-sm"
-                        />
-                      </div>
-                      <p className="w-[15%]">{school.name}</p>
-                      <p className="w-[20%] flex items-center gap-2">
-                        <CiLocationOn className="text-green-light" />{" "}
-                        {school.location}
-                      </p>
-                      <p className="w-[15%]">
-                        {school.donations.length} Donation(s)
-                      </p>
-                      <p className="flex gap-3 items-center w-[20%]">
-                        <div className="flex gap-1 items-center">
-                          <span>
-                            {Number(school.amountDonated).toPrecision(9)}
-                          </span>
-                          <FaBitcoin className="text-yellow" />
-                        </div>
-                        <span>Donated</span>
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-primary cursor-pointer">View School</p>
-                    </div>
-                  </div>
-                </>
-              )
-            })
-          ) : (
-            <div className="mb-[8rem]">
-              <Empty
-                description={false}
-                image={
-                  <div className="flex justify-center items-center flex-col gap-1">
-                    <div className="h-[200px] w-[200px] relative">
-                      <Image src={"/not-found.png"} alt="Empty" fill />
-                    </div>
-                    <p>No School Found</p>
-                  </div>
-                }
-              />
-            </div>
-          )}
-        </div>
       )}
     </div>
   )
