@@ -16,10 +16,10 @@ export const SchoolCardAlt: React.FC<props> = ({ school, index, address }) => {
   const [open, setOpen] = useState(false)
   return (
     <>
-      <div className="bg-grey-700 px-5 py-3 rounded-md flex gap-5 justify-between items-center h-[70px]">
-        <div className="flex gap-5 items-center md:w-[90%] w-[75%]">
+      <div className="bg-grey-700 md:px-5 px-3 py-3 rounded-md flex gap-5 justify-between items-center h-[70px]">
+        <div className="flex md:gap-5 gap-3 items-center md:w-[90%] w-[70%]">
           <p>{index + 1}.</p>
-          <div className="relative w-[50px] h-[50px]">
+          <div className="relative md:w-[50px] w-[40px] md:h-[50px] h-[40px]">
             <Image
               src={school.images[0]}
               fill
@@ -27,7 +27,7 @@ export const SchoolCardAlt: React.FC<props> = ({ school, index, address }) => {
               className="object-cover rounded-sm"
             />
           </div>
-          <p className="md:w-[15%]">{school.name}</p>
+          <p className="md:w-[15%] md:text-md text-sm">{school.name}</p>
           <p className="w-[20%] md:flex items-center gap-2 hidden">
             <CiLocationOn className="text-green-light" /> {school.location}
           </p>

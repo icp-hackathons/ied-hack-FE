@@ -113,7 +113,7 @@ export const Schools = () => {
         </div>
       </div>
       {gettingSchools ? (
-        <p>Loading...</p>
+        <p>Loading Schools...</p>
       ) : (
         <>
           {showGrid && (
