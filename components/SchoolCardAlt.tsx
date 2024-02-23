@@ -27,7 +27,7 @@ export const SchoolCardAlt: React.FC<props> = ({ school, index, address }) => {
               className="object-cover rounded-sm"
             />
           </div>
-          <p className="md:w-[15%] md:text-md text-sm">{school.name}</p>
+          <p className="md:w-[15%] md:text-[16px] text-sm">{school.name}</p>
           <p className="w-[20%] md:flex items-center gap-2 hidden">
             <CiLocationOn className="text-green-light" /> {school.location}
           </p>
