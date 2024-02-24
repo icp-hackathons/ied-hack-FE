@@ -5,8 +5,10 @@ import type { TableColumnsType, TableProps } from "antd"
 import { BiSearch } from "react-icons/bi"
 import { FaBitcoin } from "react-icons/fa"
 import { Donation } from "@/utils/declarations/backend/backend.did"
-import { formatAmount, getAccountId, getTxId, truncateAddress } from "@/app/tx-explorer/page"
+// import { formatAmount, getAccountId, getTxId, } from "@/app/tx-explorer/page"
 import { getSchoolById } from "@/utils/backend-service"
+import { truncateAddress } from "@/utils/formatter"
+import Link from "next/link"
 
 const toFilterArray = (data: Donation[], key: string) => {
   const hashmap: Record<string, { text: string; value: string }> = {}
@@ -34,6 +36,51 @@ const SchoolNameComp = ({ id }: { id: bigint }) => {
     <>{name}</>
   )
 };
+
+const formatAmount = (amount: bigint, paymentType: bigint) => {
+  let formatted_amount = (amount / BigInt(10 ** 8)).toString()
+  if (paymentType == BigInt(0)) {
+    return <>{formatted_amount} BTC</>
+  } else {
+    return <>{formatted_amount} ckBTC</>
+  }
+}
+
+const getTxId = (txId: string, paymentMethod: bigint) => {
+  if (paymentMethod == BigInt(0)) {
+    return (
+      <Link href={`https://blockstream.info/testnet/tx/${txId}`}>
+        {truncateAddress(txId)}
+      </Link>
+    )
+  } else {
+    return (
+      <Link
+        href={`https://dashboard.internetcomputer.org/bitcoin/transaction/${txId}`}
+      >
+        {truncateAddress(txId)}
+      </Link>
+    )
+  }
+}
+
+const getAccountId = (addr: string, paymentMethod: bigint) => {
+  if (paymentMethod == BigInt(0)) {
+    return (
+      <Link href={`https://blockstream.info/testnet/address/${addr}`}>
+        {truncateAddress(addr)}
+      </Link>
+    )
+  } else {
+    return (
+      <Link
+        href={`https://dashboard.internetcomputer.org/bitcoin/account/${addr}`}
+      >
+        {truncateAddress(addr)}
+      </Link>
+    )
+  }
+}
 
 
 export const SchoolTransactions = ({ schoolTxn }: { schoolTxn: Donation[] }) => {
