@@ -11,9 +11,11 @@ import Blob "mo:base/Blob";
 import Nat64 "mo:base/Nat64";
 import Order "mo:base/Order";
 import Bool "mo:base/Bool";
-
+import Time "mo:base/Time";
+import Base32 "mo:encoding/Base32";
 import Types "bitcoin/Types";
-import Hex "encode/Hex";
+
+import util "util";
 
 module {
     public type Result<T, E> = Result.Result<T, E>;
@@ -137,10 +139,13 @@ module {
     };
 
     public func get_dti(t : Text) : Text {
-        var dtiBlob = Text.encodeUtf8(t);
-        var dtiArray = Blob.toArray(dtiBlob);
-        var hex = Hex.encode(dtiArray);
-        hex;
+        var time = Time.now();
+        var timeText = Int.toText(time);
+        var dtiText = Text.concat(timeText, t);
+        var dti = Base32.encode(util.textToArray(dtiText));
+        // grab first 32 bytes
+        let subArray = Array.subArray<Nat8>(dti, 0, 32);
+        util.arrayToText(subArray);
     };
 
     public func trie_key_text(t : Text) : Trie.Key<Text> = {
