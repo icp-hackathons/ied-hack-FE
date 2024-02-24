@@ -29,14 +29,15 @@ export const SchoolDetails = ({
     >
       <div className="bg-[#0B090A] text-white md:rounded-md min-h-[95vh] relative overflow-hidden">
         <Announcement />
-        <Header />
+        <Header setOpen={setOpen} />
+
         {/* <div
           className="flex gap-3 items-center p-3 cursor-pointer relative z-[50]"
           onClick={() => setOpen(false)}
         >
           <BiArrowBack /> <span>Go Back</span>
         </div> */}
-        <Students school={school} address={address} />
+        <Students school={school} address={address} open={open} />
       </div>
       <Footer />
     </Drawer>

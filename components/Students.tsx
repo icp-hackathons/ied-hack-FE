@@ -11,21 +11,24 @@ import { StudentCardAlt } from "./StudentCardAlt"
 export const Students = ({
   school,
   address,
+  open,
 }: {
   school: SchoolOutput
   address: string
+  open: boolean
 }) => {
   const [students, setStudents] = useState<StudentOutput[]>()
+  const wrapperRef = React.useRef<any>(null)
   const getStudents = useCallback(async () => {
     const students = await backend.getStudentBySchool(school.students)
     setStudents(students)
-  }, [school.students])
+  }, [school])
 
   useEffect(() => {
     if (!students) {
       getStudents()
     }
-  }, [students, getStudents])
+  }, [students, getStudents, open])
   useGSAP(() => {
     let target = 0
     let current = 0
@@ -39,7 +42,7 @@ export const Students = ({
       ".students_slide"
     ) as NodeListOf<Element>
 
-    let maxScroll = sliderWrapper?.clientWidth - window.innerWidth
+    let maxScroll = wrapperRef.current?.clientWidth - window.innerWidth
     function lerp(start: number, end: number, factor: number) {
       return start + (end - start) * factor
     }
@@ -72,7 +75,7 @@ export const Students = ({
     function update() {
       current = lerp(current, target, ease)
 
-      gsap.set(".students_slider-wrapper", {
+      gsap.set(wrapperRef.current, {
         x: -current,
       })
       updateScaleAndPosition()
@@ -80,7 +83,7 @@ export const Students = ({
     }
 
     window.addEventListener("resize", () => {
-      maxScroll = sliderWrapper?.clientWidth - window.innerWidth
+      maxScroll = wrapperRef.current?.clientWidth - window.innerWidth
     })
 
     window.addEventListener("wheel", (e) => {
@@ -113,7 +116,7 @@ export const Students = ({
       </div>
 
       <div className="students_slider">
-        <div className="students_slider-wrapper">
+        <div className="students_slider-wrapper" ref={wrapperRef}>
           {students?.map((student, index) => {
             return (
               <StudentCardAlt

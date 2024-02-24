@@ -7,7 +7,13 @@ import CSSRulePlugin from "gsap/CSSRulePlugin"
 import { BsGithub, BsInfoCircleFill } from "react-icons/bs"
 import { usePathname } from "next/navigation"
 
-export const NavMenu = ({ active }: { active: boolean }) => {
+export const NavMenu = ({
+  active,
+  setOpen,
+}: {
+  active: boolean
+  setOpen?: React.Dispatch<React.SetStateAction<boolean>>
+}) => {
   // const activeItemIndicator = CSSRulePlugin.getRule(
   //   ".menu-item .acive-route::after"
   // )
@@ -66,7 +72,12 @@ export const NavMenu = ({ active }: { active: boolean }) => {
         </div>
         <div className="menu-item">
           <p className={isActive("/schools")}>
-            <Link href={"/schools"}>Schools</Link>
+            <Link
+              href={"/schools"}
+              onClick={setOpen ? () => setOpen(false) : () => ""}
+            >
+              Schools
+            </Link>
           </p>
         </div>
         <div className="menu-item">

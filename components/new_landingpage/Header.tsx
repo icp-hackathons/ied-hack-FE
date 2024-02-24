@@ -2,11 +2,12 @@
 import Link from "next/link"
 import React, { useEffect, useRef } from "react"
 import { NavMenu } from "./NavMenu"
-import { useGSAP } from "@gsap/react"
-import { gsap } from "gsap"
-import CSSRulePlugin from "gsap/CSSRulePlugin"
 
-export const Header = () => {
+export const Header = ({
+  setOpen,
+}: {
+  setOpen?: React.Dispatch<React.SetStateAction<boolean>>
+}) => {
   const navRef = React.useRef(null)
   const [activeHam, setActiveHam] = React.useState(false)
 
@@ -33,7 +34,11 @@ export const Header = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link href={"/schools"} className="hover:underline">
+                  <Link
+                    href={"/schools"}
+                    className="hover:underline"
+                    onClick={setOpen ? () => setOpen(false) : () => ""}
+                  >
                     Schools
                   </Link>
                 </li>
@@ -70,7 +75,7 @@ export const Header = () => {
       <div className="glow w-[20rem] h-[25rem] bg-transperant  absolute top-0 left-[30%] translate-y-[-115%]"></div>
       {/* Tag Text */}
       {/* {activeHam && <NavMenu active={activeHam} />} */}
-      <NavMenu active={activeHam} />
+      <NavMenu active={activeHam} setOpen={setOpen} />
     </div>
   )
 }
