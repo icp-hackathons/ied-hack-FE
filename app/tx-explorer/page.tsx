@@ -11,6 +11,7 @@ import { StudentsTransactions } from "@/components/StudentTransactions"
 import { Donation } from "@/utils/declarations/backend/backend.did"
 import { getAllDonations } from "@/utils/backend-service"
 import Link from "next/link"
+import { truncateAddress } from "@/utils/formatter"
 
 const items = [
   {
@@ -105,57 +106,11 @@ export default function TxExplorerPage() {
   )
 }
 
-export const truncateAddress = (address: string) => {
-  if (!address) return
-  if (address.length < 5) return address
-  return (
-    address.slice(0, 5) +
-    "..." +
-    address.slice(address.length - 5, address.length)
-  )
-}
-
-export const formatAmount = (amount: bigint, paymentType: bigint) => {
+const formatAmount = (amount: bigint, paymentType: bigint) => {
   let formatted_amount = (amount / BigInt(10 ** 8)).toString()
   if (paymentType == BigInt(0)) {
     return <>{formatted_amount} BTC</>
   } else {
     return <>{formatted_amount} ckBTC</>
-  }
-}
-
-export const getTxId = (txId: string, paymentMethod: bigint) => {
-  if (paymentMethod == BigInt(0)) {
-    return (
-      <Link href={`https://blockstream.info/testnet/tx/${txId}`}>
-        {truncateAddress(txId)}
-      </Link>
-    )
-  } else {
-    return (
-      <Link
-        href={`https://dashboard.internetcomputer.org/bitcoin/transaction/${txId}`}
-      >
-        {truncateAddress(txId)}
-      </Link>
-    )
-  }
-}
-
-export const getAccountId = (addr: string, paymentMethod: bigint) => {
-  if (paymentMethod == BigInt(0)) {
-    return (
-      <Link href={`https://blockstream.info/testnet/address/${addr}`}>
-        {truncateAddress(addr)}
-      </Link>
-    )
-  } else {
-    return (
-      <Link
-        href={`https://dashboard.internetcomputer.org/bitcoin/account/${addr}`}
-      >
-        {truncateAddress(addr)}
-      </Link>
-    )
   }
 }
