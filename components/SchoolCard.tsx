@@ -3,6 +3,7 @@ import React, { useState } from "react"
 import Image from "next/legacy/image"
 import { SchoolPage } from "@/app/School"
 import { SchoolOutput } from "@/utils/declarations/backend/backend.did"
+import { SchoolDetails } from "./SchoolDetails"
 
 interface props {
   school: SchoolOutput
@@ -45,7 +46,7 @@ export const SchoolCard: React.FC<props> = ({ ...props }) => {
           </div>
         </div>
       </div>
-      <SchoolPage
+      <SchoolDetails
         open={open}
         setOpen={setOpen}
         school={props.school}

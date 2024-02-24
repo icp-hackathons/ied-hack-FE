@@ -1,0 +1,63 @@
+.students_logo {
+  font-family: "PP Neue Montreal";
+  font-weight: 500;
+  padding: 1rem 2rem;
+}
+
+.students_sidebar {
+  font-family: "PP Neue Montreal";
+  width: 100vh;
+  height: max-content;
+  display: flex;
+  align-items: flex-start;
+  transform: rotate(-90deg) translate(-85%, 0);
+  transform-origin: left top;
+  padding: 1.5em 3em;
+}
+
+.students_sidebar > div:nth-child(1) {
+  flex: 2;
+}
+
+.students_sidebar > div:nth-child(2) {
+  flex: 2;
+  display: flex;
+  gap: 6em;
+}
+
+#students_header {
+  font-family: "Timmons NY 2.0";
+  text-transform: uppercase;
+  font-size: 7.5rem;
+  line-height: 85%;
+  margin-bottom: 4rem;
+}
+
+.students_slider {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.students_slider-wrapper {
+  position: absolute;
+  top: 0px;
+  width: 8000px;
+  padding: 0 600px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 100px;
+}
+
+.students_slide {
+  width: 400px;
+  height: 500px;
+  background: #e3e3e3;
+}
+
+.students_slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
