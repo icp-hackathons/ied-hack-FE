@@ -7,15 +7,21 @@ import React, { useCallback, useEffect, useState } from "react"
 import * as backend from "@/utils/backend-service"
 import { StudentOutput } from "@/src/declarations/backend/backend.did"
 import { StudentCardAlt } from "./StudentCardAlt"
+import { BiArrowBack } from "react-icons/bi"
+import { FaCircleInfo } from "react-icons/fa6"
 
 export const Students = ({
   school,
   address,
   open,
+  showStudents,
+  setShowStudents,
 }: {
   school: SchoolOutput
   address: string
   open: boolean
+  showStudents: boolean
+  setShowStudents: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
   const [students, setStudents] = useState<StudentOutput[]>()
   const wrapperRef = React.useRef<any>(null)
@@ -97,7 +103,20 @@ export const Students = ({
 
   return (
     <div className="relative min-h-[100vh]">
-      <p className="students_logo text-lg grotesk">{school.name} Students.</p>
+      <div
+        className="inline-flex gap-3 items-center px-[2rem] py-5 pt-10 cursor-pointer text-primary relative z-[50] hover:underline"
+        onClick={() => setShowStudents(false)}
+      >
+        <BiArrowBack />
+        <span>Go back</span>
+      </div>
+      <p className="students_logo text-3xl grotesk -mt-5">
+        {school.name} Students.
+      </p>
+      <p className="px-[2rem] -mt-3 capitalize font-bold text-grey-300 flex gap-2 items-center">
+        <FaCircleInfo className="text-primary" />
+        <span>hover the images to see students details or donate.</span>
+      </p>
       <div className="students_sidebar">
         <div className="students_sidebar-item grotesk">
           <p id="students_header" className="urbanist">

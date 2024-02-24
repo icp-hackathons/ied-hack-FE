@@ -51,7 +51,6 @@ export const StudentCardAlt = ({ ...props }: props) => {
         src={props.image}
         layout="fill"
         alt={props.name}
-        className="rounded-[10px]"
         objectFit="cover"
       />
       <div className="absolute bottom-0 left-0 w-full min-h-[40%] bg-white students_slide-details translate-y-[110%] px-4 py-3">
