@@ -3,7 +3,7 @@ import { Button, Divider, Image, Input, Popover } from "antd"
 import React, { useState } from "react"
 import { FaBitcoin } from "react-icons/fa"
 import { QRCode } from "./QRCode"
-import { Category, MakeDonationParams } from "@/utils/declarations/backend/backend.did"
+import { Category, DonationParams } from "@/utils/declarations/backend/backend.did"
 
 interface props {
   id: bigint
@@ -16,11 +16,11 @@ interface props {
 }
 
 export const StudentCard = ({ ...props }: props) => {
-  const [open, setOpen] = useState(false)
-  const [donation, setDonation] = useState(0)
+  const [open, setOpen] = useState(false);
+  const [donation, setDonation] = useState(0);
+  const [paymentMethod, setPaymentMethod] = useState<number>(0);
 
   const getDonationInputs = (txId: string, address: string) => {
-
     const category: Category = {
       ls: BigInt(0),
       ss: BigInt(0),
@@ -30,13 +30,14 @@ export const StudentCard = ({ ...props }: props) => {
     }
     const satoshi = 100000000
 
-    const data: MakeDonationParams = {
+    const data: DonationParams = {
       donationTo: BigInt(1),
       txId: txId,
-      address: address,
+      donater: address,
       donationCategory: category,
       amount: BigInt(donation * satoshi),
-      recipientId: props.id
+      recipientId: props.id,
+      paymentMethod: BigInt(paymentMethod)
     }
     return data
   }

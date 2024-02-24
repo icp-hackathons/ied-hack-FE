@@ -1,9 +1,15 @@
 import {
-  MakeDonationParams,
+  DonationParams,
+  DonationParamsNNS,
   StudentOutput,
 } from "./declarations/backend/backend.did";
-import { makeBackendActor } from "./actor-locator";
+import {
+  makeBackendActor,
+  makeBackendActorWithAgent,
+} from "./backend-actor-locator";
 import { SchoolOutput } from "./declarations/backend/backend.did";
+import { Agent } from "@dfinity/agent";
+import { approveICPSpend } from "./ledger-service";
 
 export const getSchools = async () => {
   const backendService = await makeBackendActor();
@@ -64,13 +70,28 @@ export const getBitcoinAddress = async () => {
   return backendService.get_p2pkh_address();
 };
 
-export const getWalletBitcoinBalance = async () => {
+export const getBitcoinBalance = async () => {
   const backendService = await makeBackendActor();
   const address = await getBitcoinAddress();
-  return backendService.get_balance(address);
+  return backendService.get_btc_balance(address);
 };
 
-export const makeDonation = async (donation: MakeDonationParams) => {
+export const getCKBTCBalance = async () => {
   const backendService = await makeBackendActor();
-  return backendService.make_donation(donation);
+  return backendService.get_ckBtc_balance();
+};
+
+export const makeDonation = async (donation: DonationParams) => {
+  const backendService = await makeBackendActor();
+  return backendService.create_donation_record(donation);
+};
+
+export const makeDonationNNS = async (
+  donation: DonationParamsNNS,
+  agent: Agent
+) => {
+  const backendService = await makeBackendActorWithAgent(agent);
+  const backendId = await backendService.get_canister_id();
+  await approveICPSpend(backendId, donation.amount, agent);
+  return backendService.pay_with_nns(donation);
 };

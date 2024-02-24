@@ -145,7 +145,7 @@ type GetUtxosResponse =
  };
 type DonationParamsNNS = 
  record {
-   amount: Satoshi;
+   amount: nat;
    donationCategory: Category;
    donationTo: nat;
    paymentMethod: nat;
@@ -210,6 +210,8 @@ type BitcoinDonations =
    get_utxos: (BitcoinAddress__1) -> (GetUtxosResponse);
    /// Return the list of all donations
    list_donations: () -> (vec Donation) query;
+   /// Return the list of all pending donations
+   list_pending_donations: () -> (vec Donation);
    pay_with_nns: (DonationParamsNNS) -> (Result_1);
    /// Sends the given amount of bitcoin from this canister to the given address.
    /// Returns the transaction ID.

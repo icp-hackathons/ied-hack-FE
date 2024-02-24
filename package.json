@@ -8,12 +8,14 @@
     "start": "next start",
     "lint": "next lint",
     "deploy:backend": "./backend/scripts/deploy.sh",
-    "deploy:local-ledger": "./backend/scripts/deploy-local-ledger.sh"
+    "deploy:local-canisters": "./backend/scripts/deploy-local-canisters.sh"
   },
   "dependencies": {
-    "@dfinity/agent": "^0.19.2",
-    "@dfinity/candid": "^0.19.2",
-    "@dfinity/principal": "^0.19.2",
+    "@dfinity/agent": "^1.0.1",
+    "@dfinity/auth-client": "^1.0.1",
+    "@dfinity/candid": "^1.0.1",
+    "@dfinity/nns": "^4.0.1",
+    "@dfinity/principal": "^1.0.1",
     "@gsap/react": "^2.1.0",
     "antd": "^5.14.0",
     "classnames": "^2.5.1",

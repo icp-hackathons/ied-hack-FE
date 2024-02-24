@@ -144,7 +144,7 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
     };
 
     /// Return the list of all pending donations
-    func list_pending_donations() : async [Types.Donation] {
+    public func list_pending_donations() : async [Types.Donation] {
         Iter.toArray(Iter.map(Trie.iter(pending_donations), func(kv : (Text, Types.Donation)) : Types.Donation = kv.1));
     };
 
@@ -354,21 +354,18 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
         };
     };
 
-    /// User Donation
-    func register_donation(donation : Types.Donation) : async Types.Result<Text, Text> {
-        // get transaction balance from transaction id and verify them.
-        let donationTo : Nat = donation.donationTo;
+    func add_record_to_recipient(donationTo : Nat, recipientId : Nat, dti : Text, amount : Nat64) : async Types.Result<(), Text> {
         if (donationTo == 0) {
-            switch (school_get(donation.recipientId)) {
+            switch (school_get(recipientId)) {
                 case null {
-                    return #err("School record for id not found" #debug_show (donation.recipientId));
+                    return #err("School record for id not found" #debug_show (recipientId));
                 };
                 case (?school) {
                     // push donation dti to schools donation
-                    let donations = List.push(donation.dti, school.donations);
+                    let donations = List.push(dti, school.donations);
 
                     // update records
-                    let new_donation_total = school.amountDonated + donation.amount;
+                    let new_donation_total = school.amountDonated + amount;
                     let updated_school : Types.School = {
                         id = school.id;
                         name = school.name;
@@ -381,22 +378,24 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
                     };
 
                     school_put(school.id, updated_school);
+
+                    #ok;
                 };
             };
         } else {
             if (donationTo != 1) {
                 return #err "invalid donation recipient";
             };
-            switch (student_get(donation.recipientId)) {
+            switch (student_get(recipientId)) {
                 case null {
-                    return #err("Studetnt record for id not found" #debug_show (donation.recipientId));
+                    return #err("Studetnt record for id not found" #debug_show (recipientId));
                 };
                 case (?student) {
                     // push donation dti to schools donation
-                    let donations = List.push(donation.dti, student.donations);
+                    let donations = List.push(dti, student.donations);
 
                     // update records
-                    let new_donation_total = student.amountDonated + donation.amount;
+                    let new_donation_total = student.amountDonated + amount;
                     let updated_student : Types.Student = {
                         id = student.id;
                         name = student.name;
@@ -409,7 +408,25 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
                         schoolId = student.schoolId;
                     };
                     student_put(student.id, updated_student);
+                    #ok;
                 };
+            };
+        };
+    };
+
+    /// User Donation
+    func register_donation(donation : Types.Donation) : async Types.Result<Text, Text> {
+        // get transaction balance from transaction id and verify them.
+        let donationTo : Nat = donation.donationTo;
+
+        let result = await add_record_to_recipient(donationTo, donation.recipientId, donation.dti, donation.amount);
+
+        switch (result) {
+            case (#ok) {
+                // do nothing
+            };
+            case (#err(msg)) {
+                return #err msg;
             };
         };
 
@@ -476,7 +493,7 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
             to = { owner = canister_id; subaccount = null };
             fee = ?fee;
             memo = null;
-            amount = Nat64.toNat(inputs.amount);
+            amount = inputs.amount;
             spender_subaccount = null;
             from_subaccount = null;
             created_at_time = null;
@@ -490,13 +507,24 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
 
                 let dti = Types.get_dti(Nat.toText(blockIndex));
 
+                let result = await add_record_to_recipient(donationTo, inputs.recipientId, dti, Nat64.fromNat(inputs.amount));
+
+                switch (result) {
+                    case (#ok) {
+                        // do nothing
+                    };
+                    case (#err(msg)) {
+                        return #err(#GenericError { message = msg; error_code = 22 });
+                    };
+                };
+
                 // create new donation record
                 let donation : Types.Donation = {
                     dti;
                     txId = Nat.toText(blockIndex);
                     paymentMethod = inputs.paymentMethod;
-                    confirmed = false;
-                    amount = inputs.amount;
+                    confirmed = true;
+                    amount = Nat64.fromNat(inputs.amount);
                     category = inputs.donationCategory;
                     donater = Principal.toText(context.caller);
                     recipientId = inputs.recipientId;

@@ -4,7 +4,7 @@ import type { TabsProps } from "antd"
 import React, { useCallback, useEffect, useState } from "react"
 import { FaBitcoin } from "react-icons/fa"
 import { QRCode } from "@/components/QRCode"
-import { SchoolOutput, MakeDonationParams, Category } from "@/utils/declarations/backend/backend.did"
+import { SchoolOutput, DonationParams, Category } from "@/utils/declarations/backend/backend.did"
 
 const onChange = (key: string) => {
   console.log(key)
@@ -18,6 +18,7 @@ export const Donate = ({ school, address }: { school: SchoolOutput, address: str
   const [ts, setTs] = useState<number | string>(0)
   const [ss, setSs] = useState<number | string>(0)
   const [las, setLas] = useState<number | string>(0)
+  const [paymentMethod, setPaymentMethod] = useState<number>(0);
   const sum = Number(cdd) + Number(ts) + Number(ss) + Number(las)
 
   const toPercentage = (value: number, total: number) => {
@@ -43,13 +44,14 @@ export const Donate = ({ school, address }: { school: SchoolOutput, address: str
 
     console.log(category)
 
-    const data: MakeDonationParams = {
+    const data: DonationParams = {
       donationTo: BigInt(0),
       txId: txId,
-      address: address,
+      donater: address,
       donationCategory: category,
       amount: BigInt(donation * satoshi),
-      recipientId: school.id
+      recipientId: school.id,
+      paymentMethod: BigInt(paymentMethod),
     }
     return data
   }

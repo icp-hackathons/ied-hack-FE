@@ -104,7 +104,7 @@ export const idlFactory = ({ IDL }) => {
     'donationTo' : IDL.Nat,
     'paymentMethod' : IDL.Nat,
     'donationCategory' : Category,
-    'amount' : Satoshi,
+    'amount' : IDL.Nat,
     'recipientId' : IDL.Nat,
   });
   const TransferFromError = IDL.Variant({
@@ -165,6 +165,7 @@ export const idlFactory = ({ IDL }) => {
     'get_total_students' : IDL.Func([], [IDL.Nat], ['query']),
     'get_utxos' : IDL.Func([BitcoinAddress__1], [GetUtxosResponse], []),
     'list_donations' : IDL.Func([], [IDL.Vec(Donation)], ['query']),
+    'list_pending_donations' : IDL.Func([], [IDL.Vec(Donation)], []),
     'pay_with_nns' : IDL.Func([DonationParamsNNS], [Result_1], []),
     'withdraw_btc' : IDL.Func([SendRequest], [IDL.Text], []),
     'withdraw_ckbtc' : IDL.Func([SendCkBTCRequest], [Result], []),

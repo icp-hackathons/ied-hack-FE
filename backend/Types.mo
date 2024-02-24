@@ -120,7 +120,7 @@ module {
     public type DonationParamsNNS = {
         donationTo : Nat; // 0 means school, 1 means student
         recipientId : Nat; // id of recipient
-        amount : Types.Satoshi;
+        amount : Nat;
         donationCategory : Category;
         paymentMethod : Nat; // 0 means BTC, 2 means CkBTC
     };

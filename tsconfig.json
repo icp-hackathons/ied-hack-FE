@@ -32,7 +32,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "utils/actor-locator.ts"
+    "utils/backend-actor-locator.ts"
   ],
   "exclude": [
     "node_modules"

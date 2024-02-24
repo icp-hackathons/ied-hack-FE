@@ -20,6 +20,7 @@ export interface BitcoinDonations {
   'get_total_students' : ActorMethod<[], bigint>,
   'get_utxos' : ActorMethod<[BitcoinAddress__1], GetUtxosResponse>,
   'list_donations' : ActorMethod<[], Array<Donation>>,
+  'list_pending_donations' : ActorMethod<[], Array<Donation>>,
   'pay_with_nns' : ActorMethod<[DonationParamsNNS], Result_1>,
   'withdraw_btc' : ActorMethod<[SendRequest], string>,
   'withdraw_ckbtc' : ActorMethod<[SendCkBTCRequest], Result>,
@@ -57,7 +58,7 @@ export interface DonationParamsNNS {
   'donationTo' : bigint,
   'paymentMethod' : bigint,
   'donationCategory' : Category,
-  'amount' : Satoshi,
+  'amount' : bigint,
   'recipientId' : bigint,
 }
 export interface GetUtxosResponse {
