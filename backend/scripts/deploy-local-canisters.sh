@@ -43,3 +43,5 @@ dfx deploy icrc1_index --specified-id n5wcd-faaaa-aaaar-qaaea-cai --argument "(
         ledger_id = principal \"mxzaz-hqaaa-aaaar-qaada-cai\";
     }
 )" 
+
+dfx deploy internet_identity --argument '(null)' --specified-id rdmx6-jaaaa-aaaaa-aaadq-cai
