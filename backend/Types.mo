@@ -105,8 +105,6 @@ module {
         schools : [InitSchoolParams];
         students : [InitStudentParams];
         network : Types.Network;
-        ckBTCAddress : Text;
-        startBlock : Nat;
     };
 
     public type DonationParams = {
@@ -116,6 +114,14 @@ module {
         donationCategory : Category;
         txId : Text;
         donater : Types.BitcoinAddress;
+        paymentMethod : Nat; // 0 means BTC, 2 means CkBTC
+    };
+
+    public type DonationParamsNNS = {
+        donationTo : Nat; // 0 means school, 1 means student
+        recipientId : Nat; // id of recipient
+        amount : Types.Satoshi;
+        donationCategory : Category;
         paymentMethod : Nat; // 0 means BTC, 2 means CkBTC
     };
 
@@ -190,4 +196,32 @@ module {
     public type Network = Types.Network;
     public type BitcoinAddress = Types.BitcoinAddress;
     public type Satoshi = Types.Satoshi;
+    public type SendCkBTCRequest = {
+        destination_address : Principal;
+        amount_in_e8s : Nat;
+    };
+    public type TransferError = {
+        #GenericError : { message : Text; error_code : Nat };
+        #TemporarilyUnavailable;
+        #BadBurn : { min_burn_amount : Nat };
+        #Duplicate : { duplicate_of : Nat };
+        #BadFee : { expected_fee : Nat };
+        #CreatedInFuture : { ledger_time : Nat64 };
+        #TooOld;
+        #InsufficientFunds : { balance : Nat };
+    };
+
+    public type BlockIndex = Nat;
+
+    public type TransferFromError = {
+        #GenericError : { message : Text; error_code : Nat };
+        #TemporarilyUnavailable;
+        #InsufficientAllowance : { allowance : Nat };
+        #BadBurn : { min_burn_amount : Nat };
+        #Duplicate : { duplicate_of : Nat };
+        #BadFee : { expected_fee : Nat };
+        #CreatedInFuture : { ledger_time : Nat64 };
+        #TooOld;
+        #InsufficientFunds : { balance : Nat };
+    };
 };

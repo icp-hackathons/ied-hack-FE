@@ -21,8 +21,7 @@
       "wasm": "https://download.dfinity.systems/ic/8d4b6898d878fa3db4028b316b78b469ed29f293/canisters/ic-icrc1-ledger.wasm.gz",
       "remote": {
         "id": {
-          "ic": "mxzaz-hqaaa-aaaar-qaada-cai",
-          "local": "mxzaz-hqaaa-aaaar-qaada-cai"
+          "ic": "mxzaz-hqaaa-aaaar-qaada-cai"
         }
       }
     },
@@ -32,8 +31,7 @@
       "wasm": "https://download.dfinity.systems/ic/8d4b6898d878fa3db4028b316b78b469ed29f293/canisters/ic-icrc1-index.wasm.gz",
       "remote": {
         "id": {
-          "ic": "n5wcd-faaaa-aaaar-qaaea-cai",
-          "local": "n5wcd-faaaa-aaaar-qaaea-cai"
+          "ic": "n5wcd-faaaa-aaaar-qaaea-cai"
         }
       }
     }

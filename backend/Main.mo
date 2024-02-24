@@ -16,10 +16,10 @@ import Bool "mo:base/Bool";
 import Buffer "mo:base/Buffer";
 import Debug "mo:base/Debug";
 import None "mo:base/None";
-import ckBTCLegder "ic:mxzaz-hqaaa-aaaar-qaada-cai";
+import ckBTCLedger "ic:mxzaz-hqaaa-aaaar-qaada-cai";
 import ckBTCIndex "ic:n5wcd-faaaa-aaaar-qaaea-cai";
 
-import Ledger "./ledger/icrc1";
+import Int "mo:base/Int";
 
 import Types "./Types";
 import BitcoinWallet "bitcoin/BitcoinWallet";
@@ -27,12 +27,12 @@ import BitcoinApi "bitcoin/BitcoinApi";
 import Utils "bitcoin/Utils";
 
 shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Self {
+
     stable var schools = Types.schools_fromArray(init.schools);
     stable var students = Types.students_fromArray(init.students);
     stable var donations = Types.emptyDonations();
-    private stable var pending_donations = Types.emptyDonations();
-    private var logData = Buffer.Buffer<Text>(0);
-    private stable var ckBTCWallet = Principal.fromText(init.ckBTCAddress);
+    stable var pending_donations = Types.emptyDonations();
+    var logData = Buffer.Buffer<Text>(0);
 
     // The Bitcoin network to connect to.
     //
@@ -238,7 +238,7 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
     };
 
     // Log a message. Log output is capped at 100 items.
-    private func log(text : Text) {
+    func log(text : Text) {
         Debug.print(text);
         logData.reserve(logData.size() + 1);
         logData.insert(0, text);
@@ -259,7 +259,7 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
         return 0;
     };
 
-    private func confirmBTCDonation(donation : Types.Donation) : async (Bool, Text) {
+    func confirmBTCDonation(donation : Types.Donation) : async (Bool, Text) {
         let address = await get_p2pkh_address();
 
         let utxoResponse = await get_utxos(address);
@@ -271,9 +271,10 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
         return (true, "confirmed");
     };
 
-    private func confirmCkBtcDonation(donation : Types.Donation) : async (Bool, Text) {
+    func confirmCkBtcDonation(donation : Types.Donation) : async (Bool, Text) {
+        var canister_id = await get_canister_id();
         var response = await ckBTCIndex.get_account_transactions({
-            account = { owner = ckBTCWallet; subaccount = null };
+            account = { owner = canister_id; subaccount = null };
             start = Nat.fromText(donation.txId);
             max_results = 1;
         });
@@ -311,7 +312,7 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
     };
 
     // check donations
-    private func checkDonations() : async () {
+    func checkDonations() : async () {
         let pending_dlist = await list_pending_donations();
         if (Array.size(pending_dlist) > 0) {
             if (pending_dlist[0].paymentMethod == 0) {
@@ -433,9 +434,102 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
         #ok "Succesful Donation";
     };
 
+    public shared (context) func pay_with_nns(inputs : Types.DonationParamsNNS) : async Types.Result<Text, Types.TransferFromError> {
+
+        let paymentMethod = inputs.paymentMethod;
+
+        let donationTo = inputs.donationTo;
+
+        // check that the recipient parameters are valid
+        if (donationTo == 0) {
+            switch (school_get(inputs.recipientId)) {
+                case null {
+                    return #err(#GenericError { message = "School record for id not found" #debug_show (inputs.recipientId); error_code = 20 });
+                };
+                case (?school) {
+                    // do nothing
+                };
+            };
+        } else {
+            if (donationTo != 1) {
+                return #err(#GenericError { message = "invalid donation recipient Id"; error_code = 20 });
+            };
+            switch (student_get(inputs.recipientId)) {
+                case null {
+                    return #err(#GenericError { message = "Student record for id not found" #debug_show (inputs.recipientId); error_code = 20 });
+                };
+                case (?student) {
+                    // do nothing
+                };
+            };
+        };
+
+        // carry out the transfer from function
+        // ensure that user approves the amount to be sent before calling this function
+
+        var canister_id = await get_canister_id();
+
+        var fee = await ckBTCLedger.icrc1_fee();
+
+        let response = await ckBTCLedger.icrc2_transfer_from({
+            from = { owner = context.caller; subaccount = null };
+            to = { owner = canister_id; subaccount = null };
+            fee = ?fee;
+            memo = null;
+            amount = Nat64.toNat(inputs.amount);
+            spender_subaccount = null;
+            from_subaccount = null;
+            created_at_time = null;
+        });
+
+        return switch (response) {
+            case (#Err(error)) {
+                return #err error;
+            };
+            case (#Ok(blockIndex)) {
+
+                let dti = Types.get_dti(Nat.toText(blockIndex));
+
+                // create new donation record
+                let donation : Types.Donation = {
+                    dti;
+                    txId = Nat.toText(blockIndex);
+                    paymentMethod = inputs.paymentMethod;
+                    confirmed = false;
+                    amount = inputs.amount;
+                    category = inputs.donationCategory;
+                    donater = Principal.toText(context.caller);
+                    recipientId = inputs.recipientId;
+                    donationTo;
+                };
+
+                // get donation count and use as key for pending donation
+                let donationCount = await get_total_donations();
+
+                // store donation
+                donation_put(dti, donation);
+
+                // store donation in pending record
+                pending_donations_put(dti, donation);
+
+                return #ok dti;
+            };
+        };
+
+    };
+
     /// Returns the balance of the given Bitcoin address.
-    public func get_balance(address : Types.BitcoinAddress) : async Types.Satoshi {
+    public func get_btc_balance(address : Types.BitcoinAddress) : async Types.Satoshi {
         await BitcoinApi.get_balance(NETWORK, address);
+    };
+
+    /// Returns the ckbtc of the given canister address.
+    public func get_ckBtc_balance() : async Nat {
+        var canister_id = await get_canister_id();
+        await ckBTCLedger.icrc1_balance_of({
+            owner = canister_id;
+            subaccount = null;
+        });
     };
 
     /// Returns the UTXOs of the given Bitcoin address.
@@ -455,17 +549,52 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
     };
 
     // Get latest log items. Log output is capped at 100 items.
-    public query func getLogs() : async [Text] {
+    public query func get_logs() : async [Text] {
         Buffer.toArray(logData);
+    };
+
+    // Returns the canister ID
+    public func get_canister_id() : async Principal {
+        return Principal.fromActor(Self);
     };
 
     /// Sends the given amount of bitcoin from this canister to the given address.
     /// Returns the transaction ID.
-    public shared (context) func send(request : Types.SendRequest) : async Text {
+    public shared (context) func withdraw_btc(request : Types.SendRequest) : async Text {
         if (not Principal.equal(context.caller, actorContext.caller)) {
             return "Only the owner can withdraw btc from canister.";
         };
         Utils.bytesToText(await BitcoinWallet.send(NETWORK, DERIVATION_PATH, KEY_NAME, request.destination_address, request.amount_in_satoshi));
+    };
+
+    /// Sends the given amount of ckbtc from this canister to the given address.
+    /// Returns the transaction ID.
+    public shared (context) func withdraw_ckbtc(request : Types.SendCkBTCRequest) : async Types.Result<Types.BlockIndex, Types.TransferError> {
+        if (not Principal.equal(context.caller, actorContext.caller)) {
+            return #err(#GenericError { message = "Only the owner can withdraw ckbtc from canister."; error_code = 20 });
+        };
+
+        var canister_id = await get_canister_id();
+
+        var fee = await ckBTCLedger.icrc1_fee();
+
+        let response = await ckBTCLedger.icrc1_transfer({
+            to = { owner = canister_id; subaccount = null };
+            fee = ?fee;
+            memo = null;
+            amount = request.amount_in_e8s;
+            from_subaccount = null;
+            created_at_time = null;
+        });
+
+        return switch (response) {
+            case (#Err(error)) {
+                return #err error;
+            };
+            case (#Ok(blockIndex)) {
+                return #ok blockIndex;
+            };
+        };
     };
 
     func parse_transaction_id(transactionId : Blob) : Text {
