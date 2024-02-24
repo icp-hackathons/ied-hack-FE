@@ -31,83 +31,59 @@ const items = [
   },
 ]
 
-export const truncateAddress = (address: string) => {
-  if (!address) return;
-  if (address.length < 5) return address;
-  return (
-    address.slice(0, 5) +
-    "..." +
-    address.slice(address.length - 5, address.length)
-  );
-};
-
-export const formatAmount = (amount: bigint, paymentType: bigint) => {
-  let formatted_amount = (amount / BigInt(10 ** 8)).toString()
-  if (paymentType == BigInt(0)) {
-    return <>{formatted_amount} BTC</>
-  } else {
-    return <>{formatted_amount} ckBTC</>
-  }
-}
-
-export const getTxId = (txId: string, paymentMethod: bigint) => {
-  if (paymentMethod == BigInt(0)) {
-    return <Link href={`https://blockstream.info/testnet/tx/${txId}`}>{truncateAddress(txId)}</Link>
-  } else {
-    return <Link href={`https://dashboard.internetcomputer.org/bitcoin/transaction/${txId}`}>{truncateAddress(txId)}</Link>
-  }
-}
-
-export const getAccountId = (addr: string, paymentMethod: bigint) => {
-  if (paymentMethod == BigInt(0)) {
-    return <Link href={`https://blockstream.info/testnet/address/${addr}`}>{truncateAddress(addr)}</Link>
-  } else {
-    return <Link href={`https://dashboard.internetcomputer.org/bitcoin/account/${addr}`}>{truncateAddress(addr)}</Link>
-  }
-}
-
 export default function TxExplorerPage() {
-  const [open, setOpen] = useState(false);
-  const [studentTransactions, setStudentTransactions] = useState<Donation[] | null>(null);
-  const [schoolTransactions, setSchoolTransactions] = useState<Donation[] | null>(null);
+  const [open, setOpen] = useState(false)
+  const [studentTransactions, setStudentTransactions] = useState<
+    Donation[] | null
+  >(null)
+  const [schoolTransactions, setSchoolTransactions] = useState<
+    Donation[] | null
+  >(null)
 
   const tabItems: TabsProps["items"] = [
     {
       key: "1",
       label: "Schools Donations Tx",
-      children: <SchoolTransactions schoolTxn={schoolTransactions ? schoolTransactions : []} />,
+      children: (
+        <SchoolTransactions
+          schoolTxn={schoolTransactions ? schoolTransactions : []}
+        />
+      ),
     },
     {
       key: "2",
       label: "Students Donations Tx",
-      children: <StudentsTransactions studentTxn={studentTransactions ? studentTransactions : []} />,
+      children: (
+        <StudentsTransactions
+          studentTxn={studentTransactions ? studentTransactions : []}
+        />
+      ),
     },
   ]
 
-
   const getDonation = useCallback(async () => {
-    const donations = await getAllDonations();
+    const donations = await getAllDonations()
 
     if (donations.length > 0) {
-      const studentTxns = donations.filter(obj => {
-        return obj.donationTo === BigInt(1);
-      });
+      const studentTxns = donations.filter((obj) => {
+        return obj.donationTo === BigInt(1)
+      })
 
-      const schoolTxns = donations.filter(obj => {
-        return obj.donationTo === BigInt(0);
-      });
+      const schoolTxns = donations.filter((obj) => {
+        return obj.donationTo === BigInt(0)
+      })
 
-      setStudentTransactions(studentTxns);
-      setSchoolTransactions(schoolTxns);
+      setStudentTransactions(studentTxns)
+      setSchoolTransactions(schoolTxns)
     } else {
-      setStudentTransactions([]);
-      setSchoolTransactions([]);
+      setStudentTransactions([])
+      setSchoolTransactions([])
     }
   }, [])
 
   useEffect(() => {
     if (!studentTransactions && !schoolTransactions) {
-      getDonation();
+      getDonation()
     }
   }, [studentTransactions, schoolTransactions, getDonation])
 
@@ -127,4 +103,59 @@ export default function TxExplorerPage() {
       <Footer />
     </div>
   )
+}
+
+export const truncateAddress = (address: string) => {
+  if (!address) return
+  if (address.length < 5) return address
+  return (
+    address.slice(0, 5) +
+    "..." +
+    address.slice(address.length - 5, address.length)
+  )
+}
+
+export const formatAmount = (amount: bigint, paymentType: bigint) => {
+  let formatted_amount = (amount / BigInt(10 ** 8)).toString()
+  if (paymentType == BigInt(0)) {
+    return <>{formatted_amount} BTC</>
+  } else {
+    return <>{formatted_amount} ckBTC</>
+  }
+}
+
+export const getTxId = (txId: string, paymentMethod: bigint) => {
+  if (paymentMethod == BigInt(0)) {
+    return (
+      <Link href={`https://blockstream.info/testnet/tx/${txId}`}>
+        {truncateAddress(txId)}
+      </Link>
+    )
+  } else {
+    return (
+      <Link
+        href={`https://dashboard.internetcomputer.org/bitcoin/transaction/${txId}`}
+      >
+        {truncateAddress(txId)}
+      </Link>
+    )
+  }
+}
+
+export const getAccountId = (addr: string, paymentMethod: bigint) => {
+  if (paymentMethod == BigInt(0)) {
+    return (
+      <Link href={`https://blockstream.info/testnet/address/${addr}`}>
+        {truncateAddress(addr)}
+      </Link>
+    )
+  } else {
+    return (
+      <Link
+        href={`https://dashboard.internetcomputer.org/bitcoin/account/${addr}`}
+      >
+        {truncateAddress(addr)}
+      </Link>
+    )
+  }
 }
