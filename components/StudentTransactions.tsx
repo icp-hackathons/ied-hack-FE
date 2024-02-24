@@ -81,8 +81,6 @@ const getAccountId = (addr: string, paymentMethod: bigint) => {
   }
 }
 
-
-
 export const StudentsTransactions = ({ studentTxn }: { studentTxn: Donation[] }) => {
   const [dataSource, setDataSource] = useState(studentTxn)
   const [value, setValue] = useState("")
