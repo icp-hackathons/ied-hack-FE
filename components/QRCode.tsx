@@ -3,7 +3,7 @@ import { Divider, Popover } from "antd"
 import React, { useState } from "react"
 import { CgCheck, CgCopy } from "react-icons/cg"
 import { VerifyDonation } from "./VerifyDonation"
-import { QRCodeSVG } from "qrcode.react";
+import { QRCodeSVG } from "qrcode.react"
 
 export const QRCode = ({
   amount,
@@ -21,9 +21,7 @@ export const QRCode = ({
   const [open, setOpen] = useState(false)
   const [copied, setCopied] = useState(false)
 
-  const qrCodeValue = amount
-    ? `bitcoin:${address}?amount=${amount}`
-    : address;
+  const qrCodeValue = amount ? `bitcoin:${address}?amount=${amount}` : address
   return (
     <>
       <Popover
@@ -53,7 +51,7 @@ export const QRCode = ({
                     setCopied(false)
                   }, 3000)
                 }}
-                className="bg-green-light px-3 py-2 rounded-md text-white flex items-center gap-2"
+                className="bg-primary px-3 py-2 rounded-md text-white flex items-center gap-2"
               >
                 {copied ? <CgCheck className="font-[28px]" /> : <CgCopy />}
                 <span>{!copied ? "Copy" : "Copied!"}</span>
@@ -62,7 +60,7 @@ export const QRCode = ({
 
             <VerifyDonation getDonationInputs={getDonationInputs}>
               <button
-                className="bg-green-light px-3 py-2 rounded-md text-white w-full mt-3"
+                className="bg-primary px-3 py-2 rounded-md text-white w-full mt-3"
                 onClick={() => setOpen(false)}
               >
                 Verify Donation

@@ -6,9 +6,15 @@ import { SchoolOutput } from "@/src/declarations/backend/backend.did"
 import React, { useCallback, useEffect, useState } from "react"
 import * as backend from "@/utils/backend-service"
 import { StudentOutput } from "@/src/declarations/backend/backend.did"
-import Image from "next/legacy/image"
+import { StudentCardAlt } from "./StudentCardAlt"
 
-export const Students = ({ school }: { school: SchoolOutput }) => {
+export const Students = ({
+  school,
+  address,
+}: {
+  school: SchoolOutput
+  address: string
+}) => {
   const [students, setStudents] = useState<StudentOutput[]>()
   const getStudents = useCallback(async () => {
     const students = await backend.getStudentBySchool(school.students)
@@ -88,14 +94,14 @@ export const Students = ({ school }: { school: SchoolOutput }) => {
 
   return (
     <div className="relative min-h-[100vh]">
-      <p className="students_logo">{school.name} Students.</p>
+      <p className="students_logo text-lg grotesk">{school.name} Students.</p>
       <div className="students_sidebar">
-        <div className="students_sidebar-item">
-          <p id="students_header">
+        <div className="students_sidebar-item grotesk">
+          <p id="students_header" className="urbanist">
             the <br />
             future
           </p>
-          <p>
+          <p className="text-lg">
             Hover the images <br />
             (For Details)
           </p>
@@ -110,15 +116,16 @@ export const Students = ({ school }: { school: SchoolOutput }) => {
         <div className="students_slider-wrapper">
           {students?.map((student, index) => {
             return (
-              <div key={index} className="students_slide">
-                <Image
-                  src={student.image}
-                  layout="fill"
-                  alt={student.name}
-                  className="rounded-[10px]"
-                  objectFit="cover"
-                />
-              </div>
+              <StudentCardAlt
+                key={index}
+                id={student.id}
+                image={student.image}
+                name={student.name}
+                about={student.bio}
+                level={student.level}
+                cgpa={student.gpa}
+                address={address}
+              />
             )
           })}
         </div>

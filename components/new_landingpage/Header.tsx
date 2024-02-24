@@ -21,21 +21,26 @@ export const Header = () => {
               </span>
               Hackathon
             </span>
-            <nav className="md:block hidden">
+            <nav className="md:block hidden z-[50] relative">
               <ul className="flex gap-4 text-grey-200">
                 <li>
                   <Link
                     href={"https://github.com/osas2211/ied-hack-FE/#readme"}
                     target="_blank"
+                    className="hover:underline"
                   >
                     Docs
                   </Link>
                 </li>
                 <li>
-                  <Link href={"/schools"}>Schools</Link>
+                  <Link href={"/schools"} className="hover:underline">
+                    Schools
+                  </Link>
                 </li>
                 <li>
-                  <Link href={"/tx-explorer"}>Tx Explorer</Link>
+                  <Link href={"/tx-explorer"} className="hover:underline">
+                    Tx Explorer
+                  </Link>
                 </li>
               </ul>
             </nav>
