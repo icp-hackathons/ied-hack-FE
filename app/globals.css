@@ -38,6 +38,10 @@ html {
   }
 }
 
+a:hover {
+  color: inherit !important;
+}
+
 .ant-table-filter-dropdown-btns button.ant-btn-primary {
   background-color: #57cc99 !important;
 }
