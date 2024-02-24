@@ -4,11 +4,29 @@ import type { TabsProps } from "antd"
 import React, { useCallback, useEffect, useState } from "react"
 import { FaBitcoin } from "react-icons/fa"
 import { QRCode } from "@/components/QRCode"
-import { SchoolOutput, DonationParams, Category } from "@/utils/declarations/backend/backend.did"
+import { SchoolOutput, DonationParams, Category, DonationParamsNNS } from "@/utils/declarations/backend/backend.did"
+import { AuthClient } from "@dfinity/auth-client"
+import { makeBackendActor } from "@/utils/backend-actor-locator"
+import { approveICPSpend } from "@/utils/ledger-service"
 
 const onChange = (key: string) => {
   console.log(key)
 }
+
+export const makeDonationNNS = async (
+  donation: DonationParamsNNS,
+  authClient?: AuthClient
+) => {
+  console.log(authClient);
+  const backendService = await makeBackendActor(authClient);
+  const backendId = await backendService.get_canister_id();
+  if (authClient) {
+    await approveICPSpend(backendId, donation.amount, authClient);
+  } else {
+    throw new Error("No auth found");
+  }
+  return backendService.pay_with_nns(donation);
+};
 
 export const Donate = ({ school, address }: { school: SchoolOutput, address: string }) => {
   const [donationType, setDonationType] = useState("divide_equaly")

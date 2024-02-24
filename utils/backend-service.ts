@@ -3,13 +3,10 @@ import {
   DonationParamsNNS,
   StudentOutput,
 } from "./declarations/backend/backend.did";
-import {
-  makeBackendActor,
-  makeBackendActorWithAgent,
-} from "./backend-actor-locator";
+import { makeBackendActor } from "./backend-actor-locator";
 import { SchoolOutput } from "./declarations/backend/backend.did";
-import { Agent } from "@dfinity/agent";
 import { approveICPSpend } from "./ledger-service";
+import { AuthClient } from "@dfinity/auth-client";
 
 export const getSchools = async () => {
   const backendService = await makeBackendActor();
@@ -47,7 +44,7 @@ export const getAllDonations = async () => {
   return backendService.list_donations();
 };
 
-export const getSchoolById = async (id: string) => {
+export const getSchoolById = async (id: string | bigint) => {
   const backendService = await makeBackendActor();
   const res: any = await backendService.get_school(BigInt(id));
   if (res.err) {
@@ -56,7 +53,7 @@ export const getSchoolById = async (id: string) => {
   return res.ok;
 };
 
-export const getStudentById = async (id: string) => {
+export const getStudentById = async (id: string | bigint) => {
   const backendService = await makeBackendActor();
   const res: any = await backendService.get_student(BigInt(id));
   if (res.err) {
@@ -84,14 +81,4 @@ export const getCKBTCBalance = async () => {
 export const makeDonation = async (donation: DonationParams) => {
   const backendService = await makeBackendActor();
   return backendService.create_donation_record(donation);
-};
-
-export const makeDonationNNS = async (
-  donation: DonationParamsNNS,
-  agent: Agent
-) => {
-  const backendService = await makeBackendActorWithAgent(agent);
-  const backendId = await backendService.get_canister_id();
-  await approveICPSpend(backendId, donation.amount, agent);
-  return backendService.pay_with_nns(donation);
 };

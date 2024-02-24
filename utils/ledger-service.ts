@@ -1,13 +1,13 @@
 import { Principal } from "@dfinity/principal";
-import { makeLedgerActorWithAgent } from "./ledger-actor-locator";
-import { Agent } from "@dfinity/agent";
+import { makeLedgerActor } from "./ledger-actor-locator";
+import { AuthClient } from "@dfinity/auth-client";
 
 export async function approveICPSpend(
   spender: Principal,
   amount: bigint,
-  agent: Agent
+  authClient: AuthClient
 ) {
-  const ledgerService = await makeLedgerActorWithAgent(agent);
+  const ledgerService = await makeLedgerActor(authClient);
 
   const result = await ledgerService.icrc2_approve({
     fee: [],

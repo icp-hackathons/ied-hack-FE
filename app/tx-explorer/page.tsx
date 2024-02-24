@@ -10,6 +10,7 @@ import { FaWpexplorer } from "react-icons/fa"
 import { StudentsTransactions } from "@/components/StudentTransactions"
 import { Donation } from "@/utils/declarations/backend/backend.did"
 import { getAllDonations } from "@/utils/backend-service"
+import Link from "next/link"
 
 const items = [
   {
@@ -30,12 +31,45 @@ const items = [
   },
 ]
 
+export const truncateAddress = (address: string) => {
+  if (!address) return;
+  if (address.length < 5) return address;
+  return (
+    address.slice(0, 5) +
+    "..." +
+    address.slice(address.length - 5, address.length)
+  );
+};
 
+export const formatAmount = (amount: bigint, paymentType: bigint) => {
+  let formatted_amount = (amount / BigInt(10 ** 8)).toString()
+  if (paymentType == BigInt(0)) {
+    return <>{formatted_amount} BTC</>
+  } else {
+    return <>{formatted_amount} ckBTC</>
+  }
+}
+
+export const getTxId = (txId: string, paymentMethod: bigint) => {
+  if (paymentMethod == BigInt(0)) {
+    return <Link href={`https://blockstream.info/testnet/tx/${txId}`}>{truncateAddress(txId)}</Link>
+  } else {
+    return <Link href={`https://dashboard.internetcomputer.org/bitcoin/transaction/${txId}`}>{truncateAddress(txId)}</Link>
+  }
+}
+
+export const getAccountId = (addr: string, paymentMethod: bigint) => {
+  if (paymentMethod == BigInt(0)) {
+    return <Link href={`https://blockstream.info/testnet/address/${addr}`}>{truncateAddress(addr)}</Link>
+  } else {
+    return <Link href={`https://dashboard.internetcomputer.org/bitcoin/account/${addr}`}>{truncateAddress(addr)}</Link>
+  }
+}
 
 export default function TxExplorerPage() {
   const [open, setOpen] = useState(false);
   const [studentTransactions, setStudentTransactions] = useState<Donation[] | null>(null);
-  const [schoolTransactions, setSchoolTransactions] = useState<Donation[] | null>([]);
+  const [schoolTransactions, setSchoolTransactions] = useState<Donation[] | null>(null);
 
   const tabItems: TabsProps["items"] = [
     {

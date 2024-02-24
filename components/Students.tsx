@@ -6,6 +6,7 @@ import { SchoolOutput } from "@/src/declarations/backend/backend.did"
 import React, { useCallback, useEffect, useState } from "react"
 import * as backend from "@/utils/backend-service"
 import { StudentOutput } from "@/src/declarations/backend/backend.did"
+import Image from "next/legacy/image"
 
 export const Students = ({ school }: { school: SchoolOutput }) => {
   const [students, setStudents] = useState<StudentOutput[]>()
@@ -110,7 +111,13 @@ export const Students = ({ school }: { school: SchoolOutput }) => {
           {students?.map((student, index) => {
             return (
               <div key={index} className="students_slide">
-                <img alt={student.name} src={student.image} />
+                <Image
+                  src={student.image}
+                  layout="fill"
+                  alt={student.name}
+                  className="rounded-[10px]"
+                  objectFit="cover"
+                />
               </div>
             )
           })}

@@ -21,6 +21,7 @@ export const Schools = () => {
 
   const getSchools = useCallback(async () => {
     setGettingSchools(true)
+    console.log("here");
     const schoolData = await backend.getSchools()
     setSchools(schoolData)
     setMutableSchools(schoolData)
@@ -93,19 +94,16 @@ export const Schools = () => {
         />
         <div className="text-2xl flex items-center">
           <div
-            className={`${showGrid ? "bg-primary" : "bg-grey-600"} text-white ${
-              showGrid ? "p-3" : "p-2"
-            } cursor-pointer rounded-sm`}
+            className={`${showGrid ? "bg-primary" : "bg-grey-600"} text-white ${showGrid ? "p-3" : "p-2"
+              } cursor-pointer rounded-sm`}
             onClick={() => setShowGrid(true)}
           >
             <CiGrid41 />
           </div>
           <div
-            className={`${
-              !showGrid ? "bg-primary" : "bg-grey-600"
-            } text-white ${
-              !showGrid ? "p-3" : "p-2"
-            } cursor-pointer rounded-sm`}
+            className={`${!showGrid ? "bg-primary" : "bg-grey-600"
+              } text-white ${!showGrid ? "p-3" : "p-2"
+              } cursor-pointer rounded-sm`}
             onClick={() => setShowGrid(false)}
           >
             <CiBoxList />

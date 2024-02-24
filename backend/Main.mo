@@ -35,7 +35,6 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
     var logData = Buffer.Buffer<Text>(0);
 
     // The Bitcoin network to connect to.
-    //
     // When developing locally this should be `regtest`.
     // When deploying to the IC this should be `testnet`.
     stable let NETWORK : Types.Network = init.network;
@@ -72,9 +71,7 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
         donations := Trie.put(donations, Types.trie_key_text(dti), Text.equal, donation).0;
     };
 
-    // pending donation record
-    // func pending_donations_get(dti : Text) : ?Types.Donation = Trie.get(pending_donations, Types.trie_key_text(dti), Text.equal);
-
+    // handler for pending donations
     func pending_donations_put(dti : Text, donation : Types.Donation) {
         pending_donations := Trie.put(pending_donations, Types.trie_key_text(dti), Text.equal, donation).0;
     };
@@ -536,9 +533,6 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
 
                 // store donation
                 donation_put(dti, donation);
-
-                // store donation in pending record
-                pending_donations_put(dti, donation);
 
                 return #ok dti;
             };

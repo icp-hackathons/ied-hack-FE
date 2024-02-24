@@ -34,13 +34,13 @@ export const SchoolCardAlt: React.FC<props> = ({ school, index, address }) => {
           <p className=" hidden md:block w-[15%]">
             {school.donations.length} Donation(s)
           </p>
-          <p className="hidden md:flex gap-3 items-center w-[20%]">
+          <div className="hidden md:flex gap-3 items-center w-[20%]">
             <div className="flex gap-1 items-center">
               <span>{Number(school.amountDonated).toPrecision(9)}</span>
               <FaBitcoin className="text-yellow" />
             </div>
             <span>Donated</span>
-          </p>
+          </div>
         </div>
         <div>
           <p

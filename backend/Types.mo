@@ -114,7 +114,7 @@ module {
         donationCategory : Category;
         txId : Text;
         donater : Types.BitcoinAddress;
-        paymentMethod : Nat; // 0 means BTC, 2 means CkBTC
+        paymentMethod : Nat; // 0 means BTC, 1 means CkBTC
     };
 
     public type DonationParamsNNS = {
@@ -122,7 +122,7 @@ module {
         recipientId : Nat; // id of recipient
         amount : Nat;
         donationCategory : Category;
-        paymentMethod : Nat; // 0 means BTC, 2 means CkBTC
+        paymentMethod : Nat; // 0 means BTC, 1 means CkBTC
     };
 
     public type PendingDonation = {
