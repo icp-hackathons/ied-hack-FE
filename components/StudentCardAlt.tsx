@@ -5,7 +5,7 @@ import { FaBitcoin } from "react-icons/fa"
 import { QRCode } from "./QRCode"
 import {
   Category,
-  MakeDonationParams,
+  DonationParams,
 } from "@/utils/declarations/backend/backend.did"
 
 interface props {
@@ -21,6 +21,7 @@ interface props {
 export const StudentCardAlt = ({ ...props }: props) => {
   const [open, setOpen] = useState(false)
   const [donation, setDonation] = useState(0)
+  const [paymentMethod, setPaymentMethod] = useState<number>(0)
 
   const getDonationInputs = (txId: string, address: string) => {
     const category: Category = {
@@ -32,13 +33,14 @@ export const StudentCardAlt = ({ ...props }: props) => {
     }
     const satoshi = 100000000
 
-    const data: MakeDonationParams = {
+    const data: DonationParams = {
       donationTo: BigInt(1),
       txId: txId,
-      address: address,
+      donater: address,
       donationCategory: category,
       amount: BigInt(donation * satoshi),
       recipientId: props.id,
+      paymentMethod: BigInt(paymentMethod),
     }
     return data
   }
