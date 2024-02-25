@@ -5,8 +5,6 @@ import {
 } from "./declarations/backend/backend.did";
 import { makeBackendActor } from "./backend-actor-locator";
 import { SchoolOutput } from "./declarations/backend/backend.did";
-import { approveICPSpend } from "./ledger-service";
-import { AuthClient } from "@dfinity/auth-client";
 
 export const getSchools = async () => {
   const backendService = await makeBackendActor();

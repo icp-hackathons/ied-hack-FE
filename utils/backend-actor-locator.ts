@@ -22,16 +22,19 @@ export const makeActor = async (
 ) => {
   // check if auth client is passed
   if (authClient) {
-    const agent = new HttpAgent({
-      host: process.env.NEXT_PUBLIC_IC_HOST,
-      identity: authClient.getIdentity(),
-    });
-    return createActor(canisterId, {
-      agent,
-      agentOptions: {
+    let isAuth = await authClient.isAuthenticated();
+    if (isAuth) {
+      const agent = new HttpAgent({
         host: process.env.NEXT_PUBLIC_IC_HOST,
-      },
-    });
+        identity: authClient.getIdentity(),
+      });
+      return createActor(canisterId, {
+        agent,
+        agentOptions: {
+          host: process.env.NEXT_PUBLIC_IC_HOST,
+        },
+      });
+    }
   }
 
   return createActor(canisterId, {

@@ -26,7 +26,6 @@ export const Counter = ({ counter, setCounter }: CounterProps) => {
         })
         let delay = Math.floor(Math.random() * 100) + 100
         setTimeout(updateCounter, delay)
-        console.log("hey")
       }
       updateCounter()
     }
