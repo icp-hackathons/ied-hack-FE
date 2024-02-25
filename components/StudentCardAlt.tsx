@@ -53,7 +53,7 @@ export const StudentCardAlt = ({ ...props }: props) => {
         alt={props.name}
         objectFit="cover"
       />
-      <div className="absolute bottom-0 left-0 w-full min-h-[40%] bg-white students_slide-details translate-y-[110%] px-4 py-3">
+      <div className="absolute bottom-0 left-0 w-full min-h-[40%] bg-white students_slide-details md:translate-y-[110%] px-4 py-3">
         <div className="text-grey-900">
           <p className="text-lg font-bold">{props.name}</p>
           <div className="mb-4 mt-2">

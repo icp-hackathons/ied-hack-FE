@@ -104,26 +104,26 @@ export const Students = ({
   return (
     <div className="relative min-h-[100vh]">
       <div
-        className="inline-flex gap-3 items-center px-[2rem] py-5 pt-10 cursor-pointer text-primary relative z-[50] hover:underline"
+        className="inline-flex gap-3 items-center px-[2rem] py-5 md:pt-10 cursor-pointer text-primary relative z-[50] hover:underline"
         onClick={() => setShowStudents(false)}
       >
         <BiArrowBack />
         <span>Go back</span>
       </div>
-      <p className="students_logo text-3xl grotesk -mt-5">
+      <p className="students_logo md:text-3xl text-2xl grotesk -mt-5">
         {school.name} Students.
       </p>
-      <p className="px-[2rem] -mt-3 capitalize font-bold text-grey-300 flex gap-2 items-center">
+      <p className="px-[2rem] -mt-3 capitalize font-bold text-grey-300 md:flex gap-2 items-center hidden">
         <FaCircleInfo className="text-primary" />
         <span>hover the images to see students details or donate.</span>
       </p>
-      <div className="students_sidebar">
+      <div className="students_sidebar px-[3em] md:py-[1.5em] py-[0.1em] ">
         <div className="students_sidebar-item grotesk">
           <p id="students_header" className="urbanist">
             the <br />
             future
           </p>
-          <p className="text-lg">
+          <p className="text-lg md:block hidden">
             Hover the images <br />
             (For Details)
           </p>
@@ -134,8 +134,27 @@ export const Students = ({
         </div>
       </div>
 
-      <div className="students_slider">
+      <div className="hidden md:block students_slider">
         <div className="students_slider-wrapper" ref={wrapperRef}>
+          {students?.map((student, index) => {
+            return (
+              <StudentCardAlt
+                key={index}
+                id={student.id}
+                image={student.image}
+                name={student.name}
+                about={student.bio}
+                level={student.level}
+                cgpa={student.gpa}
+                address={address}
+              />
+            )
+          })}
+        </div>
+      </div>
+
+      <div className="block md:hidden pl-[1.8em] pr-[0.8em]">
+        <div>
           {students?.map((student, index) => {
             return (
               <StudentCardAlt

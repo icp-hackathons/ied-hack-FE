@@ -9,7 +9,7 @@
   align-items: flex-start;
   transform: rotate(-90deg) translate(-85%, 0);
   transform-origin: left top;
-  padding: 1.5em 3em;
+  /* padding: 1.5em 3em; */
   /* z-index: 30;
   position: relative; */
 }
@@ -72,4 +72,19 @@
 
 .students_slide:hover img {
   transform: scale(1);
+}
+
+@media screen and (max-width: 879px) {
+  .students_slide {
+    width: auto;
+    height: 450px;
+    background: #e3e3e3;
+    margin-bottom: 2rem;
+  }
+  /* .students_sidebar #students_header {
+    display: none;
+  } */
+  .students_sidebar {
+    position: fixed;
+  }
 }
