@@ -153,7 +153,7 @@ export const Students = ({
         </div>
       </div>
 
-      <div className="block md:hidden pl-[1.8em] pr-[0.8em]">
+      <div className="block md:hidden pl-[1.8em] pr-[1.2em] mt-[2rem]">
         <div>
           {students?.map((student, index) => {
             return (
