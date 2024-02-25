@@ -1,5 +1,5 @@
 "use client"
-import React from "react"
+import React, { useState } from "react"
 import { SchoolOutput } from "@/src/declarations/backend/backend.did"
 import Image from "next/image"
 import { BiArrowBack } from "react-icons/bi"
@@ -9,6 +9,7 @@ import { Donate } from "@/app/Donate"
 import { FloatButton, Image as AntImage, Button } from "antd"
 import { BiSolidDonateHeart } from "react-icons/bi"
 import { BsQrCode } from "react-icons/bs"
+import { DonateToSchool } from "./DonateToSchool"
 
 export const SchoolInfo = ({
   open,
@@ -25,6 +26,7 @@ export const SchoolInfo = ({
   showStudents: boolean
   setShowStudents: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
+  const [openDonate, setOpenDonate] = useState(false)
   return (
     <div className="min-h-[100vh] relative">
       <FloatButton.Group
@@ -86,6 +88,7 @@ export const SchoolInfo = ({
               type="primary"
               className="bg-primary flex items-center md:w-auto w-full justify-center"
               icon={<FaBitcoin />}
+              onClick={() => setOpenDonate(true)}
             >
               Donate
             </Button>
@@ -133,6 +136,12 @@ export const SchoolInfo = ({
           </AntImage.PreviewGroup>
         </div>
       </div>
+      <DonateToSchool
+        open={openDonate}
+        setOpen={setOpenDonate}
+        school={school}
+        address={address}
+      />
     </div>
   )
 }
