@@ -194,6 +194,10 @@ module {
         Trie.empty<Text, Donation>();
     };
 
+    public func emptyRecord() : Trie.Trie<Text, Text> {
+        Trie.empty<Text, Text>();
+    };
+
     // Bitcoin Implementation Types
     public type GetUtxosResponse = Types.GetUtxosResponse;
     public type MillisatoshiPerVByte = Types.MillisatoshiPerVByte;

@@ -11,6 +11,7 @@ interface props {
   donation: number | string
   address: string
   getDonationInputs: Function
+  paymentMethod: string
 }
 
 export const QRCodePaymentTour: React.FC<props> = ({
@@ -18,6 +19,7 @@ export const QRCodePaymentTour: React.FC<props> = ({
   donation,
   address,
   getDonationInputs,
+  paymentMethod,
 }) => {
   const ref = useRef(null)
   const [openQRCodePaymentTour, setOpenQRCodePaymentTour] = useState(false)
@@ -46,7 +48,7 @@ export const QRCodePaymentTour: React.FC<props> = ({
     },
     {
       title: "Verify Donation",
-      description: <VerifyDonation getDonationInputs={getDonationInputs} />,
+      description: <VerifyDonation getDonationInputs={getDonationInputs} paymentMethod={paymentMethod} />,
       target: null,
       nextButtonProps: {
         className: "h-[2rem]",

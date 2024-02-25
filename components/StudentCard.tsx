@@ -18,9 +18,9 @@ interface props {
 export const StudentCard = ({ ...props }: props) => {
   const [open, setOpen] = useState(false);
   const [donation, setDonation] = useState(0);
-  const [paymentMethod, setPaymentMethod] = useState<number>(0);
 
-  const getDonationInputs = (txId: string, address: string) => {
+  const getDonationInputs = (address: string, txId: string, paymentMethod: string) => {
+    console.log(address, txId)
     const category: Category = {
       ls: BigInt(0),
       ss: BigInt(0),

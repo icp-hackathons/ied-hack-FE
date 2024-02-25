@@ -6,9 +6,11 @@ import React, { useState } from "react"
 export const VerifyDonation = ({
   children,
   getDonationInputs,
+  paymentMethod,
 }: {
   children?: React.ReactNode
   getDonationInputs: Function
+  paymentMethod: string
 }) => {
   const [open, setOpen] = useState(false)
   const [address, setAddress] = useState("")
@@ -19,7 +21,8 @@ export const VerifyDonation = ({
     if (!address || !txId) {
       return
     }
-    const donationOutputs = getDonationInputs(address, txId)
+    console.log(address, txId)
+    const donationOutputs = getDonationInputs(address, txId, paymentMethod)
     try {
       setLoading(true)
       await makeDonation(donationOutputs).then((resp: any) => {

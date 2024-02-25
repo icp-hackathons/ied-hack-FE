@@ -32,6 +32,7 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
     stable var students = Types.students_fromArray(init.students);
     stable var donations = Types.emptyDonations();
     stable var pending_donations = Types.emptyDonations();
+    stable var donations_record = Types.emptyRecord();
     var logData = Buffer.Buffer<Text>(0);
 
     // The Bitcoin network to connect to.
@@ -69,6 +70,13 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
 
     func donation_put(dti : Text, donation : Types.Donation) {
         donations := Trie.put(donations, Types.trie_key_text(dti), Text.equal, donation).0;
+    };
+
+    // for donations record
+    func record_get(txId : Text) : ?Text = Trie.get(donations_record, Types.trie_key_text(txId), Text.equal);
+
+    func record_put(txId : Text, dti : Text) {
+        donations_record := Trie.put(donations_record, Types.trie_key_text(txId), Text.equal, dti).0;
     };
 
     // handler for pending donations
@@ -413,6 +421,14 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
 
     /// User Donation
     func register_donation(donation : Types.Donation) : async Types.Result<Text, Text> {
+
+        // first check record if txID exists
+        let data = record_get(donation.txId);
+
+        if (Option.isSome(data)) {
+            return #err "TxId already exists";
+        };
+
         // get transaction balance from transaction id and verify them.
         let donationTo : Nat = donation.donationTo;
 
@@ -445,11 +461,13 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
         // next delete donation from pending donations
         pending_donation_del(donation.dti);
 
+        // store donation in record
+        record_put(donation.txId, donation.dti);
+
         #ok "Succesful Donation";
     };
 
     public shared (context) func pay_with_nns(inputs : Types.DonationParamsNNS) : async Types.Result<Text, Types.TransferFromError> {
-
         let paymentMethod = inputs.paymentMethod;
 
         let donationTo = inputs.donationTo;
@@ -533,6 +551,9 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
 
                 // store donation
                 donation_put(dti, donation);
+
+                // store donation in record
+                record_put(donation.txId, donation.dti);
 
                 return #ok dti;
             };

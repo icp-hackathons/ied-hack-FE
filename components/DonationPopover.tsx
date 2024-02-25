@@ -43,6 +43,7 @@ export const DonationPopover: React.FC<props> = ({
               donation={donation}
               address={address}
               getDonationInputs={getDonationInputs}
+              paymentMethod={"0"}
             >
               Pay with BTC
             </QRCodePaymentTour>
@@ -92,6 +93,7 @@ export const CkBTCPopover: React.FC<props> = ({
               donation={donation}
               address={ckaddress}
               getDonationInputs={getDonationInputs}
+              paymentMethod={"1"}
             >
               QR Code
             </QRCodePaymentTour>

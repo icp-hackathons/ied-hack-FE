@@ -63,7 +63,6 @@ export const DonateToSchool = ({ open, setOpen, school, address, ckaddress }: pr
     ss: 0,
     las: 0,
   })
-  const [paymentMethod, setPaymentMethod] = useState<number>(0)
   const sum = Number(cdd) + Number(ts) + Number(ss) + Number(las)
   const resetValues = () => {
     setDonation(0)
@@ -86,7 +85,7 @@ export const DonateToSchool = ({ open, setOpen, school, address, ckaddress }: pr
 
   const satoshi = 100000000
 
-  const getDonationInputs = (txId: string, address: string) => {
+  const getDonationInputs = (address: string, txId: string, paymentMethod: string) => {
     const category: Category = {
       ls: BigInt(Number(las) * satoshi),
       ss: BigInt(Number(ss) * satoshi),
@@ -94,9 +93,6 @@ export const DonateToSchool = ({ open, setOpen, school, address, ckaddress }: pr
       cdd: BigInt(Number(cdd) * satoshi),
       categoryType: donationType === "divide_equaly" ? BigInt(0) : BigInt(1),
     }
-
-    console.log(category)
-
     const data: DonationParams = {
       donationTo: BigInt(0),
       txId: txId,
