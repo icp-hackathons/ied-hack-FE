@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import { SchoolCard } from "../SchoolCard"
-import * as backend from "../../utils/backend-service"
+import { SchoolCard } from "./SchoolCard"
+import * as backend from "../utils/backend-service"
 import { SchoolOutput } from "@/utils/declarations/backend/backend.did"
 import { getBitcoinAddress } from "@/utils/backend-service"
 import { Empty, Input } from "antd"
@@ -10,7 +10,7 @@ import Image from "next/image"
 import { FaBitcoin } from "react-icons/fa"
 import { useGSAP } from "@gsap/react"
 import { gsap } from "gsap"
-import { SchoolCardAlt } from "../SchoolCardAlt"
+import { SchoolCardAlt } from "./SchoolCardAlt"
 
 export const Schools = () => {
   const [gettingSchools, setGettingSchools] = useState(false)
@@ -21,7 +21,7 @@ export const Schools = () => {
 
   const getSchools = useCallback(async () => {
     setGettingSchools(true)
-    console.log("here");
+    console.log("here")
     const schoolData = await backend.getSchools()
     setSchools(schoolData)
     setMutableSchools(schoolData)
@@ -94,16 +94,19 @@ export const Schools = () => {
         />
         <div className="text-2xl flex items-center">
           <div
-            className={`${showGrid ? "bg-primary" : "bg-grey-600"} text-white ${showGrid ? "p-3" : "p-2"
-              } cursor-pointer rounded-sm`}
+            className={`${showGrid ? "bg-primary" : "bg-grey-600"} text-white ${
+              showGrid ? "p-3" : "p-2"
+            } cursor-pointer rounded-sm`}
             onClick={() => setShowGrid(true)}
           >
             <CiGrid41 />
           </div>
           <div
-            className={`${!showGrid ? "bg-primary" : "bg-grey-600"
-              } text-white ${!showGrid ? "p-3" : "p-2"
-              } cursor-pointer rounded-sm`}
+            className={`${
+              !showGrid ? "bg-primary" : "bg-grey-600"
+            } text-white ${
+              !showGrid ? "p-3" : "p-2"
+            } cursor-pointer rounded-sm`}
             onClick={() => setShowGrid(false)}
           >
             <CiBoxList />

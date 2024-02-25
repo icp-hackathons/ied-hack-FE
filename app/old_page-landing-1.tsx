@@ -3,7 +3,7 @@ import { Footer } from "@/components/Footer"
 import { Counter } from "@/components/Landing/Counter"
 import { Left } from "@/components/Landing/Left"
 import { Right } from "@/components/Landing/Right"
-import { Schools } from "@/components/Landing/Schools"
+import { Schools } from "@/components/Schools"
 import React from "react"
 
 export default function Home() {

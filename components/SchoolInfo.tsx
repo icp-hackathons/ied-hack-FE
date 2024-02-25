@@ -6,7 +6,7 @@ import { BiArrowBack } from "react-icons/bi"
 import { CiLocationOn } from "react-icons/ci"
 import { FaBitcoin } from "react-icons/fa"
 import { Donate } from "@/app/Donate"
-import { FloatButton, Image as AntImage, Button } from "antd"
+import { Image as AntImage, Button } from "antd"
 import { BiSolidDonateHeart } from "react-icons/bi"
 import { BsQrCode } from "react-icons/bs"
 import { DonateToSchool } from "./DonateToSchool"
@@ -29,15 +29,6 @@ export const SchoolInfo = ({
   const [openDonate, setOpenDonate] = useState(false)
   return (
     <div className="min-h-[100vh] relative">
-      <FloatButton.Group
-        trigger="hover"
-        type="primary"
-        style={{ right: 94 }}
-        icon={<BiSolidDonateHeart />}
-      >
-        <FloatButton icon={<BsQrCode />} />
-        <FloatButton icon={<FaBitcoin className="text-yellow" />} />
-      </FloatButton.Group>
       <div
         className="inline-flex gap-3 items-center md:px-[5rem] px-[1.5rem] md:py-10 py-5 cursor-pointer text-primary"
         onClick={() => setOpen(false)}

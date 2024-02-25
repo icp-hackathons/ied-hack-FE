@@ -16,12 +16,12 @@ export const Header = ({
       <div className="main-header text-white border-b-grey-700 border-b-[1px] md:px-[6rem] px-[1rem] py-6">
         <div className="flex justify-between items-center w-full ">
           <div className="flex gap-7 items-center">
-            <span className="text-xl relative z-[110]">
+            <Link href={"/"} className="text-xl relative z-[110]">
               <span>
                 i<span className="text-red-500">ED </span>
               </span>
               Hackathon
-            </span>
+            </Link>
             <nav className="md:block hidden z-[50] relative">
               <ul className="flex gap-4 text-grey-200">
                 <li>

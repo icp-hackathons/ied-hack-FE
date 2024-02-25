@@ -1,10 +1,10 @@
 "use client"
 import React, { useState } from "react"
 import Image from "next/image"
-import { SchoolPage } from "@/app/School"
 import { SchoolOutput } from "@/utils/declarations/backend/backend.did"
 import { CiLocationOn } from "react-icons/ci"
 import { FaBitcoin } from "react-icons/fa"
+import { SchoolDetails } from "./SchoolDetails"
 
 interface props {
   school: SchoolOutput
@@ -51,7 +51,7 @@ export const SchoolCardAlt: React.FC<props> = ({ school, index, address }) => {
           </p>
         </div>
       </div>
-      <SchoolPage
+      <SchoolDetails
         open={open}
         setOpen={setOpen}
         school={school}

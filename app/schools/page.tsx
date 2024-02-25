@@ -1,6 +1,6 @@
 "use client"
 import { Footer } from "@/components/Footer"
-import { Schools } from "@/components/Landing/Schools"
+import { Schools } from "@/components/Schools"
 import { Announcement } from "@/components/new_landingpage/Announcement"
 import { Header } from "@/components/new_landingpage/Header"
 import React from "react"

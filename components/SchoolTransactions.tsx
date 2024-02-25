@@ -1,14 +1,17 @@
 "use client"
 import React, { useEffect, useState } from "react"
-import { Input, Table } from "antd"
+import { Input, Table, Tooltip } from "antd"
 import type { TableColumnsType, TableProps } from "antd"
 import { BiSearch } from "react-icons/bi"
-import { FaBitcoin } from "react-icons/fa"
+import { FaBitcoin, FaInfoCircle } from "react-icons/fa"
 import { Donation } from "@/utils/declarations/backend/backend.did"
 // import { formatAmount, getAccountId, getTxId, } from "@/app/tx-explorer/page"
 import { getSchoolById } from "@/utils/backend-service"
 import { truncateAddress } from "@/utils/formatter"
 import Link from "next/link"
+import { FaRegEye } from "react-icons/fa"
+import { BsInfo } from "react-icons/bs"
+import { TransactionPreview } from "./TransactionPreview"
 
 const toFilterArray = (data: Donation[], key: string) => {
   const hashmap: Record<string, { text: string; value: string }> = {}
@@ -26,16 +29,14 @@ const SchoolNameComp = ({ id }: { id: bigint }) => {
 
   useEffect(() => {
     async function fetchData() {
-      const res = await getSchoolById(id);
-      setName(res.name);
+      const res = await getSchoolById(id)
+      setName(res.name)
     }
     fetchData()
-  }, [id]);
+  }, [id])
 
-  return (
-    <>{name}</>
-  )
-};
+  return <>{name}</>
+}
 
 const formatAmount = (amount: bigint, paymentType: bigint) => {
   let formatted_amount = (amount / BigInt(10 ** 8)).toString()
@@ -49,13 +50,17 @@ const formatAmount = (amount: bigint, paymentType: bigint) => {
 const getTxId = (txId: string, paymentMethod: bigint) => {
   if (paymentMethod == BigInt(0)) {
     return (
-      <Link href={`https://blockstream.info/testnet/tx/${txId}`}>
+      <Link
+        href={`https://blockstream.info/testnet/tx/${txId}`}
+        className="text-[#957fef] underline"
+      >
         {truncateAddress(txId)}
       </Link>
     )
   } else {
     return (
       <Link
+        className="text-[#957fef] underline"
         href={`https://dashboard.internetcomputer.org/bitcoin/transaction/${txId}`}
       >
         {truncateAddress(txId)}
@@ -67,13 +72,17 @@ const getTxId = (txId: string, paymentMethod: bigint) => {
 const getAccountId = (addr: string, paymentMethod: bigint) => {
   if (paymentMethod == BigInt(0)) {
     return (
-      <Link href={`https://blockstream.info/testnet/address/${addr}`}>
+      <Link
+        href={`https://blockstream.info/testnet/address/${addr}`}
+        className="text-[#957fef] underline"
+      >
         {truncateAddress(addr)}
       </Link>
     )
   } else {
     return (
       <Link
+        className="text-[#957fef] underline"
         href={`https://dashboard.internetcomputer.org/bitcoin/account/${addr}`}
       >
         {truncateAddress(addr)}
@@ -82,37 +91,109 @@ const getAccountId = (addr: string, paymentMethod: bigint) => {
   }
 }
 
+export const SchoolTransactions = ({
+  schoolTxn,
+}: {
+  schoolTxn: Donation[]
+}) => {
+  const data: Donation[] = [
+    {
+      dti: "0x5635",
+      txId: "0x123",
+      recipientId: BigInt(0),
+      amount: BigInt(2),
+      donater: "0x123",
+      paymentMethod: BigInt(0),
+      confirmed: false,
+      category: {
+        ls: BigInt(2),
+        ss: BigInt(2),
+        ts: BigInt(2),
+        cdd: BigInt(2),
+        categoryType: BigInt(2),
+      },
+      donationTo: BigInt(1),
+    },
+    {
+      dti: "0x123",
+      txId: "0x123",
+      recipientId: BigInt(0),
+      amount: BigInt(0),
+      donater: "0x123",
+      paymentMethod: BigInt(0),
+      confirmed: false,
+      category: {
+        ls: BigInt(2),
+        ss: BigInt(2),
+        ts: BigInt(2),
+        cdd: BigInt(2),
+        categoryType: BigInt(2),
+      },
+      donationTo: BigInt(0),
+    },
+    {
+      dti: "0x123",
+      txId: "0x123",
+      recipientId: BigInt(0),
+      amount: BigInt(0),
+      donater: "0x123",
+      paymentMethod: BigInt(0),
+      confirmed: false,
+      category: {
+        ls: BigInt(2),
+        ss: BigInt(2),
+        ts: BigInt(2),
+        cdd: BigInt(2),
+        categoryType: BigInt(2),
+      },
+      donationTo: BigInt(0),
+    },
+  ]
+  const [dataSource, setDataSource] = useState(data)
 
-export const SchoolTransactions = ({ schoolTxn }: { schoolTxn: Donation[] }) => {
-  const [dataSource, setDataSource] = useState(schoolTxn)
+  // const [dataSource, setDataSource] = useState(schoolTxn)
   const [value, setValue] = useState("")
 
-  console.log(dataSource);
+  console.log(dataSource)
 
   const columns: TableColumnsType<Donation> = [
     {
+      title: (
+        <Tooltip title="See preview of the transaction details">
+          <FaInfoCircle className="text-primary" />
+        </Tooltip>
+      ),
+      dataIndex: "dti",
+      key: "dti",
+      render: (dti) => (
+        <TransactionPreview>
+          <div className="p-2 border-[1px] border-grey-600 rounded-md bg-grey-800 inline-block cursor-pointer">
+            <FaRegEye />
+          </div>
+        </TransactionPreview>
+      ),
+    },
+    {
       title: "DTI",
       dataIndex: "dti",
-      key: 'dti',
+      key: "dti",
       render: (dti) => (
-        <>{truncateAddress(dti)}</>
-      )
+        <>
+          <p className="">{truncateAddress(dti)}</p>
+        </>
+      ),
     },
     {
       title: "Transaction ID",
       dataIndex: "txId",
-      key: 'txId',
-      render: (txId, record) => (
-        getTxId(txId, record.paymentMethod)
-      )
+      key: "txId",
+      render: (txId, record) => getTxId(txId, record.paymentMethod),
     },
     {
       title: "School Name",
       dataIndex: "recipientId",
-      key: 'recipientId',
-      render: (id) => (
-        <SchoolNameComp id={id} />
-      )
+      key: "recipientId",
+      render: (id) => <SchoolNameComp id={id} />,
     },
     {
       title: (
@@ -122,10 +203,8 @@ export const SchoolTransactions = ({ schoolTxn }: { schoolTxn: Donation[] }) => 
       ),
       dataIndex: "amount",
       sorter: (a, b) => Number(BigInt(a.amount)) - Number(BigInt(b.amount)),
-      key: 'amount',
-      render: (amt, record) => (
-        formatAmount(amt, record.paymentMethod)
-      ),
+      key: "amount",
+      render: (amt, record) => formatAmount(amt, record.paymentMethod),
     },
 
     {
@@ -134,10 +213,8 @@ export const SchoolTransactions = ({ schoolTxn }: { schoolTxn: Donation[] }) => 
       filters: toFilterArray(schoolTxn, "donater"),
       onFilter: (value: any, record) => record.donater.indexOf(value) > -1,
       filterSearch: true,
-      key: 'donater',
-      render: (addr, record) => (
-        getAccountId(addr, record.paymentMethod)
-      ),
+      key: "donater",
+      render: (addr, record) => getAccountId(addr, record.paymentMethod),
     },
   ]
   return (
@@ -169,7 +246,7 @@ export const SchoolTransactions = ({ schoolTxn }: { schoolTxn: Donation[] }) => 
         onChange={(e) => {
           const currValue = e.target.value
           setValue(currValue)
-          const filteredData = schoolTxn.filter((entry) =>
+          const filteredData = data.filter((entry) =>
             entry.dti.toLowerCase().includes(currValue.toLowerCase())
           )
           setDataSource(filteredData)
