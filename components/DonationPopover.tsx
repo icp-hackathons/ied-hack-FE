@@ -5,8 +5,6 @@ import { NNSPayment } from "./NNSPayment"
 import { QRCodePaymentTour } from "./QRCodePaymentTour"
 
 interface props {
-  openPopover: boolean
-  setOpenPopover: React.Dispatch<React.SetStateAction<boolean>>
   openQRCodePaymentTour: boolean
   setOpenQRCodePaymentTour: React.Dispatch<React.SetStateAction<boolean>>
   donation: number | string
@@ -16,8 +14,6 @@ interface props {
 }
 
 export const DonationPopover: React.FC<props> = ({
-  openPopover,
-  setOpenPopover,
   openQRCodePaymentTour,
   setOpenQRCodePaymentTour,
   donation,
@@ -25,6 +21,8 @@ export const DonationPopover: React.FC<props> = ({
   getDonationInputs,
   disabled,
 }) => {
+  const [openPopover, setOpenPopover] = useState(false)
+
   return (
     <Popover
       trigger={"click"}
@@ -37,8 +35,6 @@ export const DonationPopover: React.FC<props> = ({
           <p className="text-center mb-4 text-[17px]">Payment Methods</p>
           <div className="flex gap-3 w-full bg-grey-700">
             <CkBTCPopover
-              openPopover={openPopover}
-              setOpenPopover={setOpenPopover}
               openQRCodePaymentTour={openQRCodePaymentTour}
               setOpenQRCodePaymentTour={setOpenQRCodePaymentTour}
               donation={donation}
@@ -78,8 +74,6 @@ export const DonationPopover: React.FC<props> = ({
 }
 
 export const CkBTCPopover: React.FC<props> = ({
-  openPopover,
-  setOpenPopover,
   openQRCodePaymentTour,
   setOpenQRCodePaymentTour,
   donation,

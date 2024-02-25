@@ -23,7 +23,6 @@ export const StudentCardAlt = ({ ...props }: props) => {
   const [open, setOpen] = useState(false)
   const [donation, setDonation] = useState(0)
   const [paymentMethod, setPaymentMethod] = useState<number>(0)
-  const [openPopover, setOpenPopover] = useState(false)
   const [openQRCodePaymentTour, setOpenQRCodePaymentTour] = useState(false)
 
   const getDonationInputs = (txId: string, address: string) => {
@@ -102,8 +101,6 @@ export const StudentCardAlt = ({ ...props }: props) => {
                   address={props.address}
                   getDonationInputs={getDonationInputs}
                   disabled={donation <= 0}
-                  openPopover={openPopover}
-                  setOpenPopover={setOpenPopover}
                 />
               </div>
             }

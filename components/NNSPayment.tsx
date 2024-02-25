@@ -1,4 +1,6 @@
-import { Button } from "antd"
+"use client"
+import { Button, Modal } from "antd"
+
 import React from "react"
 
 export const NNSPayment = () => {
