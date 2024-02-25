@@ -24,7 +24,6 @@ export const StudentCardAlt = ({ ...props }: props) => {
   const [donation, setDonation] = useState(0)
   const [paymentMethod, setPaymentMethod] = useState<number>(0)
   const [openPopover, setOpenPopover] = useState(false)
-  const [openCkBtcPopover, setOpenCkBtcPopover] = useState(false)
   const [openQRCodePaymentTour, setOpenQRCodePaymentTour] = useState(false)
 
   const getDonationInputs = (txId: string, address: string) => {
@@ -76,7 +75,9 @@ export const StudentCardAlt = ({ ...props }: props) => {
             trigger={"click"}
             placement="top"
             open={open}
-            onOpenChange={() => setOpen(!open)}
+            onOpenChange={() => {
+              setOpen(!open)
+            }}
             content={
               <div className="min-w-[20rem] relative">
                 <Input
@@ -103,8 +104,6 @@ export const StudentCardAlt = ({ ...props }: props) => {
                   disabled={donation <= 0}
                   openPopover={openPopover}
                   setOpenPopover={setOpenPopover}
-                  openCkBtcPopover={openCkBtcPopover}
-                  setOpenCkBtcPopover={setOpenCkBtcPopover}
                 />
               </div>
             }

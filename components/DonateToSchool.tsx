@@ -50,7 +50,6 @@ export const makeDonationNNS = async (
 
 export const DonateToSchool = ({ open, setOpen, school, address }: props) => {
   const [openPopover, setOpenPopover] = useState(false)
-  const [openCkBtcPopover, setOpenCkBtcPopover] = useState(false)
   const [openQRCodePaymentTour, setOpenQRCodePaymentTour] = useState(false)
   const [donationType, setDonationType] = useState("divide_equaly")
   const [donation, setDonation] = useState(0)
@@ -357,8 +356,6 @@ export const DonateToSchool = ({ open, setOpen, school, address }: props) => {
           disabled={!formFilled()}
           openPopover={openPopover}
           setOpenPopover={setOpenPopover}
-          openCkBtcPopover={openCkBtcPopover}
-          setOpenCkBtcPopover={setOpenCkBtcPopover}
         />
       </div>
     </Modal>
