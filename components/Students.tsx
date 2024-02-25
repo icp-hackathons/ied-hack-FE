@@ -159,6 +159,7 @@ export const Students = ({
                     level={student.level}
                     cgpa={student.gpa}
                     address={address}
+                    ckaddress={ckaddress}
                   />
                 )
               })}
@@ -178,6 +179,7 @@ export const Students = ({
                     level={student.level}
                     cgpa={student.gpa}
                     address={address}
+                    ckaddress={ckaddress}
                   />
                 )
               })}

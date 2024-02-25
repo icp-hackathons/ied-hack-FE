@@ -8,6 +8,8 @@ import { NNSLogo } from "./NNSLogo"
 export const NNSPayment = () => {
   const [isConnected, setIsConnected] = React.useState(false)
   const [visible, setVisible] = React.useState(false)
+
+
   return (
     <div>
       <Button

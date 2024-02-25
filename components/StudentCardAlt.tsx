@@ -17,6 +17,7 @@ interface props {
   image: string
   about: string
   address: string
+  ckaddress: string
 }
 
 export const StudentCardAlt = ({ ...props }: props) => {
@@ -99,6 +100,7 @@ export const StudentCardAlt = ({ ...props }: props) => {
                   address={props.address}
                   getDonationInputs={getDonationInputs}
                   disabled={donation <= 0}
+                  ckaddress={props.ckaddress}
                 />
               </div>
             }
