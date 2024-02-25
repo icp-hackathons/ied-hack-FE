@@ -43,7 +43,11 @@ a:hover {
 }
 
 .ant-table-filter-dropdown-btns button.ant-btn-primary {
-  background-color: #57cc99 !important;
+  background-color: #da3161 !important;
+}
+
+.ant-tour-buttons .ant-btn-primary {
+  background-color: #da3161 !important;
 }
 
 .card-btn:before {

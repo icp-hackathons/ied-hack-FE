@@ -1,10 +1,21 @@
 "use client"
 import React, { useEffect, useState } from "react"
-import { Button, Input, Modal, Select, Tabs, TabsProps } from "antd"
-import { SchoolOutput } from "@/src/declarations/backend/backend.did"
+import { Button, Input, Modal, Select, Tabs, TabsProps, Popover } from "antd"
+
 import { IoIosCloseCircleOutline } from "react-icons/io"
 import { FaBitcoinSign } from "react-icons/fa6"
 import { FaPercent } from "react-icons/fa"
+import { QRCode } from "@/components/QRCode"
+import {
+  SchoolOutput,
+  DonationParams,
+  Category,
+  DonationParamsNNS,
+} from "@/utils/declarations/backend/backend.did"
+import { AuthClient } from "@dfinity/auth-client"
+import { makeBackendActor } from "@/utils/backend-actor-locator"
+import { approveICPSpend } from "@/utils/ledger-service"
+import { QRCodePaymentTour } from "./QRCodePaymentTour"
 
 interface props {
   open: boolean
@@ -20,9 +31,25 @@ interface percentagesI {
   las: number
 }
 
-export const DonateToSchool = ({ open, setOpen, school, address }: props) => {
-  const [donationType, setDonationType] = useState("divide_equaly")
+export const makeDonationNNS = async (
+  donation: DonationParamsNNS,
+  authClient?: AuthClient
+) => {
+  console.log(authClient)
+  const backendService = await makeBackendActor(authClient)
+  const backendId = await backendService.get_canister_id()
+  if (authClient) {
+    await approveICPSpend(backendId, donation.amount, authClient)
+  } else {
+    throw new Error("No auth found")
+  }
+  return backendService.pay_with_nns(donation)
+}
 
+export const DonateToSchool = ({ open, setOpen, school, address }: props) => {
+  const [openPopover, setOpenPopover] = useState(false)
+  const [openQRCodePaymentTour, setOpenQRCodePaymentTour] = useState(false)
+  const [donationType, setDonationType] = useState("divide_equaly")
   const [donation, setDonation] = useState(0)
   const [cdd, setCdd] = useState<number | string>(0)
   const [ts, setTs] = useState<number | string>(0)
@@ -56,6 +83,29 @@ export const DonateToSchool = ({ open, setOpen, school, address }: props) => {
     donation !== 0 && cdd !== 0 && ts !== 0 && ss !== 0 && las !== 0
 
   const satoshi = 100000000
+
+  const getDonationInputs = (txId: string, address: string) => {
+    const category: Category = {
+      ls: BigInt(Number(las) * satoshi),
+      ss: BigInt(Number(ss) * satoshi),
+      ts: BigInt(Number(ts) * satoshi),
+      cdd: BigInt(Number(cdd) * satoshi),
+      categoryType: donationType === "divide_equaly" ? BigInt(0) : BigInt(1),
+    }
+
+    console.log(category)
+
+    const data: DonationParams = {
+      donationTo: BigInt(0),
+      txId: txId,
+      donater: address,
+      donationCategory: category,
+      amount: BigInt(donation * satoshi),
+      recipientId: school.id,
+      paymentMethod: BigInt(paymentMethod),
+    }
+    return data
+  }
 
   useEffect(() => {
     if (donationType === "divide_equaly") {
@@ -295,9 +345,34 @@ export const DonateToSchool = ({ open, setOpen, school, address }: props) => {
           </ul>
         </div>
 
-        <Button type="primary" className="bg-primary w-full" size="large">
-          Proceed
-        </Button>
+        <Popover
+          trigger={"click"}
+          onOpenChange={() => setOpenPopover(!openPopover)}
+          open={openPopover}
+          content={
+            <div className="w-full p-5 rounded-md">
+              <p className="text-center mb-4 text-[17px]">Payment Methods</p>
+              <div className="flex gap-3 w-full bg-grey-700">
+                <Button className="border-primary w-full" size="large">
+                  Pay with ckBTC
+                </Button>
+                <QRCodePaymentTour
+                  openQRCodePaymentTour={openQRCodePaymentTour}
+                  setOpenQRCodePaymentTour={setOpenQRCodePaymentTour}
+                  donation={donation}
+                  address={address}
+                  getDonationInputs={getDonationInputs}
+                >
+                  Pay with BTC
+                </QRCodePaymentTour>
+              </div>
+            </div>
+          }
+        >
+          <Button type="primary" className="bg-primary w-full" size="large">
+            Proceed
+          </Button>
+        </Popover>
       </div>
     </Modal>
   )
