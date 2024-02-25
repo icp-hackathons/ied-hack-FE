@@ -9,6 +9,7 @@ import { StudentOutput } from "@/src/declarations/backend/backend.did"
 import { StudentCardAlt } from "./StudentCardAlt"
 import { BiArrowBack } from "react-icons/bi"
 import { FaCircleInfo } from "react-icons/fa6"
+import { get } from "http"
 
 export const Students = ({
   school,
@@ -23,11 +24,14 @@ export const Students = ({
   showStudents: boolean
   setShowStudents: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
+  const [gettingStudents, setGettingStudents] = useState(false)
   const [students, setStudents] = useState<StudentOutput[]>()
   const wrapperRef = React.useRef<any>(null)
   const getStudents = useCallback(async () => {
+    setGettingStudents(true)
     const students = await backend.getStudentBySchool(school.students)
     setStudents(students)
+    setGettingStudents(false)
   }, [school])
 
   useEffect(() => {
@@ -134,43 +138,51 @@ export const Students = ({
         </div>
       </div>
 
-      <div className="hidden md:block students_slider">
-        <div className="students_slider-wrapper" ref={wrapperRef}>
-          {students?.map((student, index) => {
-            return (
-              <StudentCardAlt
-                key={index}
-                id={student.id}
-                image={student.image}
-                name={student.name}
-                about={student.bio}
-                level={student.level}
-                cgpa={student.gpa}
-                address={address}
-              />
-            )
-          })}
+      {gettingStudents ? (
+        <div className="p-10 text-lg flex justify-center items-center">
+          Loading students...
         </div>
-      </div>
+      ) : (
+        <>
+          <div className="hidden md:block students_slider">
+            <div className="students_slider-wrapper" ref={wrapperRef}>
+              {students?.map((student, index) => {
+                return (
+                  <StudentCardAlt
+                    key={index}
+                    id={student.id}
+                    image={student.image}
+                    name={student.name}
+                    about={student.bio}
+                    level={student.level}
+                    cgpa={student.gpa}
+                    address={address}
+                  />
+                )
+              })}
+            </div>
+          </div>
 
-      <div className="block md:hidden pl-[1.8em] pr-[1.2em] mt-[2rem]">
-        <div>
-          {students?.map((student, index) => {
-            return (
-              <StudentCardAlt
-                key={index}
-                id={student.id}
-                image={student.image}
-                name={student.name}
-                about={student.bio}
-                level={student.level}
-                cgpa={student.gpa}
-                address={address}
-              />
-            )
-          })}
-        </div>
-      </div>
+          <div className="block md:hidden pl-[1.8em] pr-[1.2em] mt-[2rem]">
+            <div>
+              {students?.map((student, index) => {
+                return (
+                  <StudentCardAlt
+                    key={index}
+                    id={student.id}
+                    image={student.image}
+                    name={student.name}
+                    about={student.bio}
+                    level={student.level}
+                    cgpa={student.gpa}
+                    address={address}
+                  />
+                )
+              })}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }
