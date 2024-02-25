@@ -49,7 +49,7 @@ export const QRCodePaymentTour: React.FC<props> = ({
       description: <VerifyDonation getDonationInputs={getDonationInputs} />,
       target: null,
       nextButtonProps: {
-        className: "h-[2rem]",
+        className: "hidden",
       },
       prevButtonProps: {
         className: "h-[2rem]",

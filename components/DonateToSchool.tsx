@@ -81,7 +81,8 @@ export const DonateToSchool = ({ open, setOpen, school, address }: props) => {
   }
 
   const formFilled = () =>
-    donation !== 0 && cdd !== 0 && ts !== 0 && ss !== 0 && las !== 0
+    donation > 0 ||
+    (Number(cdd) > 0 && Number(ts) > 0 && Number(ss) > 0 && Number(las) > 0)
 
   const satoshi = 100000000
 
@@ -309,7 +310,7 @@ export const DonateToSchool = ({ open, setOpen, school, address }: props) => {
                 <Tabs
                   defaultActiveKey="1"
                   items={items}
-                  // onChange={resetValues}
+                  onChange={resetValues}
                 />
               </div>
             </>
