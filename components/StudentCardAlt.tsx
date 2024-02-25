@@ -8,6 +8,7 @@ import {
   DonationParams,
 } from "@/utils/declarations/backend/backend.did"
 import Image from "next/legacy/image"
+import { DonationPopover } from "./DonationPopover"
 interface props {
   id: bigint
   name: string
@@ -22,6 +23,9 @@ export const StudentCardAlt = ({ ...props }: props) => {
   const [open, setOpen] = useState(false)
   const [donation, setDonation] = useState(0)
   const [paymentMethod, setPaymentMethod] = useState<number>(0)
+  const [openPopover, setOpenPopover] = useState(false)
+  const [openCkBtcPopover, setOpenCkBtcPopover] = useState(false)
+  const [openQRCodePaymentTour, setOpenQRCodePaymentTour] = useState(false)
 
   const getDonationInputs = (txId: string, address: string) => {
     const category: Category = {
@@ -70,10 +74,11 @@ export const StudentCardAlt = ({ ...props }: props) => {
           </div>
           <Popover
             trigger={"click"}
+            placement="top"
             open={open}
             onOpenChange={() => setOpen(!open)}
             content={
-              <div className="min-w-[20rem]">
+              <div className="min-w-[20rem] relative">
                 <Input
                   size="large"
                   placeholder="Input amount to donate"
@@ -84,24 +89,23 @@ export const StudentCardAlt = ({ ...props }: props) => {
                 <Divider>Summary</Divider>
                 <p className="flex justify-between items-center">
                   <span>Amount</span>
-                  <span>{donation.toPrecision(9)}</span>
+                  <span className="bg-grey-800 px-3 py-1 rounded-md border-[1px] border-grey-700 inline-flex items-center gap-1">
+                    <FaBitcoin className="text-yellow" />{" "}
+                    <span>{donation.toPrecision(9)}</span>
+                  </span>
                 </p>
-                <QRCode
-                  amount={donation}
+                <DonationPopover
+                  openQRCodePaymentTour={openQRCodePaymentTour}
+                  setOpenQRCodePaymentTour={setOpenQRCodePaymentTour}
+                  donation={donation}
                   address={props.address}
-                  placement="top"
                   getDonationInputs={getDonationInputs}
-                >
-                  <Button
-                    type="primary"
-                    className="mt-3 bg-primary w-full flex gap-2 items-center justify-center"
-                    size="large"
-                    disabled={!donation}
-                  >
-                    <FaBitcoin />
-                    <span>Make donation</span>
-                  </Button>
-                </QRCode>
+                  disabled={donation <= 0}
+                  openPopover={openPopover}
+                  setOpenPopover={setOpenPopover}
+                  openCkBtcPopover={openCkBtcPopover}
+                  setOpenCkBtcPopover={setOpenCkBtcPopover}
+                />
               </div>
             }
           >
