@@ -9,6 +9,7 @@ interface props {
   address: string
   getDonationInputs: Function
   disabled: boolean
+  ckaddress: string
 }
 
 export const DonationPopover: React.FC<props> = ({
@@ -16,6 +17,7 @@ export const DonationPopover: React.FC<props> = ({
   address,
   getDonationInputs,
   disabled,
+  ckaddress
 }) => {
   const [openPopover, setOpenPopover] = useState(false)
 
@@ -35,6 +37,7 @@ export const DonationPopover: React.FC<props> = ({
               address={address}
               getDonationInputs={getDonationInputs}
               disabled={disabled}
+              ckaddress={ckaddress}
             />
             <QRCodePaymentTour
               donation={donation}
@@ -69,6 +72,7 @@ export const CkBTCPopover: React.FC<props> = ({
   donation,
   address,
   getDonationInputs,
+  ckaddress,
   disabled,
 }) => {
   const [openCkBtcPopover, setOpenCkBtcPopover] = useState(false)
@@ -86,7 +90,7 @@ export const CkBTCPopover: React.FC<props> = ({
             <NNSPayment />
             <QRCodePaymentTour
               donation={donation}
-              address={address}
+              address={ckaddress}
               getDonationInputs={getDonationInputs}
             >
               QR Code

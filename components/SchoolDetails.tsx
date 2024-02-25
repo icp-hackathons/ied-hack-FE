@@ -14,11 +14,13 @@ export const SchoolDetails = ({
   setOpen,
   school,
   address,
+  ckaddress
 }: {
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
   school: SchoolOutput
   address: string
+  ckaddress: string
 }) => {
   const [showStudents, setShowStudents] = React.useState(false)
   return (
@@ -36,6 +38,7 @@ export const SchoolDetails = ({
           <SchoolInfo
             school={school}
             address={address}
+            ckaddress={ckaddress}
             open={open}
             setOpen={setOpen}
             {...{ showStudents, setShowStudents }}
@@ -56,6 +59,7 @@ export const SchoolDetails = ({
           <Students
             school={school}
             address={address}
+            ckaddress={ckaddress}
             open={open}
             {...{ showStudents, setShowStudents }}
           />

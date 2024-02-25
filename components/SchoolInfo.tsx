@@ -17,6 +17,7 @@ export const SchoolInfo = ({
   address,
   showStudents,
   setShowStudents,
+  ckaddress
 }: {
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -24,6 +25,7 @@ export const SchoolInfo = ({
   address: string
   showStudents: boolean
   setShowStudents: React.Dispatch<React.SetStateAction<boolean>>
+  ckaddress: string
 }) => {
   const [openDonate, setOpenDonate] = useState(false)
   return (
@@ -131,6 +133,7 @@ export const SchoolInfo = ({
         setOpen={setOpenDonate}
         school={school}
         address={address}
+        ckaddress={ckaddress}
       />
     </div>
   )

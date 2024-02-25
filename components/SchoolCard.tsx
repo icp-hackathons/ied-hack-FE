@@ -7,6 +7,7 @@ import { SchoolDetails } from "./SchoolDetails"
 interface props {
   school: SchoolOutput
   address: string
+  ckaddress: string
 }
 
 export const SchoolCard: React.FC<props> = ({ ...props }) => {
@@ -50,6 +51,7 @@ export const SchoolCard: React.FC<props> = ({ ...props }) => {
         setOpen={setOpen}
         school={props.school}
         address={props.address}
+        ckaddress={props.ckaddress}
       />
     </>
   )

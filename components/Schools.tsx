@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef, useState } from "react"
 import { SchoolCard } from "./SchoolCard"
 import * as backend from "../utils/backend-service"
 import { SchoolOutput } from "@/utils/declarations/backend/backend.did"
-import { getBitcoinAddress } from "@/utils/backend-service"
 import { Empty, Input } from "antd"
 import { BiSearchAlt } from "react-icons/bi"
 import { CiGrid41, CiBoxList, CiLocationOn } from "react-icons/ci"
@@ -11,12 +10,14 @@ import { FaBitcoin } from "react-icons/fa"
 import { useGSAP } from "@gsap/react"
 import { gsap } from "gsap"
 import { SchoolCardAlt } from "./SchoolCardAlt"
+import { Principal } from "@dfinity/principal"
 
 export const Schools = () => {
   const [gettingSchools, setGettingSchools] = useState(false)
   const [schools, setSchools] = useState<SchoolOutput[]>([])
   const [mutableSchools, setMutableSchools] = useState<SchoolOutput[]>([])
   const [address, setAddress] = useState("")
+  const [ckBTCAddress, setCkBTCAddress] = useState("");
   const [searchValue, setSearchValue] = useState("")
 
   const getSchools = useCallback(async () => {
@@ -28,17 +29,21 @@ export const Schools = () => {
     setGettingSchools(false)
   }, [])
 
-  const getAddress = useCallback(async () => {
-    const address = await getBitcoinAddress()
-    setAddress(address)
+  const getAddresses = useCallback(async () => {
+    const address = await backend.getBitcoinAddress()
+    setAddress(address);
+
+    const ckaddress = await backend.getCKBTCAddress()
+    setCkBTCAddress(Principal.from(ckaddress).toText())
   }, [])
+
 
   useEffect(() => {
     if (schools.length == 0) {
       getSchools()
-      getAddress()
+      getAddresses()
     }
-  }, [schools, getSchools, getAddress])
+  }, [schools, getSchools, getAddresses])
   const [showGrid, setShowGrid] = useState(true)
 
   const timeline = useRef<any>(null)
@@ -94,19 +99,16 @@ export const Schools = () => {
         />
         <div className="text-2xl flex items-center">
           <div
-            className={`${showGrid ? "bg-primary" : "bg-grey-600"} text-white ${
-              showGrid ? "p-3" : "p-2"
-            } cursor-pointer rounded-sm`}
+            className={`${showGrid ? "bg-primary" : "bg-grey-600"} text-white ${showGrid ? "p-3" : "p-2"
+              } cursor-pointer rounded-sm`}
             onClick={() => setShowGrid(true)}
           >
             <CiGrid41 />
           </div>
           <div
-            className={`${
-              !showGrid ? "bg-primary" : "bg-grey-600"
-            } text-white ${
-              !showGrid ? "p-3" : "p-2"
-            } cursor-pointer rounded-sm`}
+            className={`${!showGrid ? "bg-primary" : "bg-grey-600"
+              } text-white ${!showGrid ? "p-3" : "p-2"
+              } cursor-pointer rounded-sm`}
             onClick={() => setShowGrid(false)}
           >
             <CiBoxList />
@@ -127,6 +129,7 @@ export const Schools = () => {
                         key={index}
                         school={school}
                         address={address}
+                        ckaddress={ckBTCAddress}
                       />
                     )
                   })}
@@ -163,6 +166,7 @@ export const Schools = () => {
                         school={school}
                         address={address}
                         index={index}
+                        ckaddress={ckBTCAddress}
                       />
                     </>
                   )

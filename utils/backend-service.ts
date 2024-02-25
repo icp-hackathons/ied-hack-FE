@@ -5,8 +5,6 @@ import {
 } from "./declarations/backend/backend.did";
 import { makeBackendActor } from "./backend-actor-locator";
 import { SchoolOutput } from "./declarations/backend/backend.did";
-import { approveICPSpend } from "./ledger-service";
-import { AuthClient } from "@dfinity/auth-client";
 
 export const getSchools = async () => {
   const backendService = await makeBackendActor();
@@ -76,6 +74,11 @@ export const getBitcoinBalance = async () => {
 export const getCKBTCBalance = async () => {
   const backendService = await makeBackendActor();
   return backendService.get_ckBtc_balance();
+};
+
+export const getCKBTCAddress = async () => {
+  const backendService = await makeBackendActor();
+  return backendService.get_canister_id();
 };
 
 export const makeDonation = async (donation: DonationParams) => {
