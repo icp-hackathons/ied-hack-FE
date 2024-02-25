@@ -7,8 +7,6 @@ import { MdVerified } from "react-icons/md"
 import { VerifyDonation } from "./VerifyDonation"
 
 interface props {
-  openQRCodePaymentTour: boolean
-  setOpenQRCodePaymentTour: React.Dispatch<React.SetStateAction<boolean>>
   children: React.ReactNode
   donation: number | string
   address: string
@@ -16,14 +14,13 @@ interface props {
 }
 
 export const QRCodePaymentTour: React.FC<props> = ({
-  openQRCodePaymentTour,
-  setOpenQRCodePaymentTour,
   children,
   donation,
   address,
   getDonationInputs,
 }) => {
   const ref = useRef(null)
+  const [openQRCodePaymentTour, setOpenQRCodePaymentTour] = useState(false)
 
   const steps: TourProps["steps"] = [
     {

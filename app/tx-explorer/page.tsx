@@ -1,6 +1,5 @@
 "use client"
 import { Footer } from "@/components/Footer"
-import { Header } from "@/components/Header"
 import { SchoolTransactions } from "@/components/SchoolTransactions"
 import { Breadcrumb, Tabs, TabsProps } from "antd"
 import Image from "next/legacy/image"
@@ -12,6 +11,8 @@ import { Donation } from "@/utils/declarations/backend/backend.did"
 import { getAllDonations } from "@/utils/backend-service"
 import Link from "next/link"
 import { truncateAddress } from "@/utils/formatter"
+import { Announcement } from "@/components/new_landingpage/Announcement"
+import { Header } from "@/components/new_landingpage/Header"
 
 const items = [
   {
@@ -90,18 +91,14 @@ export default function TxExplorerPage() {
 
   return (
     <div>
-      <div className="bg-[#cfcfcf67] md:m-2 md:p-[2rem] p-[1rem] md:rounded-md urbanist min-h-[98vh] relative overflow-hidden">
-        <div className="absolute left-1/2 top-0 -ml-[39rem] w-[113.125rem] max-w-none h-[40rem] z-[-1]">
-          <Image layout="fill" alt="beams" src={"/beams-basic.png"} />
-        </div>
-        <Header setOpen={setOpen} />
-        <Breadcrumb items={items} className="my-[2rem]" />
-        <div>
+      <div className="bg-[#0B090A] text-white overflow-hidden min-h-[100vh]">
+        <Announcement />
+        <Header />
+        <div className="md:px-[5rem] px-[1.5rem] py-10 min-h-[80vh]">
           <Tabs items={tabItems} defaultActiveKey="1" />
         </div>
+        <Footer />
       </div>
-
-      <Footer />
     </div>
   )
 }

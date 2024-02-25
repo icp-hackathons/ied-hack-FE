@@ -95,8 +95,6 @@ export const StudentCardAlt = ({ ...props }: props) => {
                   </span>
                 </p>
                 <DonationPopover
-                  openQRCodePaymentTour={openQRCodePaymentTour}
-                  setOpenQRCodePaymentTour={setOpenQRCodePaymentTour}
                   donation={donation}
                   address={props.address}
                   getDonationInputs={getDonationInputs}
