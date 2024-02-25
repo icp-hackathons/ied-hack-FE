@@ -16,6 +16,7 @@ import { AuthClient } from "@dfinity/auth-client"
 import { makeBackendActor } from "@/utils/backend-actor-locator"
 import { approveICPSpend } from "@/utils/ledger-service"
 import { QRCodePaymentTour } from "./QRCodePaymentTour"
+import { NNSPayment } from "./NNSPayment"
 
 interface props {
   open: boolean
@@ -48,6 +49,7 @@ export const makeDonationNNS = async (
 
 export const DonateToSchool = ({ open, setOpen, school, address }: props) => {
   const [openPopover, setOpenPopover] = useState(false)
+  const [openCkBtcPopover, setOpenCkBtcPopover] = useState(false)
   const [openQRCodePaymentTour, setOpenQRCodePaymentTour] = useState(false)
   const [donationType, setDonationType] = useState("divide_equaly")
   const [donation, setDonation] = useState(0)
@@ -353,9 +355,35 @@ export const DonateToSchool = ({ open, setOpen, school, address }: props) => {
             <div className="w-full p-5 rounded-md">
               <p className="text-center mb-4 text-[17px]">Payment Methods</p>
               <div className="flex gap-3 w-full bg-grey-700">
-                <Button className="border-primary w-full" size="large">
-                  Pay with ckBTC
-                </Button>
+                <Popover
+                  trigger={"click"}
+                  onOpenChange={() => setOpenCkBtcPopover(!openCkBtcPopover)}
+                  open={openCkBtcPopover}
+                  arrow
+                  content={
+                    <div className="w-full p-5 rounded-md bg-grey-700">
+                      <p className="text-center mb-4 text-[17px]">
+                        ckBTC Payment Methods
+                      </p>
+                      <div className="flex gap-3 w-full">
+                        <NNSPayment />
+                        <QRCodePaymentTour
+                          openQRCodePaymentTour={openQRCodePaymentTour}
+                          setOpenQRCodePaymentTour={setOpenQRCodePaymentTour}
+                          donation={donation}
+                          address={address}
+                          getDonationInputs={getDonationInputs}
+                        >
+                          QR Code
+                        </QRCodePaymentTour>
+                      </div>
+                    </div>
+                  }
+                >
+                  <Button className="border-primary w-full" size="large">
+                    Pay with ckBTC
+                  </Button>
+                </Popover>
                 <QRCodePaymentTour
                   openQRCodePaymentTour={openQRCodePaymentTour}
                   setOpenQRCodePaymentTour={setOpenQRCodePaymentTour}
