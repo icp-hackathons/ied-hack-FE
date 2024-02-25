@@ -17,7 +17,7 @@ export const SchoolInfo = ({
   address,
   showStudents,
   setShowStudents,
-  ckaddress
+  ckaddress,
 }: {
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -91,7 +91,8 @@ export const SchoolInfo = ({
             fill
             src={school.images[0]}
             alt={school.name}
-            className="object-cover"
+            className="object-cover rounded-md"
+            style={{ filter: "grayscale(50%)" }}
           />
           {/* <Donate school={school} address={address} /> */}
         </div>

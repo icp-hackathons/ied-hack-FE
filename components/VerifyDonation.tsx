@@ -1,6 +1,6 @@
 "use client"
 import { makeDonation } from "@/utils/backend-service"
-import { Divider, Input, Popover, Button } from "antd"
+import { Divider, Input, Popover, Button, Result, Modal } from "antd"
 import React, { useState } from "react"
 
 export const VerifyDonation = ({
@@ -16,6 +16,11 @@ export const VerifyDonation = ({
   const [address, setAddress] = useState("")
   const [txId, setTxId] = useState("")
   const [loading, setLoading] = useState(false)
+  const [showResult, setShowResult] = useState(false)
+  const [resultStatus, setResultStatus] = useState<
+    "success" | "error" | undefined
+  >()
+  const [resultMessage, setResultMessage] = useState("")
 
   const sendDonationForConfirmation = async () => {
     if (!address || !txId) {
@@ -32,10 +37,15 @@ export const VerifyDonation = ({
         }
         console.log(resp.ok)
       })
+      setResultStatus("success")
+      setResultMessage("Successfully verified your donation!")
     } catch (error) {
       console.log(error)
+      setResultStatus("error")
+      setResultMessage("Failed to verify your donation.")
     } finally {
       setLoading(false)
+      setShowResult(true)
     }
   }
 
@@ -98,10 +108,28 @@ export const VerifyDonation = ({
           className="bg-primary px-3 rounded-md text-white w-full content-center"
           size="large"
           onClick={() => sendDonationForConfirmation()}
+          disabled={loading || !address || !txId}
         >
           {loading ? "Verifying Donation" : "Continue"}
         </Button>
       </div>
+      <Modal open={showResult} onCancel={() => setShowResult(false)}>
+        <Result
+          status={resultStatus}
+          title="Successfully Verified your Donation!"
+          // subTitle={`Transaction ID: ${txId} has been verified.`}
+          extra={[
+            <Button
+              type="primary"
+              key="close"
+              className="bg-primary"
+              onClick={() => setShowResult(false)}
+            >
+              Close
+            </Button>,
+          ]}
+        />
+      </Modal>
     </>
   )
 }
