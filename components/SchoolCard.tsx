@@ -1,7 +1,6 @@
 "use client"
 import React, { useState } from "react"
 import Image from "next/legacy/image"
-import { SchoolPage } from "@/app/School"
 import { SchoolOutput } from "@/utils/declarations/backend/backend.did"
 import { SchoolDetails } from "./SchoolDetails"
 

@@ -10,7 +10,6 @@ import { getSchoolById } from "@/utils/backend-service"
 import { truncateAddress } from "@/utils/formatter"
 import Link from "next/link"
 import { FaRegEye } from "react-icons/fa"
-import { BsInfo } from "react-icons/bs"
 import { TransactionPreview } from "./TransactionPreview"
 
 const toFilterArray = (data: Donation[], key: string) => {
@@ -96,60 +95,7 @@ export const SchoolTransactions = ({
 }: {
   schoolTxn: Donation[]
 }) => {
-  const data: Donation[] = [
-    {
-      dti: "0x5635",
-      txId: "0x123",
-      recipientId: BigInt(0),
-      amount: BigInt(2),
-      donater: "0x123",
-      paymentMethod: BigInt(0),
-      confirmed: false,
-      category: {
-        ls: BigInt(2),
-        ss: BigInt(2),
-        ts: BigInt(2),
-        cdd: BigInt(2),
-        categoryType: BigInt(2),
-      },
-      donationTo: BigInt(1),
-    },
-    {
-      dti: "0x123",
-      txId: "0x123",
-      recipientId: BigInt(0),
-      amount: BigInt(0),
-      donater: "0x123",
-      paymentMethod: BigInt(0),
-      confirmed: false,
-      category: {
-        ls: BigInt(2),
-        ss: BigInt(2),
-        ts: BigInt(2),
-        cdd: BigInt(2),
-        categoryType: BigInt(2),
-      },
-      donationTo: BigInt(0),
-    },
-    {
-      dti: "0x123",
-      txId: "0x123",
-      recipientId: BigInt(0),
-      amount: BigInt(0),
-      donater: "0x123",
-      paymentMethod: BigInt(0),
-      confirmed: false,
-      category: {
-        ls: BigInt(2),
-        ss: BigInt(2),
-        ts: BigInt(2),
-        cdd: BigInt(2),
-        categoryType: BigInt(2),
-      },
-      donationTo: BigInt(0),
-    },
-  ]
-  const [dataSource, setDataSource] = useState(data)
+  const [dataSource, setDataSource] = useState(schoolTxn)
 
   // const [dataSource, setDataSource] = useState(schoolTxn)
   const [value, setValue] = useState("")
@@ -165,8 +111,8 @@ export const SchoolTransactions = ({
       ),
       dataIndex: "dti",
       key: "dti",
-      render: (dti) => (
-        <TransactionPreview>
+      render: (dti, record) => (
+        <TransactionPreview donation={record}>
           <div className="p-2 border-[1px] border-grey-600 rounded-md bg-grey-800 inline-block cursor-pointer">
             <FaRegEye />
           </div>
@@ -246,7 +192,7 @@ export const SchoolTransactions = ({
         onChange={(e) => {
           const currValue = e.target.value
           setValue(currValue)
-          const filteredData = data.filter((entry) =>
+          const filteredData = schoolTxn.filter((entry) =>
             entry.dti.toLowerCase().includes(currValue.toLowerCase())
           )
           setDataSource(filteredData)
