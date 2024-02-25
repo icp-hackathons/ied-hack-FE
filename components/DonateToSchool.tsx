@@ -354,8 +354,6 @@ export const DonateToSchool = ({ open, setOpen, school, address }: props) => {
           address={address}
           getDonationInputs={getDonationInputs}
           disabled={!formFilled()}
-          openPopover={openPopover}
-          setOpenPopover={setOpenPopover}
         />
       </div>
     </Modal>
