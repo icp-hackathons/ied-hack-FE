@@ -10,9 +10,10 @@ interface props {
   school: SchoolOutput
   address: string
   index: number
+  ckaddress: string
 }
 
-export const SchoolCardAlt: React.FC<props> = ({ school, index, address }) => {
+export const SchoolCardAlt: React.FC<props> = ({ school, index, address, ckaddress }) => {
   const [open, setOpen] = useState(false)
   return (
     <>
@@ -56,6 +57,7 @@ export const SchoolCardAlt: React.FC<props> = ({ school, index, address }) => {
         setOpen={setOpen}
         school={school}
         address={address}
+        ckaddress={ckaddress}
       />
     </>
   )

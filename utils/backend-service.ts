@@ -76,6 +76,11 @@ export const getCKBTCBalance = async () => {
   return backendService.get_ckBtc_balance();
 };
 
+export const getCKBTCAddress = async () => {
+  const backendService = await makeBackendActor();
+  return backendService.get_canister_id();
+};
+
 export const makeDonation = async (donation: DonationParams) => {
   const backendService = await makeBackendActor();
   return backendService.create_donation_record(donation);

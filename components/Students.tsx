@@ -17,12 +17,14 @@ export const Students = ({
   open,
   showStudents,
   setShowStudents,
+  ckaddress,
 }: {
   school: SchoolOutput
   address: string
   open: boolean
   showStudents: boolean
   setShowStudents: React.Dispatch<React.SetStateAction<boolean>>
+  ckaddress: string
 }) => {
   const [gettingStudents, setGettingStudents] = useState(false)
   const [students, setStudents] = useState<StudentOutput[]>()

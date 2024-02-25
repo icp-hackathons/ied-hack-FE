@@ -24,6 +24,7 @@ interface props {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
   school: SchoolOutput
   address: string
+  ckaddress: string
 }
 
 interface percentagesI {
@@ -48,7 +49,7 @@ export const makeDonationNNS = async (
   return backendService.pay_with_nns(donation)
 }
 
-export const DonateToSchool = ({ open, setOpen, school, address }: props) => {
+export const DonateToSchool = ({ open, setOpen, school, address, ckaddress }: props) => {
   const [openQRCodePaymentTour, setOpenQRCodePaymentTour] = useState(false)
   const [donationType, setDonationType] = useState("divide_equaly")
   const [donation, setDonation] = useState(0)
@@ -309,7 +310,7 @@ export const DonateToSchool = ({ open, setOpen, school, address }: props) => {
                 <Tabs
                   defaultActiveKey="1"
                   items={items}
-                  // onChange={resetValues}
+                // onChange={resetValues}
                 />
               </div>
             </>
@@ -349,6 +350,7 @@ export const DonateToSchool = ({ open, setOpen, school, address }: props) => {
         <DonationPopover
           donation={donation}
           address={address}
+          ckaddress={ckaddress}
           getDonationInputs={getDonationInputs}
           disabled={!formFilled()}
         />
