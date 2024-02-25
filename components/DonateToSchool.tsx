@@ -397,7 +397,12 @@ export const DonateToSchool = ({ open, setOpen, school, address }: props) => {
             </div>
           }
         >
-          <Button type="primary" className="bg-primary w-full" size="large">
+          <Button
+            type="primary"
+            className="bg-primary w-full"
+            size="large"
+            disabled={!formFilled()}
+          >
             Proceed
           </Button>
         </Popover>
