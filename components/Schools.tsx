@@ -21,7 +21,6 @@ export const Schools = () => {
 
   const getSchools = useCallback(async () => {
     setGettingSchools(true)
-    console.log("here")
     const schoolData = await backend.getSchools()
     setSchools(schoolData)
     setMutableSchools(schoolData)

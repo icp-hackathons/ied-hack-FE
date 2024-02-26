@@ -287,27 +287,10 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
             start = Nat.fromText(donation.txId);
             max_results = 1;
         });
-
         switch (response) {
             case (#Ok(txn)) {
-                if (txn.transactions[0].transaction.kind == "transfer") {
-                    let t = txn.transactions[0].transaction;
-                    return switch (t.transfer) {
-                        case (?transfer) {
-                            let to = transfer.to.owner;
-                            let from = transfer.from.owner;
-
-                            if (from != Principal.fromText(donation.donater)) {
-                                return (false, "unconfirmed");
-                            };
-
-                            (true, "confirmed");
-                        };
-                        case null {
-                            // No action required if transfer is null
-                            (false, "unconfirmed");
-                        };
-                    };
+                if (txn.balance == Nat64.toNat(donation.amount)) {
+                    return (true, "confirmed");
                 } else {
                     return (false, "unconfirmed");
                 };

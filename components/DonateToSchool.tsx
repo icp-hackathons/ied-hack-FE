@@ -18,6 +18,7 @@ import { approveICPSpend } from "@/utils/ledger-service"
 import { QRCodePaymentTour } from "./QRCodePaymentTour"
 import { NNSPayment } from "./NNSPayment"
 import { DonationPopover } from "./DonationPopover"
+import Decimal from "decimal.js"
 
 interface props {
   open: boolean
@@ -79,9 +80,15 @@ export const DonateToSchool = ({
     setPercentages({ cdd: 0, ts: 0, ss: 0, las: 0 })
   }
 
+  const toDecimal = (value: number | string) => {
+    let decimal = new Decimal(value);
+    return decimal.toFixed(10).toString()
+  }
+
   const toPercentage = (value: number, total: number) => {
     if (sum < total) {
-      return ((value / 100) * total).toPrecision(9)
+      let percentage = ((value / 100) * total).toPrecision(9)
+      return toDecimal(percentage)
     }
     return 0
   }
@@ -92,12 +99,18 @@ export const DonateToSchool = ({
 
   const satoshi = 100000000
 
+  const get_sats = (value: number | string) => {
+    let dd = new Decimal(value)
+    let dds = dd.mul(satoshi)
+    return dds.toString();
+  }
+
   const getDonationInputs = (address: string, txId: string, paymentMethod: string) => {
     const category: Category = {
-      ls: BigInt(Number(las) * satoshi),
-      ss: BigInt(Number(ss) * satoshi),
-      ts: BigInt(Number(ts) * satoshi),
-      cdd: BigInt(Number(cdd) * satoshi),
+      ls: BigInt(get_sats(las)),
+      ss: BigInt(get_sats(ss)),
+      ts: BigInt(get_sats(ts)),
+      cdd: BigInt(get_sats(cdd)),
       categoryType: donationType === "divide_equaly" ? BigInt(0) : BigInt(1),
     }
     const data: DonationParams = {
@@ -114,10 +127,12 @@ export const DonateToSchool = ({
 
   useEffect(() => {
     if (donationType === "divide_equaly") {
-      setCdd(Number(donation / 4).toPrecision(9))
-      setTs(Number(donation / 4).toPrecision(9))
-      setSs(Number(donation / 4).toPrecision(9))
-      setLas(Number(donation / 4).toPrecision(9))
+      let quarters = Number(donation / 4).toPrecision(9);
+      let decimal = toDecimal(quarters);
+      setCdd(decimal)
+      setTs(decimal)
+      setSs(decimal)
+      setLas(decimal)
     } else if (donationType === "custom_donation") {
       setCdd(toPercentage(Number(percentages.cdd), Number(donation)))
       setTs(toPercentage(Number(percentages.ts), Number(donation)))
@@ -139,7 +154,7 @@ export const DonateToSchool = ({
               size="large"
               placeholder="Carriculum design and development"
               type="number"
-              onChange={(e) => setCdd(Number(e.target.value).toPrecision(9))}
+              onChange={(e) => setCdd(toDecimal(Number(e.target.value).toPrecision(9)))}
             />
           </div>
           <div>
@@ -149,7 +164,7 @@ export const DonateToSchool = ({
               size="large"
               placeholder="Teacher support"
               type="number"
-              onChange={(e) => setTs(Number(e.target.value).toPrecision(9))}
+              onChange={(e) => setTs(toDecimal(Number(e.target.value).toPrecision(9)))}
             />
           </div>
           <div>
@@ -159,7 +174,7 @@ export const DonateToSchool = ({
               size="large"
               placeholder="School support"
               type="number"
-              onChange={(e) => setSs(Number(e.target.value).toPrecision(9))}
+              onChange={(e) => setSs(toDecimal(Number(e.target.value).toPrecision(9)))}
             />
           </div>
           <div>
@@ -169,7 +184,7 @@ export const DonateToSchool = ({
               size="large"
               placeholder="Lunch and snacks"
               type="number"
-              onChange={(e) => setLas(Number(e.target.value).toPrecision(9))}
+              onChange={(e) => setLas(toDecimal(Number(e.target.value).toPrecision(9)))}
             />
           </div>
         </div>

@@ -1,5 +1,6 @@
 "use client"
 import { makeDonation } from "@/utils/backend-service"
+import { Principal } from "@dfinity/principal"
 import { Divider, Input, Button, Result, Modal } from "antd"
 import validate, { Network } from "bitcoin-address-validation"
 import Link from "next/link"
@@ -26,10 +27,25 @@ export const VerifyDonation = ({
   const [resultMessage, setResultMessage] = useState("")
   const [copied, setCopied] = useState(false)
 
+  const checkPrincipal = (address: string) => {
+    try {
+      return Principal.fromText(address)._isPrincipal
+    } catch (e) {
+      return false
+    }
+  }
+
   const sendDonationForConfirmation = async () => {
-    if (!validate(address, Network.testnet) || !txId) {
-      setResultMessage("Invalid address or tx Id passed in");
-      return
+    if (paymentMethod == "0") {
+      if (!validate(address, Network.testnet) || !txId) {
+        setResultMessage("Invalid testnet address or tx Id passed in");
+        return
+      }
+    } else {
+      if (!checkPrincipal(address) || !txId) {
+        setResultMessage("Invalid ckbtc address or tx Id passed in");
+        return
+      }
     }
     const donationOutputs = getDonationInputs(address, txId, paymentMethod)
     try {
@@ -58,13 +74,13 @@ export const VerifyDonation = ({
         <Divider>Use the transaction ID to verify your donation.</Divider>
         <Input
           size="large"
-          placeholder="Your Bitcoin Address"
+          placeholder={paymentMethod == "0" ? "Your Bitcoin Address" : "Your ckBTC Address"}
           className="w-full mb-2"
           onChange={(e) => setAddress(e.target.value)}
         />
         <Input
           size="large"
-          placeholder="Bitcoin Transaction ID"
+          placeholder={paymentMethod == "0" ? "Bitcoin Transaction ID" : "ckBTC Transaction ID"}
           className="w-full mb-2"
           onChange={(e) => setTxId(e.target.value)}
         />
@@ -82,7 +98,11 @@ export const VerifyDonation = ({
       <Modal open={showResult} onCancel={() => setShowResult(false)}>
         <Result
           status={resultStatus}
-          title="Transaction submitted succesfully! <br> Awaiting blockchain confirmation."
+          title={
+            <>
+              Transaction submitted succesfully! <br /> Awaiting blockchain confirmation.
+            </>
+          }
           subTitle={
             <>
               Your DTI
