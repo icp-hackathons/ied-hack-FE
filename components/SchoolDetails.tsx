@@ -6,7 +6,6 @@ import { Footer } from "./Footer"
 import { Header } from "./new_landingpage/Header"
 import { Announcement } from "./new_landingpage/Announcement"
 import { Students } from "./Students"
-import { BiArrowBack } from "react-icons/bi"
 import { SchoolInfo } from "./SchoolInfo"
 
 export const SchoolDetails = ({

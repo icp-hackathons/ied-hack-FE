@@ -5,6 +5,7 @@ import { SchoolOutput } from "@/utils/declarations/backend/backend.did"
 import { CiLocationOn } from "react-icons/ci"
 import { FaBitcoin } from "react-icons/fa"
 import { SchoolDetails } from "./SchoolDetails"
+import { Button } from "antd"
 
 interface props {
   school: SchoolOutput
@@ -37,19 +38,20 @@ export const SchoolCardAlt: React.FC<props> = ({ school, index, address, ckaddre
           </p>
           <div className="hidden md:flex gap-3 items-center w-[20%]">
             <div className="flex gap-1 items-center">
-              <span>{Number(school.amountDonated).toPrecision(9)}</span>
+              <span> {Number(BigInt(school.amountDonated)) / Number(BigInt(10 ** 8))} Donated</span>
               <FaBitcoin className="text-yellow" />
             </div>
             <span>Donated</span>
           </div>
         </div>
         <div>
-          <p
-            className="text-primary cursor-pointer md:text-md text-sm"
+          <Button
+            size="middle"
+            className="text-primary border-primary border-[1px] cursor-pointer md:text-md text-sm"
             onClick={() => setOpen(true)}
           >
             View School
-          </p>
+          </Button>
         </div>
       </div>
       <SchoolDetails

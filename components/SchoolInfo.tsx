@@ -6,8 +6,6 @@ import { BiArrowBack } from "react-icons/bi"
 import { CiLocationOn } from "react-icons/ci"
 import { FaBitcoin } from "react-icons/fa"
 import { Image as AntImage, Button } from "antd"
-import { BiSolidDonateHeart } from "react-icons/bi"
-import { BsQrCode } from "react-icons/bs"
 import { DonateToSchool } from "./DonateToSchool"
 
 export const SchoolInfo = ({
@@ -61,7 +59,7 @@ export const SchoolInfo = ({
                 <p className="font-bold flex gap-1 items-center">
                   <FaBitcoin className="text-yellow" />
                   <span>
-                    {Number(school.amountDonated).toPrecision(9)} Donated
+                    {Number(BigInt(school.amountDonated)) / Number(BigInt(10 ** 8))} Donated
                   </span>
                 </p>
               </div>

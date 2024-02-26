@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "deploy:backend": "./backend/scripts/deploy.sh",
+    "deploy:local-backend": "./backend/scripts/deploy-local-backend.sh",
     "deploy:local-canisters": "./backend/scripts/deploy-local-canisters.sh"
   },
   "dependencies": {
@@ -18,9 +19,11 @@
     "@dfinity/principal": "^1.0.1",
     "@gsap/react": "^2.1.0",
     "antd": "^5.14.0",
+    "bitcoin-address-validation": "^2.2.3",
     "classnames": "^2.5.1",
     "compressorjs": "^1.2.1",
     "gsap": "^3.12.5",
+    "lucide-react": "^0.340.0",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",

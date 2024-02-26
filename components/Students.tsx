@@ -9,7 +9,6 @@ import { StudentOutput } from "@/src/declarations/backend/backend.did"
 import { StudentCardAlt } from "./StudentCardAlt"
 import { BiArrowBack } from "react-icons/bi"
 import { FaCircleInfo } from "react-icons/fa6"
-import { get } from "http"
 
 export const Students = ({
   school,

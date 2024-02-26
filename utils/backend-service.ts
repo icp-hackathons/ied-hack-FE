@@ -39,7 +39,14 @@ export const getDonationByDTI = async (dti: string) => {
 
 export const getAllDonations = async () => {
   const backendService = await makeBackendActor();
-  return backendService.list_donations();
+  const res = await backendService.list_donations();
+  return res;
+};
+
+export const getPendingDonations = async () => {
+  const backendService = await makeBackendActor();
+  const res = await backendService.list_pending_donations();
+  return res;
 };
 
 export const getSchoolById = async (id: string | bigint) => {

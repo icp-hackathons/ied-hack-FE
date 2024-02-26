@@ -1,5 +1,5 @@
 "use client"
-import { Button, Image, Modal } from "antd"
+import { Button, Modal } from "antd"
 
 import React from "react"
 import { IoIosCloseCircleOutline } from "react-icons/io"
@@ -15,6 +15,7 @@ export const NNSPayment = () => {
       <Button
         className="border-primary w-full"
         size="large"
+        disabled={true}
         onClick={() => setVisible(true)}
       >
         NNS
