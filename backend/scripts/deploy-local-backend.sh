@@ -1,5 +1,5 @@
-dfx deploy backend --network ic --argument '(record { 
-    network = variant { testnet };
+dfx deploy backend --argument '(record { 
+    network = variant { regtest };
     schools = vec {
         record {
             description = "Welcome to Horizon University, where knowledge meets opportunity amidst the scenic shores of Seaview City, nestled in the heart of Pacifica. Established in 1975, Horizon University has been a beacon of academic excellence, nurturing minds and shaping futures for nearly five decades. At Horizon, we believe in fostering an environment where students are not just learners but visionaries, equipped to navigate the complexities of the modern world. Our picturesque campus, adorned with state-of-the-art facilities, provides the perfect backdrop for intellectual exploration and personal growth.";

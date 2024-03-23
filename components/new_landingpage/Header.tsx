@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link"
-import React, { useEffect, useRef } from "react"
+import React from "react"
 import { NavMenu } from "./NavMenu"
 
 export const Header = ({
@@ -55,18 +55,16 @@ export const Header = ({
             onClick={() => setActiveHam(!activeHam)}
           >
             <div
-              className={`w-10 h-[1px] bg-grey-300 absolute top-0 left-0 z-[110] transition-all duration-300 ${
-                activeHam
+              className={`w-10 h-[1px] bg-grey-300 absolute top-0 left-0 z-[110] transition-all duration-300 ${activeHam
                   ? "translate-y-[0] rotate-[45deg]"
                   : "translate-y-[-5px]"
-              }`}
+                }`}
             />
             <div
-              className={`w-10 h-[1px] bg-grey-300 absolute top-0 left-0 z-[110] transition-all duration-300 ${
-                activeHam
+              className={`w-10 h-[1px] bg-grey-300 absolute top-0 left-0 z-[110] transition-all duration-300 ${activeHam
                   ? "translate-y-[0] rotate-[-45deg]"
                   : "translate-y-[5px]"
-              }`}
+                }`}
             />
           </div>
         </div>

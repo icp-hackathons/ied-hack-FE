@@ -2,7 +2,6 @@
 import { Button, Divider, Input, Popover } from "antd"
 import React, { useState } from "react"
 import { FaBitcoin } from "react-icons/fa"
-import { QRCode } from "./QRCode"
 import {
   Category,
   DonationParams,
@@ -23,10 +22,8 @@ interface props {
 export const StudentCardAlt = ({ ...props }: props) => {
   const [open, setOpen] = useState(false)
   const [donation, setDonation] = useState(0)
-  const [paymentMethod, setPaymentMethod] = useState<number>(0)
-  const [openQRCodePaymentTour, setOpenQRCodePaymentTour] = useState(false)
 
-  const getDonationInputs = (txId: string, address: string) => {
+  const getDonationInputs = (address: string, txId: string, paymentMethod: string) => {
     const category: Category = {
       ls: BigInt(0),
       ss: BigInt(0),

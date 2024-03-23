@@ -1,9 +1,8 @@
 "use client"
 import Link from "next/link"
-import React, { useEffect, useRef } from "react"
+import React, { useRef } from "react"
 import { useGSAP } from "@gsap/react"
 import { gsap } from "gsap"
-import CSSRulePlugin from "gsap/CSSRulePlugin"
 import { BsGithub, BsInfoCircleFill } from "react-icons/bs"
 import { usePathname } from "next/navigation"
 
@@ -14,9 +13,6 @@ export const NavMenu = ({
   active: boolean
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
-  // const activeItemIndicator = CSSRulePlugin.getRule(
-  //   ".menu-item .acive-route::after"
-  // )
   const navRef = React.useRef(null)
   const subNavRef = React.useRef(null)
   const timeline = useRef<any>()
@@ -34,16 +30,6 @@ export const NavMenu = ({
       { duration: 1.5, y: 0, stagger: 0.2, ease: "power4.out" },
       "-=1"
     )
-    // timeline.current.to(
-    //   activeItemIndicator,
-    //   {
-    //     width: "100%",
-    //     duration: 1,
-    //     ease: "power4.out",
-    //     delay: 0.5,
-    //   },
-    //   "<"
-    // )
     timeline.current.to(
       subNavRef.current,
       { duration: 1, bottom: "10%", opacity: 1, delay: 0.5 },

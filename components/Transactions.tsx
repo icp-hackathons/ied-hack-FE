@@ -22,7 +22,7 @@ const toFilterArray = (data: Donation[], key: string) => {
     return Object.values(hashmap)
 }
 
-const NameComp = ({ id, donationTo, isSchool }: { id: bigint, donationTo: bigint, isSchool: boolean }) => {
+const NameComp = ({ id, donationTo }: { id: bigint, donationTo: bigint }) => {
     const [name, setName] = useState("")
 
     useEffect(() => {
@@ -32,16 +32,11 @@ const NameComp = ({ id, donationTo, isSchool }: { id: bigint, donationTo: bigint
                 setName(res.name)
             } else {
                 const res = await getStudentById(id)
-                if (isSchool) {
-                    const ress = await getSchoolById(res.schoolId)
-                    setName(ress.name)
-                    return
-                }
                 setName(res.name)
             }
         }
         fetchData()
-    }, [id, donationTo, isSchool])
+    }, [id, donationTo])
 
     return <>{name}</>
 }
@@ -99,7 +94,7 @@ const getAccountId = (addr: string, paymentMethod: bigint) => {
     }
 }
 
-export const StudentTransactions = ({
+export const Transactions = ({
     Txn,
 }: {
     Txn: Donation[]
@@ -141,16 +136,10 @@ export const StudentTransactions = ({
             render: (txId, record) => getTxId(txId, record.paymentMethod),
         },
         {
-            title: "Student Name",
+            title: "Name",
             dataIndex: "recipientId",
             key: "recipientId",
-            render: (id, record) => <NameComp id={id} donationTo={record.donationTo} isSchool={false} />,
-        },
-        {
-            title: "School Name",
-            dataIndex: "recipientId",
-            key: "recipientId",
-            render: (id, record) => <NameComp id={id} donationTo={record.donationTo} isSchool={true} />,
+            render: (id, record) => <NameComp id={id} donationTo={record.donationTo} />,
         },
         {
             title: (

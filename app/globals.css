@@ -270,3 +270,13 @@ a:hover {
     transform: translateX(0%);
   }
 }
+
+@media (max-width: 879px) {
+  .ant-tour {
+    width: auto !important;
+  }
+
+  .resultBox {
+    flex-direction: column;
+  }
+}

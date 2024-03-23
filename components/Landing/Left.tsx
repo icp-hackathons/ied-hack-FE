@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from "react"
+import React from "react"
 import { Logo } from "../Logo"
 import { LiaDonateSolid } from "react-icons/lia"
 import { BsFillArrowRightCircleFill } from "react-icons/bs"

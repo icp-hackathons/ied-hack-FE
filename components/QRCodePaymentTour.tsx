@@ -33,6 +33,7 @@ export const QRCodePaymentTour: React.FC<props> = ({
           address={address}
           placement="bottom"
           getDonationInputs={getDonationInputs}
+          paymentMethod={paymentMethod}
         ></QRCode>
       ),
       target: null,

@@ -166,10 +166,10 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
     };
 
     // check txId;
-    func check_dti_not_used(dti : Text) : async Bool {
-        switch (donation_get dti) {
-            case null { return true };
-            case (?donation) { return false };
+    func check_id_exists(txId : Text) : async Bool {
+        switch (record_get txId) {
+            case null { return false };
+            case (?dti) { return true };
         };
     };
 
@@ -177,10 +177,10 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
         // generate dti
         let dti = Types.get_dti(inputs.txId);
 
-        let transactionDTINotUsed : Bool = await check_dti_not_used(dti);
+        let transactionIdExists : Bool = await check_id_exists(inputs.txId);
 
         // check that dti is not already existing
-        if (not transactionDTINotUsed) {
+        if (transactionIdExists) {
             return #err "Transaction ID already exists in record";
         };
 
@@ -227,11 +227,15 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
         // get donation count and use as key for pending donation
         let donationCount = await get_total_donations();
 
-        // store donation
-        donation_put(dti, donation);
-
         // store donation in pending record
         pending_donations_put(dti, donation);
+
+        // store donation in donation record
+        donation_put(dti, donation);
+
+        // store donationTxn in record to prevent from same tx id being added
+        record_put(donation.txId, donation.dti);
+
         return #ok dti;
     };
 
@@ -283,27 +287,10 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
             start = Nat.fromText(donation.txId);
             max_results = 1;
         });
-
         switch (response) {
             case (#Ok(txn)) {
-                if (txn.transactions[0].transaction.kind == "transfer") {
-                    let t = txn.transactions[0].transaction;
-                    return switch (t.transfer) {
-                        case (?transfer) {
-                            let to = transfer.to.owner;
-                            let from = transfer.from.owner;
-
-                            if (from != Principal.fromText(donation.donater)) {
-                                return (false, "unconfirmed");
-                            };
-
-                            (true, "confirmed");
-                        };
-                        case null {
-                            // No action required if transfer is null
-                            (false, "unconfirmed");
-                        };
-                    };
+                if (txn.balance == Nat64.toNat(donation.amount)) {
+                    return (true, "confirmed");
                 } else {
                     return (false, "unconfirmed");
                 };
@@ -381,9 +368,7 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
                         students = school.students;
                         donations;
                     };
-
                     school_put(school.id, updated_school);
-
                     #ok;
                 };
             };
@@ -393,7 +378,7 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
             };
             switch (student_get(recipientId)) {
                 case null {
-                    return #err("Studetnt record for id not found" #debug_show (recipientId));
+                    return #err("Student record for id not found" #debug_show (recipientId));
                 };
                 case (?student) {
                     // push donation dti to schools donation
@@ -412,6 +397,30 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
                         donations;
                         schoolId = student.schoolId;
                     };
+
+                    // get student's school and update the record also
+                    switch (school_get(student.schoolId)) {
+                        case (?school) {
+                            // push donation dti to schools donation
+                            let donations = List.push(dti, school.donations);
+                            let new_donation_total = school.amountDonated + amount;
+                            let updated_school = {
+                                id = school.id;
+                                name = school.name;
+                                location = school.location;
+                                description = school.description;
+                                images = school.images;
+                                amountDonated = new_donation_total;
+                                students = school.students;
+                                donations;
+                            };
+
+                            school_put(student.schoolId, updated_school);
+                        };
+                        case null {
+                            return #err("School record for student id not found" #debug_show (recipientId));
+                        };
+                    };
                     student_put(student.id, updated_student);
                     #ok;
                 };
@@ -421,13 +430,6 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
 
     /// User Donation
     func register_donation(donation : Types.Donation) : async Types.Result<Text, Text> {
-
-        // first check record if txID exists
-        let data = record_get(donation.txId);
-
-        if (Option.isSome(data)) {
-            return #err "TxId already exists";
-        };
 
         // get transaction balance from transaction id and verify them.
         let donationTo : Nat = donation.donationTo;
@@ -456,13 +458,11 @@ shared (actorContext) actor class BitcoinDonations(init : Types.InitParams) = Se
             donationTo = donation.donationTo;
         };
 
+        // add donation to record
         donation_put(donation.dti, updated_donation);
 
         // next delete donation from pending donations
         pending_donation_del(donation.dti);
-
-        // store donation in record
-        record_put(donation.txId, donation.dti);
 
         #ok "Succesful Donation";
     };

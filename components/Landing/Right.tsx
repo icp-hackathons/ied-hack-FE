@@ -1,42 +1,12 @@
 "use client"
 import Image from "next/legacy/image"
 import Link from "next/link"
-import React, { useEffect } from "react"
+import React from "react"
 import { FaBolt } from "react-icons/fa"
 import { MdSchool } from "react-icons/md"
 import { LuRocket } from "react-icons/lu"
-import { gsap } from "gsap"
 
 export const Right = () => {
-  useEffect(() => {
-    // gsap.fromTo(
-    //   ".reveal-text",
-    //   {
-    //     duration: 1.5,
-    //     delay: 0,
-    //     y: 700,
-    //     stagger: {
-    //       amount: 0.5,
-    //     },
-    //     ease: "power4.out",
-    //   },
-    //   { y: 0 }
-    // )
-    // gsap.fromTo(
-    //   ".reveal-image",
-    //   {
-    //     duration: 1.5,
-    //     delay: 0.5,
-    //     opacity: 0.5,
-    //     stagger: {
-    //       amount: 2,
-    //     },
-    //     ease: "power4.out",
-    //   },
-    //   { opacity: 1 }
-    // )
-  }, [])
-
   return (
     <div className="md:w-[75%] bg-green h-full lg:px-[7rem] lg:py-[40px] md:p-[24px] p-[1rem] lg:pb-[0rem] pb-0 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full z-[1] opacity-[0.5]">
